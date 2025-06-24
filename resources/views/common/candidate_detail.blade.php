@@ -257,8 +257,10 @@
                                                     <div>
                                                         @if ($Rec->JPId != 0)
                                                             :
-                                                            &emsp;<?= '<b>' . $Rec->Status . '</b>' . "<i
-                                                                class='fa fa-pencil-square-o text-primary'
+                                                            &emsp;<?= '<b>' .
+                                                            $Rec->Status .
+                                                            '</b>' .
+                                                            "<i class='fa fa-pencil-square-o text-primary'
                                                                 aria-hidden='true' style='font-size:14px;cursor: pointer;'
                                                                 id='HrScreening' data-id='$Rec->JAId'
                                                                 data-applydate='$Rec->ApplyDate'></i>" ?>
@@ -344,56 +346,7 @@
             </div>
         </div>
 
-               <div class="card tab-box">
-            <div class="row user-tabs">
-                <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
-                    <ul class="nav nav-tabs nav-tabs-bottom" id="myTab">
-                        <li class="nav-item"><a href="#cand_profile" data-bs-toggle="tab"
-                                                class="nav-link active">Profile</a></li>
-
-                        <li class="nav-item"><a href="#cand_contact" data-bs-toggle="tab" class="nav-link">Contact</a>
-                        </li>
-
-                        <li class="nav-item"><a href="#cand_education" data-bs-toggle="tab"
-                                                class="nav-link">Education</a>
-                        </li>
-
-                        <li class="nav-item"><a href="#cand_experience" data-bs-toggle="tab"
-                                                class="nav-link">Employement</a></li>
-
-                        <li class="nav-item"><a href="#cand_reference" data-bs-toggle="tab"
-                                                class="nav-link">Reference</a>
-                        </li>
-
-                        <li class="nav-item"><a href="#cand_other" data-bs-toggle="tab" class="nav-link"> Other
-                            </a></li>
-                        @if(Auth::user()->role =='A' || Auth::user()->role =='R')
-                            <li class="nav-item"><a href="#vehicle_info" data-bs-toggle="tab"
-                                                    class="nav-link">Vehicle Info</a>
-                            </li>
-                            <li class="nav-item"><a href="#cand_document" data-bs-toggle="tab"
-                                                    class="nav-link">Documents</a>
-                            </li>
-
-                            <li class="nav-item"><a href="#job_offer" data-bs-toggle="tab" class="nav-link">Job
-                                    Offer</a></li>
-
-                            <li class="nav-item"><a href="#onboarding" data-bs-toggle="tab"
-                                                    class="nav-link">Onboarding</a>
-                            </li>
-                        @endif
-                        <li class="nav-item"><a href="#cand_history" data-bs-toggle="tab" class="nav-link">History</a>
-                        </li>
-                        @if (Auth::user()->role == 'A')
-                            <li class="nav-item">
-                                <a href="#admin_change" data-bs-toggle="tab" class="nav-link">Changes</a>
-                            </li>
-                        @endif
-
-                    </ul>
-                </div>
-            </div>
-        </div>
+       
     </div>
     <div class="compose-mail-popup" style="display: none;">
         <div class="card">
