@@ -1030,3 +1030,122 @@
         </div>
     </div>
 </div>
+
+@php
+    function checked($answer, $expected)
+    {
+        return $answer === $expected ? 'checked' : '';
+    }
+
+    function showIf($condition)
+    {
+        return $condition ? '' : 'd-none';
+    }
+
+    $AboutAns = $AboutAns ?? null;
+
+    $aim = $AboutAns->AboutAim ?? '';
+    $hobbi = $AboutAns->AboutHobbi ?? '';
+    $fiveYear = $AboutAns->About5Year ?? '';
+    $assets = $AboutAns->AboutAssets ?? '';
+    $improvement = $AboutAns->AboutImprovement ?? '';
+    $strength = $AboutAns->AboutStrength ?? '';
+    $deficiency = $AboutAns->AboutDeficiency ?? '';
+    $criminal = $AboutAns->AboutCriminal ?? '';
+    $criminalChk = $AboutAns->CriminalChk ?? '';
+    $licenseChk = $AboutAns->LicenseChk ?? '';
+    $dlNo = $AboutAns->DLNo ?? '';
+    $lValidity = $AboutAns->LValidity ?? '';
+@endphp
+
+<div class="modal fade" id="about_modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">About Yourself</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('SaveAbout') }}" id="about_form" method="POST">
+                    @csrf
+                    <div class="col-lg-12">
+
+                        @foreach ([
+        'Q1. What is your aim in life?' => ['AboutAim', $aim],
+        'Q2. What are your hobbies and interest?' => ['AboutHobbi', $hobbi],
+        'Q3. Where do you see yourself 5 Years from now?' => ['About5Year', $fiveYear],
+        'Q4. What are your greatest personal assets (qualities, skills, abilities)?' => ['AboutAssets', $assets],
+        'Q5. What are your areas where you think you need to improve yourself?' => ['AboutImprovement', $improvement],
+        'Q6. What are your Strengths?' => ['AboutStrength', $strength],
+        'Q7. Any form of physical disability, illness, or deficiency?' => ['AboutDeficiency', $deficiency],
+    ] as $question => [$field, $value])
+                            <h6>{{ $question }}</h6>
+                            <div class="form-group row mb-2">
+                                <div class="col-md-12">
+                                    <input type="text" name="{{ $field }}" id="{{ $field }}"
+                                        class="form-control form-control-sm reqinp_abt" value="{{ $value }}">
+                                </div>
+                            </div>
+                        @endforeach
+
+                        {{-- Q8: Criminal prosecution --}}
+                        <h6>Q8. Have you been criminally prosecuted? If so, give details separately.</h6>
+                        <div class="text-left">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input crime" type="radio" name="CriminalChk"
+                                    id="YesCriminal" value="Y" data-value="Y" {{ checked($criminalChk, 'Y') }}>
+                                <label class="form-check-label" for="YesCriminal">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input crime" type="radio" name="CriminalChk"
+                                    id="NoCriminal" value="N" data-value="N" {{ checked($criminalChk, 'N') }}>
+                                <label class="form-check-label" for="NoCriminal">No</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2 {{ showIf($criminalChk === 'Y') }}" id="crime_div">
+                            <div class="col-md-12">
+                                <input type="text" name="AboutCriminal" id="AboutCriminal"
+                                    class="form-control form-control-sm" value="{{ $criminal }}">
+                            </div>
+                        </div>
+
+                        {{-- Q9: Driving license --}}
+                        <h6>Q9. Do you have a valid driving licence?</h6>
+                        <div class="text-left">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input dlchk" type="radio" name="LicenseChk"
+                                    id="YesLicense" value="Y" data-value="Y"
+                                    {{ checked($licenseChk, 'Y') }}>
+                                <label class="form-check-label" for="YesLicense">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input dlchk" type="radio" name="LicenseChk"
+                                    id="NoLicense" value="N" data-value="N" {{ checked($licenseChk, 'N') }}>
+                                <label class="form-check-label" for="NoLicense">No</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2 {{ showIf($licenseChk === 'Y') }}" id="dl_div">
+                            <label class="col-form-label col-md-1">License No:</label>
+                            <div class="col-md-2 col-sm-12">
+                                <input type="text" class="form-control form-control-sm" id="DLNo"
+                                    name="DLNo" value="{{ $dlNo }}">
+                            </div>
+                            <label class="col-form-label col-md-1">Validity:</label>
+                            <div class="col-md-2 col-sm-12">
+                                <input type="date" class="form-control form-control-sm" name="LValidity"
+                                    id="LValidity" value="{{ $lValidity }}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="submit-section text-center">
+                        <button class="btn btn-primary submit-btn">Save Details</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
