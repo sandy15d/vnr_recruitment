@@ -386,11 +386,11 @@
                        
                         <li class="nav-item"><a href="#cand_history" data-bs-toggle="tab" class="nav-link">History</a>
                         </li>
-                       {{--  @if (Auth::user()->role == 'A')
+                        @if (Auth::user()->role == 'A')
                             <li class="nav-item">
                                 <a href="#admin_change" data-bs-toggle="tab" class="nav-link">Changes</a>
                             </li>
-                        @endif --}}
+                        @endif
 
                     </ul>
                 </div>
