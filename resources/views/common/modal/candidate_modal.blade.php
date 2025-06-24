@@ -2348,3 +2348,259 @@
     </div>
 
 </div>
+
+<div id="work_exp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Work Experience</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="WorkExpForm" action="{{ route('Candidate_Experience_Save') }}" method="POST">
+                    <input type="hidden" name="Work_JCId" id="Work_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Company</td>
+                                    <td>Designation</td>
+                                    <td>Gross Monthly Salary</td>
+                                    <td>Anual CTC</td>
+                                    <td>Job Start Date</td>
+                                    <td>Job End Date</td>
+                                    <td>Reason for Leaving</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="WorkExpData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="WorkExpCompany[]" id="WorkExpCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpDesignation[]" id="WorkExpDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpGrossMonthlySalary[]"
+                                            id="WorkExpGrossMonthlySalary1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpAnualCTC[]" id="WorkExpAnualCTC1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="WorkExpJobStartDate[]" id="WorkExpJobStartDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="WorkExpJobEndDate[]" id="WorkExpJobEndDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpReasonForLeaving[]"
+                                            id="WorkExpReasonForLeaving1" class="form-control form-control-sm">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Experience" id="addExperience" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="current_emp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Current Employment</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="CurrentEmpForm" action="{{ route('Candidate_CurrentEmployement_Save') }}" method="POST">
+                    <input type="hidden" name="Curr_JCId" id="Curr_JCId">
+                    <div class="form-group">
+                        <label>Name of Company</label>
+                        <input type="text" name="Currcompany_name" id="Currcompany_name"
+                            class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Designation</label>
+                        <input type="text" name="CurrDesignation" id="CurrDesignation"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date of Joining</label>
+                        <input type="date" name="CurrDateOfJoining" id="CurrDateOfJoining"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Reporting To</label>
+                        <input type="text" name="CurrReportingTo" id="CurrReportingTo"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Reporting Manager Designation</label>
+                        <input type="text" name="CurrRepDesig" id="CurrRepDesig"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Job Responsibility</label>
+                        <textarea name="CurrJobResponsibility" id="CurrJobResponsibility" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Job Change Reason</label>
+                        <textarea name="CurrReason" id="CurrReason" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Notice Period</label>
+                        <input type="text" name="CurrNoticePeriod" id="CurrNoticePeriod"
+                            class="form-control form-control-sm">
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="current_salary_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Present Salary Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="CurrentSalaryForm" action="{{ route('Candidate_CurrentSalary_Save') }}" method="POST">
+                    <input type="hidden" name="Sal_JCId" id="Sal_JCId">
+                    <div class="form-group">
+                        <label>Salary (Per Month)</label>
+                        <input type="text" name="CurrSalary" id="CurrSalary"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Annual Package (CTC)</label>
+                        <input type="text" name="CurrCTC" id="CurrCTC"
+                            class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">DA @ headquarter</label>
+                        <input type="text" name="CurrDA" id="CurrDA"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">DA Outside Headquarter</label>
+                        <input type="text" name="DAOutHq" id="DAOutHq"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Petrol Allowances</label>
+                        <input type="text" name="PetrolAlw" id="PetrolAlw"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Phone Allowances</label>
+                        <input type="text" name="PhoneAlw" id="PhoneAlw"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hotel Eligibility</label>
+                        <input type="text" name="HotelElg" id="HotelElg"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="training_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Training & Practical Experience</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="TrainingForm" action="{{ route('Candidate_Training_Save') }}" method="POST">
+                    <input type="hidden" name="Training_JCId" id="Training_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Nature of Training</td>
+                                    <td>Organization / Institution</td>
+                                    <td>From Date</td>
+                                    <td>To Date</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="TrainingData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="TrainingNature[]" id="TrainingNature1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="TrainingOrganization[]"
+                                            id="TrainingOrganization1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="TrainingFromDate[]" id="TrainingFromDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="TrainingToDate[]" id="TrainingToDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Experience" id="addTraining"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
