@@ -1149,3 +1149,33 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="view_review" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter Review Status</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered text-center" style="vertical-align: middle;">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Offer Letter Ref.No
+                            </th>
+                            <th>Reviwed By</th>
+                            <th>Status
+                            </th>
+                            <th>Reason for Rejection
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="viewReviewData">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
