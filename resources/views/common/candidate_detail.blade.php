@@ -345,45 +345,43 @@
                 </div>
             </div>
         </div>
-
-              <div class="card tab-box">
+        <div class="card tab-box">
             <div class="row user-tabs">
                 <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                     <ul class="nav nav-tabs nav-tabs-bottom" id="myTab">
                         <li class="nav-item"><a href="#cand_profile" data-bs-toggle="tab"
-                                                class="nav-link active">Profile</a></li>
+                                class="nav-link active">Profile</a></li>
 
                         <li class="nav-item"><a href="#cand_contact" data-bs-toggle="tab" class="nav-link">Contact</a>
                         </li>
 
                         <li class="nav-item"><a href="#cand_education" data-bs-toggle="tab"
-                                                class="nav-link">Education</a>
+                                class="nav-link">Education</a>
                         </li>
 
                         <li class="nav-item"><a href="#cand_experience" data-bs-toggle="tab"
-                                                class="nav-link">Employement</a></li>
+                                class="nav-link">Employement</a></li>
 
                         <li class="nav-item"><a href="#cand_reference" data-bs-toggle="tab"
-                                                class="nav-link">Reference</a>
+                                class="nav-link">Reference</a>
                         </li>
 
                         <li class="nav-item"><a href="#cand_other" data-bs-toggle="tab" class="nav-link"> Other
                             </a></li>
-                       
-                            <li class="nav-item"><a href="#vehicle_info" data-bs-toggle="tab"
-                                                    class="nav-link">Vehicle Info</a>
-                            </li>
-                            <li class="nav-item"><a href="#cand_document" data-bs-toggle="tab"
-                                                    class="nav-link">Documents</a>
-                            </li>
 
-                            <li class="nav-item"><a href="#job_offer" data-bs-toggle="tab" class="nav-link">Job
-                                    Offer</a></li>
+                        <li class="nav-item"><a href="#vehicle_info" data-bs-toggle="tab" class="nav-link">Vehicle
+                                Info</a>
+                        </li>
+                        <li class="nav-item"><a href="#cand_document" data-bs-toggle="tab"
+                                class="nav-link">Documents</a>
+                        </li>
 
-                            <li class="nav-item"><a href="#onboarding" data-bs-toggle="tab"
-                                                    class="nav-link">Onboarding</a>
-                            </li>
-                       
+                        <li class="nav-item"><a href="#job_offer" data-bs-toggle="tab" class="nav-link">Job
+                                Offer</a></li>
+
+                        <li class="nav-item"><a href="#onboarding" data-bs-toggle="tab" class="nav-link">Onboarding</a>
+                        </li>
+
                         <li class="nav-item"><a href="#cand_history" data-bs-toggle="tab" class="nav-link">History</a>
                         </li>
                         @if (Auth::user()->role == 'A')
@@ -396,6 +394,972 @@
                 </div>
             </div>
         </div>
+                <div class="tab-content"> 
+
+            <div id="cand_profile" class=" tab-pane fade pro-overview show active">
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Personal Informations
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#"
+                                           class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#personal_info_modal"
+                                           onclick="GetPersonalData();"><i
+                                                class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                </h6>
+
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Gender<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Gender == 'M' ? 'Male' : 'Female' }}</div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Aadhaar No.<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Aadhaar }}</div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Nationality<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->country_name ?? '-' }}</div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Religion<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Religion ?? '-' }} @if ($Rec->Religion == 'Others')
+                                                <span class="text-danger">({{ $Rec->OtherReligion }})</span>
+                                            @endif
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Marital Status<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->MaritalStatus ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Marriage Date<span style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($Rec->MarriageDate != null)
+                                                {{ date('d-M-Y', strtotime($Rec->MarriageDate)) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Spouse Name<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->SpouseName ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Category<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Caste ?? '-' }}@if ($Rec->Caste == 'Other')
+                                                <span class="text-danger">({{ $Rec->OtherCaste }})</span>
+                                            @endif
+                                        </div>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Emergency Contact
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#emergency_contact_modal"
+                                           onclick="GetEmergencyContact();"><i
+                                                class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                </h6>
+                                <h6 class="section-title">Primary</h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Name</div>
+                                        <div class="text">{{ $Rec->cont_one_name ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Relationship</div>
+                                        <div class="text">{{ $Rec->cont_one_relation ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Phone No.</div>
+                                        <div class="text">{{ $Rec->cont_one_number ?? '-' }}</div>
+                                    </li>
+                                </ul>
+
+                                <hr>
+                                <h6 class="section-title">Secondary</h6> 
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Name</div>
+                                        <div class="text">{{ $Rec->cont_two_name ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Relationship</div>
+                                        <div class="text">{{ $Rec->cont_two_relation ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Phone No.</div>
+                                        <div class="text">{{ $Rec->cont_two_number ?? '-' }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Bank Informations & Other
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#"
+                                           class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#bank_info_modal"
+                                           onclick="GetBankInfo();"><i
+                                                class="fa fa-pencil"></i></a> 
+                                    @endif
+                                </h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Bank Name<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->BankName ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Branch Name<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">{{ $Rec->BranchName }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Bank account No.<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">{{ $Rec->AccountNumber ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">IFSC Code<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->IFSCCode ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">PAN No.<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->PAN ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">PF Account No.<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->PFNumber ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">UAN No.<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->UAN ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">ESIC No.<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->ESICNumber ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Passport<span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Passport ?? '-' }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Family Informations
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#family_info_modal"
+                                           onclick="GetFamily();"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+                                </h6>
+                                <div class="table-responsive">
+                                    <table class="table table-nowrap">
+                                        <thead class="text-center bg-success bg-gradient text-light font-weight-normal">
+                                        <tr>
+                                            <th>Relation</th>
+                                            <th>Name</th>
+                                            <th>DOB</th>
+                                            <th>Qulification</th>
+                                            <th>Occupation</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @if ($FamilyInfo != null)
+                                            @foreach ($FamilyInfo as $item)
+                                                <tr>
+                                                    <td>{{ $item->relation }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ date('d-M-Y', strtotime($item->dob)) }}</td>
+                                                    <td>{{ $item->qualification }}</td>
+                                                    <td>{{ $item->occupation }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="6">Record not found</td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="cand_contact">
+                <div class="row"> 
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Current Address
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                           data-bs-target="#current_address_modal" onclick="GetCurrentAddress();">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                </h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Address <span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->pre_address ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">City <span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->pre_city ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">District <span style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($Rec->pre_dist != null)
+                                                {{ getDistrictName($Rec->pre_dist) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">State <span style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($Rec->pre_state != null)
+                                                {{ getStateName($Rec->pre_state) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">PinCode <span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->pre_pin ?? '-' }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Permanent Address
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                           data-bs-target="#permanent_address_modal" onclick="GetPermanentAddress();">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                </h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Address <span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->perm_address ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">City <span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->perm_city ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">District <span style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($Rec->perm_dist != null)
+                                                {{ getDistrictName($Rec->perm_dist) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">State <span style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($Rec->perm_state != null)
+                                                {{ getStateName($Rec->perm_state) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">PinCode <span style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->perm_pin ?? '-' }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="cand_education">
+                <div class="col-md-12 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h6 class="card-title border-bot">Educational Details
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                       data-bs-target="#education_info_modal" onclick="GetQualification();">
+                                        <i class="fa fa-pencil"></i> 
+                                    </a>
+                                @endif
+                            </h6>
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr>
+                                        <td>Qualification</td>
+                                        <td>Course</td>
+                                        <td>Specialization</td>
+                                        <td>Board/University</td>
+                                        <td>Passing Year</td>
+                                        <td>Percentage/Grade</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($Education as $item)
+                                        <tr>
+                                            <td>{{ $item->Qualification }}</td>
+                                            <td>
+                                                @if ($item->Course != null)
+                                                    {{ getEducationById($item->Course) }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (is_null($item->Specialization))
+                                                    -
+                                                @else
+                                                    {{ getSpecializationbyId($item->Specialization) }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->Institute != null)
+                                                    {{ getCollegeById($item->Institute) }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->YearOfPassing ?? '-' }}</td>
+                                            <td>{{ $item->CGPA ?? '-' }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="cand_experience">
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Current Employement
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                           data-bs-target="#current_emp_modal" onclick="GetCurrentEmployementData();"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+                                </h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title" style="width: 150px;">Name of Company <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->PresentCompany ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Date of Joining <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->JobStartDate ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Designation <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Designation ?? '-' }}</div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title" style="width: 150px;">Reporting to<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->Reporting ?? '-' }} ,
+                                            {{ $Rec->RepDesig ?? '-' }} </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Job Responsibility <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->JobResponsibility ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Job Change Reason<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->ResignReason ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Notice Period<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->NoticePeriod ?? '-' }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Present Salary Details
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#"
+                                           class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#current_salary_modal"
+                                           onclick="GetPresentSalaryDetails();"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+                                </h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title" style="width: 200px;">Salary (Per Month)<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->GrossSalary ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 200px;">Annual Package (CTC)<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->CTC ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 200px;">DA@ headquarter<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->DAHq ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 200px;">DA outside headquarter <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->DAOutHq ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 200px;">Petrol Allowances <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->PetrolAlw ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 200px;">Phone Allowances <span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->PhoneAlw ?? '-' }}</div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 200px;">Hotel Eligibility<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">{{ $Rec->HotelElg ?? '-' }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <h6 class="card-title border-bot">Previous Employement Records <small>(except the
+                                    present)</small>
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                       data-bs-target="#work_exp_modal" onclick="getWorkExp();">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                @endif
+                            </h6>
+
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr>
+                                        <td style="width: 5%">S.No.</td>
+                                        <td style="width: 20%">Company Name</td>
+                                        <td style="width: 15%">Designation</td>
+                                        <td style="width: 10%">Gross Monthly Salary</td>
+                                        <td style="width: 10%">Anual CTC</td>
+                                        <td style="width: 10%">From</td>
+                                        <td style="width: 10%">To</td>
+                                        <td style="width: 20%">Reason for Leaving</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($Experience as $item)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $item->company }}</td>
+                                            <td>{{ $item->desgination }}</td>
+                                            <td>{{ $item->gross_mon_sal }}</td>
+                                            <td>{{ $item->annual_ctc }}</td>
+                                            <td>{{ $item->job_start }}</td>
+                                            <td>{{ $item->job_end }}</td>
+                                            <td>{{ $item->reason_fr_leaving }}</td>
+                                        </tr>
+                                        @php
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 d-flex">
+                    <div class="card  flex-fill">
+                        <div class="card-body">
+                            <h6 class="card-title border-bot">Training & Practical Experience <small>(Other than regular
+                                    jobs)</small>
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                       data-bs-target="#training_modal" onclick="getTraining();">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                @endif
+                            </h6>
+
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr>
+                                        <td style="width: 5%">S.No.</td>
+                                        <td style="width: 20%">Training Nature</td>
+                                        <td style="width: 15%">Organization</td>
+                                        <td style="width: 10%">From</td>
+                                        <td style="width: 10%">To</td>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($Training as $item)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $item->training }}</td>
+                                            <td>{{ $item->organization }}</td>
+                                            <td>{{ $item->from }}</td>
+                                            <td>{{ $item->to }}</td>
+                                        </tr>
+                                        @php
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="cand_reference">
+                <div class="col-md-12 d-flex">
+                    <div class="card  flex-fill">
+                        <div class="card-body">
+                            <h6 class="card-title border-bot">Previous Organization Reference
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                       data-bs-target="#pre_org_ref_modal" onclick="getPreOrgRef();">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                @endif
+                            </h6>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr>
+                                        <td>S.No.</td>
+                                        <td>Name</td>
+                                        <td>Company</td>
+                                        <td>Designation</td>
+                                        <td>Contact No.</td>
+                                        <td>Email</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($PreRef as $item)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->company }}</td>
+                                            <td>{{ $item->designation }}</td>
+                                            <td>{{ $item->contact }}</td>
+                                            <td>{{ $item->email }}</td>
+                                        </tr>
+                                        @php
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 d-flex">
+                        <div class="card  flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Acquaintances or relatives working with
+                                    VNR Group Companies
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                           data-bs-target="#vnr_ref_modal" onclick="getVnrRef();"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+
+                                </h6>
+
+                                <table class="table table-bordered">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr class="text-center">
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>VNR Group /<br>Company Name</th>
+                                        <th>Designation</th>
+                                        <th>Location</th>
+                                        <th>Your Relationship <br>with person mentioned</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    @foreach ($VnrRef as $item)
+                                        <tr>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->contact }}</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>{{ $item->company }}
+                                                {{ $item->company == 'Other' ? '/ ' . $item->other_company : '' }}
+                                            </td>
+                                            </td>
+                                            <td>{{ $item->designation }}</td>
+                                            <td>{{ $item->location }}</td>
+                                            <td>{{ $item->rel_with_person }}</td>
+
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 d-flex">
+                        <div class="card  flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Acquaintances or relatives associated with
+                                    VNR as business associates
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                           data-bs-target="#vnr_business_ref_modal"
+                                           onclick="getVnrRef_Business();"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+                                </h6>
+
+                                <table class="table">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr class="text-center">
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Business Relation <br>With VNR</th>
+                                        <th>Location of Business /
+                                            acquaintances
+                                        </th>
+                                        <th>Your Relationship <br>with person mentioned</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    @foreach ($VnrBusinessRef as $item)
+                                        <tr>
+                                            <td>{{ $item->Name ?? '' }}</td>
+                                            <td>{{ $item->Mobile ?? '' }}</td>
+                                            <td>{{ $item->Email ?? '' }}</td>
+                                            <td>{{ $item->BusinessRelation ?? '' }}</td>
+                                            </td>
+                                            <td>{{ $item->Location ?? '' }}</td>
+                                            <td>{{ $item->PersonRelation ?? '' }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 d-flex">
+                        <div class="card  flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Relatives or acquaintances is/are working
+                                    or associated with any other Seed Company
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#other_seed_modal"
+                                           onclick="getOtherSeed();"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+                                </h6>
+
+                                <table class="table">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <tr class="text-center">
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Company Name</th>
+                                        <th>Designation</th>
+                                        <th>Location</th>
+                                        <th>Your Relationship <br>with person mentioned</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    @foreach ($OtherSeed as $item)
+                                        <tr>
+                                            <td>{{ $item->Name ?? '' }}</td>
+                                            <td>{{ $item->Mobile ?? '' }}</td>
+                                            <td>{{ $item->Email ?? '' }}</td>
+                                            <td>{{ $item->company_name ?? '' }}</td>
+                                            <td>{{ $item->Designation ?? '' }}</td>
+                                            <td>{{ $item->Location ?? '' }}</td>
+                                            <td>{{ $item->Relation ?? '' }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="cand_other">
+                <div class="row">
+                    <div class="col-md-12 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Language Proficiency
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                           data-bs-target="#language_modal" onclick="getLanguageProficiency();">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                </h6>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <tr>
+                                            <td>S.No.</td>
+                                            <td>Language</td>
+                                            <td>Reading</td>
+                                            <td>Writing</td>
+                                            <td>Speaking</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @php
+                                            $i = 1;
+                                        @endphp
+                                        @foreach ($lang as $item)
+                                            <tr>
+                                                <td>{{ $i }}</td>
+                                                <td>{{ $item->language }}</td>
+                                                <td>{{ $item->read == 1 ? 'Yes' : 'No' }}</td>
+                                                <td>{{ $item->write == 1 ? 'Yes' : 'No' }}</td> 
+                                                <td>{{ $item->speak == 1 ? 'Yes' : 'No' }}</td>
+                                            </tr>
+                                            @php
+                                                $i++;
+                                            @endphp
+                                        @endforeach
+                                        </tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">About Yourself
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#about_modal"><i
+                                                class="fa fa-pencil"></i></a>
+                                    @endif
+                                </h6>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q1. What is your aim in life?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutAim ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q2. What are you hobbies and interest?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutHobbi ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q3. Where do you see yourself 5 Years from now?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->About5Year ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q4. What are your greatest personal assets (qualities, skills,
+                                                abilities) which make you successful in the jobs you take up?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutAssets ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q5. What are your areas where you think you need to improve yourself?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutImprovement ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q6. What are your Strengths?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutStrength ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q7. In the past or at present, have/are you suffered /suffering from,
+                                                any form of physical disability or any minor or major illness or
+                                                deficiency?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutDeficiency ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q8. Have you Been criminally prosecuted? if so, give details separately.
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;
+                                                @if ($AboutAns != null)
+                                                    {{ $AboutAns->CriminalChk == 'Y' ? 'Yes' : 'No' }}
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q9. Do You have a valid driving licence?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutDeficiency ?? '' }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <div class="compose-mail-popup" style="display: none;">
         <div class="card">
