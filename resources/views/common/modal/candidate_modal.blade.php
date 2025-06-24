@@ -432,3 +432,154 @@
         </div>
     </div>
 </div>
+
+<div id="current_address_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Current Address</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="CurrentAddressForm" action="{{ route('Candidate_CurrentAddress_Save') }}" method="POST">
+                    <input type="hidden" name="Current_JCId" id="Current_JCId">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PreAddress">Address</label>
+                                <input type="text" name="PreAddress" id="PreAddress"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PreCity">City</label>
+                                <input type="text" name="PreCity" id="PreCity"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PreState">State</label>
+                                <select name="PreState" id="PreState" class="form-select form-select-sm"
+                                    onchange="getLocation(this.value);">
+                                    <option value="">Select State</option>
+                                    @foreach ($state_list as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="spinner-border text-primary d-none" role="status" id="PreDistLoader">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="PreDistrict">District</label>
+                                <select name="PreDistrict" id="PreDistrict" class="form-select form-select-sm">
+                                    @foreach ($district_list as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PrePinCode">Pin Code</label>
+                                <input type="text" name="PrePinCode" id="PrePinCode"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="permanent_address_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Current Address</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="PermanentAddressForm" action="{{ route('Candidate_PermanentAddress_Save') }}"
+                    method="POST">
+                    <input type="hidden" name="Permanent_JCId" id="Permanent_JCId">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PermAddress">Address</label>
+                                <input type="text" name="PermAddress" id="PermAddress"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PermCity">City</label>
+                                <input type="text" name="PermCity" id="PermCity"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PermState">State</label>
+                                <select name="PermState" id="PermState" class="form-select form-select-sm"
+                                    onchange="getLocation1(this.value);">
+                                    <option value="">Select State</option>
+                                    @foreach ($state_list as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="spinner-border text-primary d-none" role="status" id="PermDistLoader">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="PermDistrict">District</label>
+                                <select name="PermDistrict" id="PermDistrict" class="form-select form-select-sm">
+                                    @foreach ($district_list as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PermPinCode">Pin Code</label>
+                                <input type="text" name="PermPinCode" id="PermPinCode"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
