@@ -1360,6 +1360,1984 @@
                     </div>
                 </div>
             </div>
+                        <div class="tab-pane fade" id="vehicle_info">
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">2 Wheeler</h6>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Ownership</th>
+                                            <td>{{ $vehicle_info->ownership ?? '' }}</td>
+                                            <th>Brand</th>
+                                            <td>{{ $vehicle_info->brand ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Model</th>
+                                            <td>{{ $vehicle_info->model_name ?? '' }}</td>
+                                            <th>Model No</th>
+                                            <td>{{ $vehicle_info->model_no ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dealer Name</th>
+                                            <td>{{ $vehicle_info->dealer_name ?? '' }}</td>
+                                            <th>Dealer Contact</th>
+                                            <td>{{ $vehicle_info->dealer_contact ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Purchase Date</th>
+                                            <td>{{ $vehicle_info->purchase_date ?? '' }}</td>
+                                            <th>Price</th>
+                                            <td>{{ $vehicle_info->price ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Invoice No</th>
+                                            <td>{{ $vehicle_info->bill_no ?? '' }}</td>
+                                            <th>Fuel Type</th>
+                                            <td>{{ $vehicle_info->fuel_type ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <td>{{ $vehicle_info->registration_no ?? '' }}</td>
+                                            <th>Registration Date</th>
+                                            <td>{{ $vehicle_info->registration_date ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Current ODO Meter</th>
+                                            <td colspan="3">{{ $vehicle_info->current_odo_meter ?? '' }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">4 Wheeler</h6>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Ownership</th>
+                                            <td>{{ $vehicle_info->four_ownership ?? '' }}</td>
+                                            <th>Brand</th>
+                                            <td>{{ $vehicle_info->four_brand ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Model</th>
+                                            <td>{{ $vehicle_info->four_model_name ?? '' }}</td>
+                                            <th>Model No</th>
+                                            <td>{{ $vehicle_info->four_model_no ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dealer Name</th>
+                                            <td>{{ $vehicle_info->four_dealer_name ?? '' }}</td>
+                                            <th>Dealer Contact</th>
+                                            <td>{{ $vehicle_info->four_dealer_contact ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Purchase Date</th>
+                                            <td>{{ $vehicle_info->four_purchase_date ?? '' }}</td>
+                                            <th>Price</th>
+                                            <td>{{ $vehicle_info->four_price ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Invoice No</th>
+                                            <td>{{ $vehicle_info->four_bill_no ?? '' }}</td>
+                                            <th>Fuel Type</th>
+                                            <td>{{ $vehicle_info->four_fuel_type ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Registration Number</th>
+                                            <td>{{ $vehicle_info->four_registration_no ?? '' }}</td>
+                                            <th>Registration Date</th>
+                                            <td>{{ $vehicle_info->four_registration_date ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Current ODO Meter</th>
+                                            <td colspan="3">{{ $vehicle_info->four_current_odo_meter ?? '' }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="cand_document">
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Links</h6>
+                                <ul class="personal-info">
+                                    @if ($Rec->Type == 'Manual Entry')
+                                        @php
+                                            $JCId = base64_encode($Rec->JCId);
+                                        @endphp
+                                        <li>
+                                            <div class="title" style="width: 150px;">Application Form <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text"><input type="text"
+                                                                     id="link{{ $Rec->JCId }}"
+                                                                     value="{{ url('jobportal/jobapply?jcid=' . $JCId . '') }}"
+                                                                     class="frminp d-inline">
+                                                <button onclick="copylink({{ $Rec->JCId }})"
+                                                        class="frmbtn btn btn-sm btn-secondary"> Copy Link
+                                                </button>
+                                            </div>
+                                        </li>
+
+                                    @endif
+
+                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == '1')
+                                    
+                                        <li>
+                                            <div class="title" style="width: 150px;">Offer Letter<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text"><input type="text" name="" id="oflink"
+                                                                     class="frminp d-inline"
+                                                                     value="{{ route('candidate-offer-letter') }}?jaid={{ $sendingId }}">
+                                                <button class="frmbtn btn btn-sm btn-secondary"
+                                                        onclick="copyOfLink();">Copy
+                                                    Link
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endif
+ 
+                                    <li>
+                                        <div class="title" style="width: 150px;">Interview Form<span
+                                                style="float: right">:</span></div>
+                                        <div class="text"><input type="text" name="" id="interviewlink"
+                                                                 class="frminp d-inline"
+                                                                 value="{{ route('candidate-interview-form') }}?jaid={{ $sendingId }}">
+                                            <button class="frmbtn btn btn-sm btn-secondary"
+                                                    onclick="copyJIntFrmLink();">Copy
+                                                Link
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title" style="width: 150px;">FIRO B Test<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+
+                                            <input type="text" name="" id="firoblink" class="frminp d-inline"
+                                                   value="{{ route('firo_b') }}?jcid={{ $firobid }}">
+                                            <button class="frmbtn btn btn-sm btn-secondary"
+                                                    onclick="copyFiroBlink();">Copy
+                                                Link
+                                            </button>
+
+
+                                        </div>
+                                    </li>
+                                    @if ($Rec->InterviewSubmit == 1 || ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes'))
+                                        <li>
+                                            <div class="title" style="width: 150px;">Joining Form<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text"><input type="text" name="" id="jflink"
+                                                                     class="frminp d-inline"
+                                                                     value="{{ route('candidate-joining-form') }}?jaid={{ $sendingId }}">
+                                                <button class="frmbtn btn btn-sm btn-secondary"
+                                                        onclick="copyJFrmLink();">Copy
+                                                    Link
+                                                </button>
+
+                                                @if ($Rec->FinalSubmit == 1 && $OfBasic->ForwardToESS == 'No')
+                                                    <button class="frmbtn btn btn-primary btn-sm"
+                                                            id="open_joining_form">Re-Open Joining Form
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </li>
+
+                                    @endif
+                                    <li>
+                                        <div class="title" style="width: 150px;">Upload Documents<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            <a href="#" class="edit-icon" data-bs-toggle="modal" style="float:left"
+                                               data-bs-target="#document_modal">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    {{-- <li>
+                                         <div class="title" style="width: 150px;">Vehicle Form<span
+                                                 style="float: right">:</span></div>
+                                         <div class="text"><input type="text" name="" id="vflink"
+                                                                  class="frminp d-inline"
+                                                                  value="{{ route('candidate-vehicle-form') }}?jcid={{ $firobid }}">
+                                             <button class="frmbtn btn btn-sm btn-secondary"
+                                                     onclick="copyVFrmLink();">Copy
+                                                 Link
+                                             </button>
+
+                                             <button class="frmbtn btn btn-primary btn-sm"
+                                                     id="send_vehicle_form" onclick="sendVehicleForm({{ $Rec->JCId }});">
+                                                 Send Vehicle Form
+                                             </button>
+
+                                         </div>
+                                     </li>--}}
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Interview Documents
+
+                                </h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th> 
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-center">1</td>
+                                            <td style="width:50%">Interview Application Form</td>
+                                            <td style="width: 10%; text-align:center" class="text-center">
+                                                @if ($Rec->InterviewSubmit == 1)
+                                                    @php
+                                                        $sendingId = base64_encode($Rec->JAId);
+                                                    @endphp
+
+                                                    <a href="{{ route('interview_form_detail') }}?jaid={{ $sendingId }}"
+                                                       target="_blank">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">2</td>
+                                            <td>Firo B</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->FIROB_Test == 1)
+                                                    @php
+                                                        $firobUserCount = DB::table('firob_user')
+                                                            ->where('userid', $Rec->JCId)
+                                                            ->count();
+
+                                                    @endphp
+                                                    @if ($firobUserCount == 54)
+                                                        <span>
+            <a href="javascript:void(0);"
+               onclick='window.open("{{ route('firob_result') }}?jcid={{ $Rec->JCId }}", "", "width=750,height=900");'>Result 1</a>
+        </span>
+                                                        |
+                                                        <span>
+                     <a href="javascript:void(0);"
+                        onclick='window.open("{{ route('firob_result_summery') }}?jcid={{ $Rec->JCId }}", "", "width=750,height=900");'>Result 2</a>
+        </span>
+                                                    @else
+                                                        <a href="javascript:void(0);" class="text-danger"
+                                                           onclick="delete_firob()">
+                                                            <i class="fa fa-trash text-danger"></i> Reset..?
+                                                        </a>
+                                                    @endif
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">3</td>
+                                            <td>Test Papers</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Test_Paper != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Test_Paper }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">4</td>
+                                            <td>Interview Assessment Sheet</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->IntervAssessment != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->IntervAssessment }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Joining & Onboarding Documents
+
+                                </h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Offer Letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                    <a href="{{ route('offer_ltr_print') }}?jaid={{ $Rec->JAId }}"
+
+                                                       class="btn btn-link btn-sm">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">2</td>
+                                            <td>Joining Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->FinalSubmit == 1)
+
+                                                    <a href="{{ route('joining_form_print') }}?jaid={{ $sendingId }}"
+                                                       target="_blank" class="btn btn-link btn-sm">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Appointment Letter</td>
+                                            <td style="width: 10%; text-align:center" colspan="4">
+                                                @if ($Rec->AppLtrGen == 'Yes')
+                                                    <a href="{{ route('appointment_ltr_print') }}?jaid={{ $Rec->JAId }}"
+                                                       target="_blank">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Service Agreement (E Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->AgrLtrGen == 'Yes')
+                                                    <a href="{{ route('service_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">First Page</a> |
+                                                    <a href="{{ route('service_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">Rest All</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">5</td>
+                                            <td>Service Agreement (Old Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->AgrLtrGen == 'Yes')
+                                                    <a href="{{ route('service_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class=" text-center">6</td>
+                                            <td>Service Bond (E Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->BLtrGen == 'Yes')
+                                                    <a href="{{ route('service_bond_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">First Page</a> |
+                                                    <a href="{{ route('service_bond_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">Rest All</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">7</td>
+                                            <td>Service Bond(Old Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->BLtrGen == 'Yes')
+                                                    <a href="{{ route('service_bond_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        View</a>
+                                                @endif
+                                            </td>
+                                        </tr> 
+
+                                        <tr>
+                                            <td class=" text-center">9</td>
+                                            <td>Confidentiality Agreement (E Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->ConfLtrGen == 'Yes')
+                                                    <a href="{{ route('conf_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        First Page</a> |
+                                                    <a href="{{ route('conf_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        Rest All</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">10</td>
+                                            <td>Confidentiality Agreement (Old Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->ConfLtrGen == 'Yes')
+                                                    <a href="{{ route('conf_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Statutory Documents</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>PF Form 2</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PF_Form2 != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form2 }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">2</td>
+                                            <td>PF Form 11</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PF_Form11 != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form11 }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Gratutity Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Gratutity != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Gratutity }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">4</td>
+                                            <td>ESIC</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->ESIC != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>ESIC_Family</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->ESIC_Family != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC_Family }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">6</td>
+                                            <td>PF- E nomination Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PFeNomination != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PFeNomination }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">7</td>
+                                            <td>Form 16(From Pervious Employer)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Form16 != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Form16 }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">8</td>
+                                            <td>EPFO Joint Request</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Epfo_Joint != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Epfo_Joint }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex"> 
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Previous Employment Documents</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody> 
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Offer or Appointment letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->OfferLtr != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->OfferLtr }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td> 
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>Relieving Letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->RelievingLtr != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->RelievingLtr }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Pay/Salary slip</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->SalarySlip != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->SalarySlip }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Appraisal or last increment letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->AppraisalLtr != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->AppraisalLtr }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Resignation Acceptance by Recent Employer</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Resignation_Accept != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Resignation_Accept }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Educational Certificates</h6>
+                                <div class="table-responsive"> 
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($Education as $item)
+                                            @if($item->File_Attachment != null)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{ $item->Qualification }}</td>
+                                                    <td>
+                                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $item->File_Attachment }}"
+                                                           download>View</a></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">KYC Documents</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
+                                        </thead>
+                                        <tbody> 
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Aadhaar Card</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Aadhar != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Aadhar }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>PAN Card</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PanCard != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PanCard }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Driving Licence</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->DL != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->DL }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Passport</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Passport != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Passport }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Bank Passbook/Document</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->BankDoc != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->BankDoc }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Other Documents </h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Blood Group Certificate</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->BloodGroup != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->BloodGroup }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>Health Declaration Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Health != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Health }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td> 
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Vaccination Certificate</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->VaccinationCert != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->VaccinationCert }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Declaration for Compliance to Ethical Financial Dealings</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Ethical != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Ethical }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Investment Declaration</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Invst_Decl != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Invst_Decl }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">6</td>
+                                            <td>Self Declaration for Resignation</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Resignation != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Resignation }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">2 Wheeler Documents</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Invoice</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->invoice != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->invoice }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td> 
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>RC</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->rc_file != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->rc_file }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr> 
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Vehicle Image</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->vehicle_image != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->vehicle_image }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Insurance</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->insurance != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->insurance }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Current Odo Meter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->odo_meter != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->odo_meter }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill" style="min-height:17px;">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">4 Wheeler Documents</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="text-center bg-success bg-gradient text-light">
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Invoice</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_invoice != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_invoice }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>RC</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_rc_file != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_rc_file }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Vehicle Image</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_vehicle_image != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_vehicle_image }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Insurance</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_insurance != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_insurance }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Current Odo Meter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_odo_meter != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_odo_meter }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="cand_history">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Job Application History</h6>
+
+                                <table class="table table-bordered table-striped text-left">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <th style="width: 50%">Action</th>
+                                    <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Job Applied</td>
+                                        <td> {{ date('d-M-Y', strtotime($Rec->ApplyDate)) }}</td>
+                                    </tr>
+                                    @if ($Rec->Status != null)
+                                        <tr>
+                                            <td>HR Screening Status</td>
+                                            <td>{{ $Rec->Status }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>HR Screening Date</td>
+                                            <td>{{date('d-M-Y', strtotime($Rec->HrScreeningDate))}}</td>
+                                        </tr>
+                                 <!-- =====================================================-->
+                                         @if ($Rec->Status == 'Rejected')
+                                         <tr>
+                                           <td>Reason for Rejection</td> 
+                                           <td>{{ $Rec->RejectRemark }}</td>
+                                            <!-- <td>{{date('d-M-Y', strtotime($Rec->RejectRemark))}}</td> -->
+                                        </tr>
+                                         @endif
+                                <!-- =============================================================== -->
+                                    @endif
+                                   
+
+                                    @if ($Rec->Status == 'Selected')
+                                        <tr>
+                                            <td>Forwarded for Technical Screening</td>
+                                            <td>{{ $Rec->FwdTechScr }}</td>
+                                        </tr>
+                                        @if ($Rec->FwdTechScr == 'Yes')
+                                            <tr>
+                                                <td>Technical Screening Sent Date</td>
+                                                <td> {{ date('d-M-Y', strtotime($Rec->ReSentForScreen)) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Technical Screening Date</td>
+                                                <td>{{ $Rec->ResScreened ? date('d-M-Y', strtotime($Rec->ResScreened)) : ' ' }}</td>
+                                                <!-- <td> {{ date('d-M-Y', strtotime($Rec->ResScreened)) }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <td>Technical Screening Status</td> 
+                                                <td>{{ $Rec->ScreenStatus }}</td>
+                                            </tr>
+
+                                <!-- =============================================================== -->
+                                            @if($Rec->ScreenStatus == 'Reject')
+                                            <tr>
+                                                <td>Reason for Rejection</td> 
+                                                <td>{{ $Rec->RejectionRem }}</td>
+                                            </tr>
+                                            @endif
+                                <!-- ================================================================== -->
+                                        @endif
+                                    @endif
+
+                                    @if ($Rec->ScreenStatus == 'Shortlist')
+                                        <tr>
+                                            <td>Inderview Date</td>
+                                            <td>{{ date('d-M-Y', strtotime($Rec->IntervDt)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Interview Status</td>
+                                            <td>{{ $Rec->IntervStatus }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($Rec->IntervStatus == '2nd Round Interview')
+                                        <tr>
+                                            <td>2nd Round Interview Date</td>
+                                            <td>{{ date('d-M-Y', strtotime($Rec->IntervDt2)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2nd Round Interview Status</td>
+                                            <td>{{ $Rec->IntervStatus2 }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($Rec->SelectedForD != null)
+                                        <tr>
+                                            <td>Offer Letter Sent</td>
+                                            <td>{{ $OfBasic->OfferLetterSent ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Offer Letter Status</td>
+                                            <td>{{ $OfBasic->Answer ?? '' }}</td>
+                                        </tr>
+                                    @endif
+
+                                    @if ($OfBasic != null && $OfBasic->Answer == 'Rejected')
+                                        <tr>
+                                            <td>Offer Letter Rejected Reason</td>
+                                            <td>
+
+                                                @if ($OfBasic->RejReason !='' || $OfBasic->RejReason != null)
+                                                    {{ $OfBasic->RejReason }}
+                                                @else
+                                                    {{ $OfBasic->RejReason1 }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @if ($OfBasic != null && $OfBasic->Answer == 'Accepted')
+                                        <tr>
+                                            <td>Joining Form Sent</td>
+                                            <td>{{ $OfBasic->JoiningFormSent }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Joining Form Status</td>
+                                            <td>{{ $Rec->FinalSubmit == 1 ? 'Submitted' : 'Not Submitted' }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body ">
+                                <h6 class="card-title border-bot">Activity Log</h6>
+                                <table class="table table-bordered table-striped " id="CandLogTable">
+                                    <thead class="text-center bg-success bg-gradient text-light">
+                                    <th>S.No.</th>
+                                    <th style="width: 20%">Date</th>
+                                    <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $i = 0;
+                                    @endphp
+                                    @foreach ($candidate_log as $item => $value)
+                                        <tr>
+                                            <td class="text-center">{{ ++$i }}</td>
+                                            <td class="text-center">{{ date('d-M-Y', strtotime($value->Date)) }}
+                                            </td>
+                                            <td>{{ $value->Description }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="job_offer">
+                <div class="row">
+                    <div class="col-md-5 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Offer Letter Basic Details
+                                    {{-- @if ($OfBasic != null && ($OfBasic->Answer == '' || $OfBasic->Answer == 'Rejected')) --}}
+                                    <a href="javascript:void(0);" class="edit-icon" data-bs-toggle="modal"
+                                       data-bs-target="#OfferLtrModal" id="offerltredit"
+                                       data-id="{{ $Rec->JAId }}"
+                                        ">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    {{-- @endif --}}
+                                </h6>
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title" style="width: 150px;">Department<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                {{ getDepartment($OfBasic->Department) ?? '-' }}
+                                                ({{ getcompany_code($OfBasic->Company) }})
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Designation<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->Designation == 0)
+                                                    -
+                                                @else
+                                                    {{ getDesignation($OfBasic->Designation) ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Grade<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->Grade == 0)
+                                                    -
+                                                @else
+                                                    {{ getGradeValue($OfBasic->Grade) ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Reporting Mgr.<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->repchk == 'RepWithoutEmp')
+                                                    {{ getDesignation($OfBasic->reporting_only_desig) }}
+                                                @else
+                                                    @if ($OfBasic->A_ReportingManager == '' || $OfBasic->A_ReportingManager == null)
+                                                        -
+                                                    @else
+                                                        {{ getFullName($OfBasic->A_ReportingManager) ?? '-' }}
+                                                    @endif
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">CTC<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->CTC == '' || $OfBasic->CTC == null)
+                                                    -
+                                                @else
+                                                    {{ $OfBasic->CTC ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Service Condition<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->ServiceCondition == 'Training')
+                                                    Training
+                                                @elseif($OfBasic->ServiceCondition == 'Probation')
+                                                    Probation
+                                                @elseif($OfBasic->ServiceCondition == 'nopnot')
+                                                    No Probation No Training
+                                                @else
+                                                    -
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title" style="width: 150px;">Service Bond<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->ServiceBond == 'Yes')
+                                                    Yes
+                                                @elseif($OfBasic->ServiceBond == 'No')
+                                                    No
+                                                @else
+                                                    -
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Offer Letter Generation & Review
+                                    {{-- @if ($OfBasic != null && ($OfBasic->Answer == '' || $OfBasic->Answer == 'Rejected')) --}}
+                                    <a href="javascript:void(0);" class="edit-icon" id="offerltrgen"
+                                       data-id="{{ $Rec->JAId }}">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    {{-- @endif --}}
+                                </h6>
+
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title" style="width: 300px;">Offer Letter Generated<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                <span class="badge badge-success">Yes</span>
+                                            @else
+                                                <span class="badge badge-danger">No</span>
+                                            @endif
+                                            @if ($count > 1)
+                                                ( <a href="javascript:vaoid(0);" class="offer-history-btn"
+                                                     data-bs-toggle="modal" data-bs-target="#HistoryModal"
+                                                     onclick="getOfHistory({{ $Rec->JAId }});"> View History</a>)
+                                            @endif
+
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 300px;">Send for Review<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+
+                                            @if ($OfBasic != null && $OfBasic->SendReview == 1)
+                                                <span class="text-dark">Yes</span> ( <a href="javascript:void(0);"
+                                                                                        onclick="viewReview({{ $Rec->JAId }});"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#view_review">View</a>
+                                                )
+                                            @else
+                                                <span class="text-danger">No</span>
+                                            @endif
+                                            @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                (<a href="javascript:void(0);" data-bs-toggle="modal"
+                                                    data-bs-target="#review_modal">
+                                                    Send Now</a>)
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 300px;">Send to Candidate<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null && $OfBasic->OfferLetterSent == 'Yes')
+                                                <span class="text-dark">Yes</span>
+                                            @else
+                                                <span class="text-danger">No</span>
+                                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                    ( <a href="javascript:void(0);" class=""
+                                                         onclick="sendOfferLtr({{ $Rec->JAId }});">
+                                                        Send Now</a>)
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 300px;">Candidate Response<span
+                                                style="float: right">:</span></div>
+                                        <div class="text"> <span
+                                                class="text-danger">{{ $OfBasic->Answer ?? '-' }}</span>
+                                            @if ($OfBasic != null && $OfBasic->Answer == 'Rejected')
+                                                ( <a href="javascript:void(0);" class=""
+                                                     onclick="offerReopen({{ $Rec->JAId }});"> Offer Reopen</a>)
+                                            @endif
+
+                                            @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer == null)
+                                                <a class="btn btn-xs btn-warning" href="javascript:void(0);"
+                                                   onclick="OLAction({{$JAId}});">OL Action on behalf of candidate</a>
+                                            @endif
+                                            @if($OfBasic != null && $OfBasic->HR_Remark != '')
+                                                (HR Remark:- {{$OfBasic->HR_Remark}})
+
+                                            @endif
+
+                                        </div>
+                                    </li>
+
+                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer == 'Rejected')
+                                        <li>
+                                            <div class="title" style="width: 300px;">Rejection Reason<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text text-danger">
+                                                @if ($OfBasic != null)
+                                                    {{ $OfBasic->RejReason ?? '-' }}
+
+                                                @endif
+                                            </div>
+                                        </li>
+
+                                    @endif
+                                    @if($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                        @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
+                                            <li>
+                                                <div class="title" style="width: 300px;">Date of Joining<span
+                                                        style="float: right">:</span></div>
+
+                                                <div class="text">
+                                                    <input type="date"
+                                                           class="form-control frminp form-control-sm d-inline-block"
+                                                           id="dateofJoin"
+                                                           name="" readonly="" style="width: 130px;"
+                                                           value="{{ $OfBasic->JoinOnDt ?? '' }}">
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="joindtenable"
+                                                       onclick="joinDateEnbl()"
+                                                       style="font-size: 16px;cursor: pointer;"></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="JoinSave" onclick="saveJoinDate()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="JoinCanc" onclick="window.location.reload();">Cancel
+                                                    </button>
+                                                </div>
+
+                                            </li>
+                                        @endif
+                                        @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
+                                            <li>
+                                                <div class="title" style="width: 300px;">Onboarding process (mail to
+                                                    candidate)<span style="float: right">:</span></div>
+                                                <div class="text">
+                                                    @if ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes')
+                                                        <span class="text-dark">Yes</span>
+                                                    @else
+                                                        <span class="text-danger">No</span>
+                                                        @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                            ( <a href="javascript:void(0);" class=""
+                                                                 onclick="sendJoiningForm({{ $Rec->JAId }});"> Send
+                                                                Now</a>)
+                                                        @endif
+                                                     @endif
+                                            </li>
+                                        @endif
+                                    @endif
+                                    @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
+                                    <li>
+                                        <div class="title" style="width: 300px;">Ref. Check <span
+                                                style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            @if ($OfBasic != null && $OfBasic->SendForRefChk == 1)
+                                                <span class="text-dark">Yes</span>
+                                                (
+                                                <a href="{{ route('view_reference_check') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                   target="_blank">View</a>)
+                                            @else
+                                                <span class="text-danger">No</span>( <a href="javascript:void(0);"
+                                                                                        class="" data-bs-toggle="modal"
+                                                                                        data-bs-target="#ref_modal">
+                                                    Send Now</a>)
+                                            @endif
+                                        </div>
+                                    </li>
+                                    @endif
+                                    @if ($OfBasic != null )
+                                        <li>
+                                            <div class="title" style="width: 300px;">HR Closure<span
+                                                    style="float: right">:</span>
+                                            </div>
+                                            <div class="text  text-dark">
+                                                <select name="Hr_Closure" id="Hr_Closure"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value=""></option>
+                                                    <option value="No"
+                                                        {{ $OfBasic->Hr_Closure == 'No' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Yes"
+                                                        {{ $OfBasic->Hr_Closure == 'Yes' ? 'selected' : '' }}>Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="ClosureEnbl" onclick="ClosureEnbl()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveClosure">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="ClosureCancle" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="onboarding">
+                <div class="row">
+                    @if ($OfBasic != null && $OfBasic->Answer == 'Accepted')
+                        <div class="col-md-6 d-flex">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h6 class="card-title border-bot">Joining Details </h6>
+                                    <ul class="personal-info">
+
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Appointment Letter <span
+                                                    style="float: right">:</span></div>
+
+                                            <div class="text  text-dark">
+                                                @if ($Rec->AppLtrGen == 'No' || $Rec->AppLtrGen == null)
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       onclick="appointmentGen({{ $Rec->JAId }})"
+                                                       style="font-size: 16px;cursor: pointer; ">Generate </i>
+                                                @else
+                                                    <a href="{{ route('appointment_ltr_print') }}?jaid={{ $Rec->JAId }}"
+                                                       target="_blank">View</a>
+                                                @endif
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Service Agreement <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                @if ($Rec->AgrLtrGen == 'No' || $Rec->AgrLtrGen == null)
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       onclick="ServiceAgrGen({{ $Rec->JAId }})"
+                                                       style="font-size: 16px;cursor: pointer; ">Generate </i>
+                                                @else
+                                                    <a href="{{ route('service_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">First Page</a> |
+                                                    <a href="{{ route('service_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">Rest All</a> | <a
+                                                        href="{{ route('service_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                        target="_blank">
+                                                        Old Stamp</a>
+                                                @endif
+
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->ServiceBond == 'Yes')
+                                            <li>
+                                                <div class="title" style="width: 150px;"> Service Bond <span
+                                                        style="float: right">:</span></div>
+                                                <div class="text  text-dark">
+                                                    @if ($Rec->BLtrGen == 'No' || $Rec->BLtrGen == null)
+                                                        <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                           onclick="ServiceBondGen({{ $Rec->JAId }})"
+                                                           style="font-size: 16px;cursor: pointer; ">Generate
+                                                        </i>
+                                                    @else
+                                                        <a href="{{ route('service_bond_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">First Page</a> |
+                                                        <a href="{{ route('service_bond_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">Rest All</a> | <a
+                                                            href="{{ route('service_bond_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                            target="_blank">
+                                                            Old Stamp</a>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endif
+                                        @if (
+                                            $OfBasic->Department == 2 ||
+                                                $OfBasic->Department == 3 ||
+                                                 $OfBasic->Department == 17 ||
+                                                $OfBasic->Department == 13 ||
+                                                $OfBasic->Department == 11 ||
+                                                $OfBasic->Department == 14 )
+                                            <li>
+                                                <div class="title" style="width: 150px;"> Conf. Agreement <span
+                                                        style="float: right">:</span></div>
+                                                <div class="text  text-dark">
+                                                    @if ($Rec->ConfLtrGen == 'No' || $Rec->ConfLtrGen == null)
+                                                        <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                           onclick="ConfidentialityAgrGen({{ $Rec->JAId }})"
+                                                           style="font-size: 16px;cursor: pointer; ">Generate
+                                                        </i>
+                                                    @else
+                                                        <a href="{{ route('conf_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">
+                                                            First Page</a> |
+                                                        <a href="{{ route('conf_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">
+                                                            Rest All</a> | <a
+                                                            href="{{ route('conf_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                            target="_blank">
+                                                            Old Stamp</a>
+                                                    @endif
+
+                                                </div>
+                                            </li>
+
+                                        @endif
+
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Verify Joining Form <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="Verification" id="Verification"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value="Not Verified">Not Verified</option>
+                                                    <option value="Verified"
+                                                        {{ $OfBasic->Verification == 'Verified' ? 'selected' : '' }}>
+                                                        Verified
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="VerificationEnable" onclick="VerificationEnable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveVerification">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="verificationCancle" onclick="window.location.reload();">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="title" style="width: 150px;"> 2 Wheeler RC<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="two_wheel_rc" id="two_wheel_rc"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value="">Select</option>
+                                                    <option value="N"
+                                                        {{ $OfBasic->two_wheel_rc == 'N' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Y"
+                                                        {{ $OfBasic->two_wheel_rc == 'Y' ? 'selected' : '' }}>
+                                                        Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="TwoWheelRCEnable" onclick="TwoWheelRCEnable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveTwoWheelRC">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="TwoWheelRCCancle" onclick="window.location.reload();">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->two_wheel_flat_rate != null)
+                                            <li>
+                                                <div class="title" style="width: 150px;">Two Wheel Flat Rate
+                                                    <span style="float: right">:</span>
+                                                </div>
+                                                <div class="text  text-danger">
+                                                    Rs. {{ $OfBasic->two_wheel_flat_rate }}/-
+                                                </div>
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <div class="title" style="width: 150px;"> 4 Wheeler RC <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="four_wheel_rc" id="four_wheel_rc"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value="">Select</option>
+                                                    <option value="N"
+                                                        {{ $OfBasic->four_wheel_rc == 'N' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Y"
+                                                        {{ $OfBasic->four_wheel_rc == 'Y' ? 'selected' : '' }}>
+                                                        Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="FourWheelRCEnable" onclick="FourWheelRCEnable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveFourWheelRC">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="FourWheelRCCancle" onclick="window.location.reload();">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->four_wheel_flat_rate != null)
+                                            <li>
+                                                <div class="title" style="width: 150px;">Four Wheel Flat Rate
+                                                    <span style="float: right">:</span>
+                                                </div>
+                                                <div class="text  text-danger">
+                                                    Rs. {{ $OfBasic->four_wheel_flat_rate }}/-
+                                                </div>
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Candidate Joined <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="Joined" id="Joined"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value=""></option>
+                                                    <option value="No"
+                                                        {{ $OfBasic->Joined == 'No' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Yes"
+                                                        {{ $OfBasic->Joined == 'Yes' ? 'selected' : '' }}>Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="JoinedEnbl" onclick="JoinedEnbl()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveJoined">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="JoinedCancle" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->NoJoiningRemark != null)
+                                            <li>
+                                                <div class="title" style="width: 150px;">Reason for Not Joining
+                                                    <span style="float: right">:</span>
+                                                </div>
+                                                <div class="text  text-danger">
+                                                    {{ $OfBasic->NoJoiningRemark }}
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($OfBasic->Joined == 'Yes')
+                                            <li>
+                                                <div class="title" style="width: 150px;">Emp Code<span
+                                                        style="float: right">:</span></div>
+                                                <div class="text">
+                                                    <input type="text"
+                                                           class="form-control frminp form-control-sm d-inline-block"
+                                                           id="empCode" name="" readonly=""
+                                                           style="width: 100px;" value="{{ $OfBasic->EmpCode ?? '' }}">
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="empCodeEnable" onclick="empCodeEnable()"
+                                                       style="font-size: 16px;cursor: pointer; "></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="EmpCodeSave" onclick="saveEmpCode()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="empCancle" onclick="window.location.reload();">Cancel
+                                                    </button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title" style="width: 150px;">Position Code<span
+                                                        style="float: right">:</span></div>
+                                                <div class="text">
+                                                    {{-- <input type="text"
+                                                        class="form-control frminp form-control-sm d-inline-block"
+                                                        id="PositionCode" name="PositionCode" readonly=""
+                                                        style="width: 100px;"
+                                                        value="{{ $OfBasic->PositionCode ?? '' }}"> --}}
+
+                                                    <select name="PositionCode" id="PositionCode"
+                                                            class="form-select form-select-sm d-inline-block"
+                                                            style="width: 170px;" disabled>
+                                                        <option value="">Select</option>
+                                                        @foreach ($position_code_list as $key => $value)
+                                                            <option value="{{ $value }}">{{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                        @if ($OfBasic->PositionCode != '')
+                                                            <option value="{{ $OfBasic->PositionCode }}" selected>
+                                                                {{ $OfBasic->PositionCode }}</option>
+                                                        @endif
+                                                    </select>
+
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="PosEnbl" onclick="PosEnbl()"
+                                                       style="font-size: 16px;cursor: pointer; "></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="PositionCodeSave" onclick="PositionCodeSave()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="posCancle" onclick="window.location.reload();">Cancel
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Links
+
+                                </h6>
+                                <ul class="personal-info">
+
+
+                                    @if ($Rec->InterviewSubmit == 1 || ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes'))
+                                        <li>
+                                            <div class="title" style="width: 150px;">Joining Form<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text"><input type="text" name="" id="jflink"
+                                                                     class="frminp d-inline"
+                                                                     value="{{ route('candidate-joining-form') }}?jaid={{ $sendingId }}">
+                                                <button class="frmbtn btn btn-sm btn-secondary"
+                                                        onclick="copyJFrmLink();">Copy
+                                                    Link
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endif
+
+                                </ul>
+                                <br>
+                                <br>
+                                @if ($OfBasic != null)
+                                    @if ($OfBasic->Company == 1)
+                                        @if (
+                                            $OfBasic->ForwardToESS == 'No' &&
+                                                $OfBasic->Joined == 'Yes' &&
+                                                $OfBasic->EmpCode != '')
+                                            <center>
+                                                <button class="btn btn-sm btn-primary" id="ProcessToEss">Process
+                                                    Data to
+                                                    Ess
+                                                </button>
+                                            </center>
+                                        @endif
+                                    @else
+                                        @if ($OfBasic->ForwardToESS == 'No' && $OfBasic->Joined == 'Yes' && $OfBasic->EmpCode != '')
+                                            <center>
+                                                <button class="btn btn-sm btn-primary" id="ProcessToEss">Process
+                                                    Data to
+                                                    Ess
+                                                </button>
+                                            </center>
+                                        @endif
+                                    @endif
+                                @endif
+                                @if ($OfBasic != null && $OfBasic->ForwardToESS == 'Yes')
+                                    <center>
+                                        <h3 class="text-success">Data Forwarded to ESS</h3>
+                                    </center>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="admin_change">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Offer Letter Date<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="off_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->LtrDate ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                               id="off_date_enable" onclick="off_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_off_date" onclick="save_off_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="off_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">App. Ltr. Date<span style="float: right">:</span></div>
+                                        <div class="text">
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="a_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->A_Date ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true" id="a_date_enable"
+                                               onclick="a_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_a_date" onclick="save_a_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="a_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Service Agr. Date<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="agr_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->Agr_Date ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                               id="agr_date_enable" onclick="agr_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_agr_date" onclick="save_agr_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="agr_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Service Bond Date<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="b_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->B_Date ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true" id="b_date_enable"
+                                               onclick="b_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_b_date" onclick="save_b_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="b_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+                                        </div>
+                                    </li>
+                                    @if ($OfBasic != null)
+                                        @if (
+                                            $OfBasic->Department == 2 ||
+                                                $OfBasic->Department == 3 ||
+                                                 $OfBasic->Department == 17 ||
+                                                $OfBasic->Department == 13 ||
+                                                $OfBasic->Department == 11 ||
+                                                $OfBasic->Department == 14 )
+                                            <li>
+                                                <div class="title">Conf. Agr. Date<span style="float: right">:</span>
+                                                </div>
+                                                <div class="text">
+                                                    <input type="date"
+                                                           class="form-control frminp form-control-sm d-inline-block"
+                                                           id="conf_date" name="" readonly=""
+                                                           style="width: 130px;"
+                                                           value="{{ $OfBasic->ConfLtrDate ?? '' }}">
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="conf_date_enable" onclick="conf_date_enable()"
+                                                       style="font-size: 16px;cursor: pointer; "></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="save_conf_date" onclick="save_conf_date()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="conf_date_can" onclick="window.location.reload();">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @endif
+                                    <li>
+                                        <div class="title">Disable Offer Letter<span style="float: right">:</span></div>
+                                        @if ($OfBasic != null)
+                                            <div class="text">
+                                                @if ($OfBasic->OfferLtrGen == 1 && $OfBasic->OfferLetterSent == 'Yes' && $OfBasic->disable_offer =='N')
+                                                    <button class="frmbtn btn btn-danger btn-sm"
+                                                            id="disable_offer_letter">Disable OL
+                                                    </button>
+                                                @else
+                                                    <button class="frmbtn btn btn-primary btn-sm"
+                                                            id="enable_offer_letter">Enable OL
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </li>
+                                    @if($OfBasic != null)
+                                        <li>
+                                            <div class="title">Two Wheeler<span style="float: right">:</span></div>
+                                            <div class="text">
+                                                <input type="text"
+                                                       class="form-control frminp form-control-sm d-inline-block"
+                                                       id="TwoWheel" readonly style="width:250px;"
+                                                       value="{{ $OfBasic->TwoWheel ?? '' }}">
+
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="TwoWheel_enable"
+                                                   onclick="TwoWheel_enable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="save_TwoWheel">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="TwoWheel_can" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Four Wheeler<span style="float: right">:</span></div>
+                                            <div class="text">
+                                                <input type="text"
+                                                       class="form-control frminp form-control-sm d-inline-block"
+                                                       id="FourWheel" readonly style="width:250px;"
+                                                       value="{{ $OfBasic->FourWheel ?? '' }}">
+
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="FourWheel_enable"
+                                                   onclick="FourWheel_enable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="save_FourWheel">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="FourWheel_can" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endif
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <div class="compose-mail-popup" style="display: none;">
         <div class="card">
