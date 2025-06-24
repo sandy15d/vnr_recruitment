@@ -160,7 +160,189 @@
         }
     </style>
     <div class="page-content">
+        <input type="hidden" name="JAId" id="JAId" value="{{ $JAId }}">
+        <input type="hidden" name="JCId" id="JCId" value="{{ $JCId }}">
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-view">
+                            <div class="profile-img-wrap">
+                                <div class="profile-img">
+                                    @if ($Rec->CandidateImage == null)
+                                        <img src="{{ URL::to('/') }}/assets/images/user1.png" />
+                                    @else
+                                        <img src="{{ URL::to('/') }}/uploads/Picture/{{ $Rec->CandidateImage }}" />
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="profile-info-left">
+                                            <h6 class="user-name m-t-0 mb-0"> {{ $Rec->FName }} {{ $Rec->MName }}
+                                                {{ $Rec->LName }}
+                                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                                    <span>
+                                                        <a data-bs-target="#profile_info" data-bs-toggle="modal"
+                                                            class="edit-icon" onclick="GetProfileData();"
+                                                            href="javascript:void(0);">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                    </span>
+                                                @endif
+                                            </h6>
+                                            <h6 class="staff-id">Applied For: {{ $Rec->JobTitle }}</h6>
+                                            <h6 class="staff-id text-primary">MRF: {{ $Rec->JobCode }}</h6>
 
+                                            <div class="staff-id">Reference No. : {{ $Rec->ReferenceNo }}</div>
+                                            <div class="staff-id">Date of Registration :
+                                                {{ date('d-M-Y', strtotime($Rec->CreatedTime)) }}</div>
+
+                                            <div class="staff-id">Phone No.: <span
+                                                    class="text-primary">{{ $Rec->Phone }}</span></div>
+
+
+                                            <div class="staff-id">Email ID: <span
+                                                    class="text-primary">{{ $Rec->Email }}</span></div>
+
+
+                                            <div class="staff-msg">
+                                                @if ($Rec->Resume != null)
+                                                    <a class="btn btn-custom btn-sm" href="javascript:void(0);"
+                                                        data-bs-toggle="modal" data-bs-target="#resume_modal">View
+                                                        Resume</a>
+                                                @endif
+                                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                                    <a href="javascript:;"
+                                                        class="btn btn-primary btn-sm compose-mail-btn">Send
+                                                        Mail</a>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                        <div class="col-md-7">
+                                            <ul class="personal-info">
+                                                <li>
+                                                    <div class="title">Suitable For</div>
+                                                    <div>
+                                                        :&emsp;
+                                                        @if ($Rec->Suitable_Chk_Date != null)
+                                                            @php
+
+                                                                $SuitableFor = explode(',', $Rec->Suitable_For);
+                                                                foreach ($SuitableFor as $row) {
+                                                                    $Su[] = getDepartment($row);
+                                                                }
+                                                                if ($Rec->Irrelevant_Candidate == 'Y') {
+                                                                    echo 'Irrelevant Candidate';
+                                                                }
+                                                                echo implode(', ', $Su) .
+                                                                    ' (Remarks : ' .
+                                                                    $Rec->Suitable_Remark .
+                                                                    ')';
+                                                            @endphp
+                                                        @endif
+                                                        <i class='fa fa-pencil-square-o text-primary' aria-hidden='true'
+                                                            style='font-size:14px;cursor: pointer;' id="SuitableFor"
+                                                            data-id="{{ $Rec->JCId }}"></i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">HR Screening</div>
+                                                    <div>
+                                                        @if ($Rec->JPId != 0)
+                                                            :
+                                                            &emsp;<?= '<b>' . $Rec->Status . '</b>' . "<i
+                                                                class='fa fa-pencil-square-o text-primary'
+                                                                aria-hidden='true' style='font-size:14px;cursor: pointer;'
+                                                                id='HrScreening' data-id='$Rec->JAId'
+                                                                data-applydate='$Rec->ApplyDate'></i>" ?>
+                                                        @else
+                                                            :
+                                                        @endif
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">Move Candidate to</div>
+                                                    <div>
+                                                        :&emsp;<i class='fa fa-pencil-square-o text-primary'
+                                                            aria-hidden='true' style='font-size:14px;cursor: pointer;'
+                                                            id="MoveCandidate" data-id="{{ $Rec->JAId }}"></i>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    @if ($Rec->BlackList == 0)
+                                                        <div class="title">Blacklist Candidate :</div>
+                                                        <div>
+                                                            :&emsp;<i class='fa fa-pencil-square-o text-primary'
+                                                                aria-hidden='true' style='font-size:14px;cursor: pointer;'
+                                                                id="BlackListCandidate" data-id="{{ $Rec->JCId }}"></i>
+                                                        </div>
+                                                    @else
+                                                        @if (Auth::user()->role == 'A')
+                                                            <div class="title">Unblock Candidate :</div>
+                                                            <div>
+                                                                :&emsp;<i class='fa fa-pencil-square-o text-primary'
+                                                                    aria-hidden='true'
+                                                                    style='font-size:14px;cursor: pointer;'
+                                                                    id="UnBlockCandidate"
+                                                                    data-id="{{ $Rec->JCId }}"></i>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    @endif
+                                    @if (Auth::user()->role == 'H')
+                                        <div class="col-md-7">
+                                            <ul class="personal-info">
+                                                @if ($Rec->AddressLine1 != null)
+                                                    <li style="margin-bottom: 0px">
+                                                        <div class="title">Address:</div>
+                                                        <div class="text  text-dark">{{ $Rec->AddressLine1 }},
+                                                            {{ $Rec->AddressLine2 }}, {{ $Rec->AddressLine3 }}
+                                                            <br>
+                                                            {{ $Rec->City }}, {{ getStateName($Rec->State) }}
+                                                        </div>
+                                                    </li>
+                                                @endif
+                                                @if ($Rec->Education != null || $Rec->Education != 0)
+                                                    <li style="margin-bottom: 0px">
+                                                        <div class="title">Highest Education:</div>
+                                                        <div class="text  text-dark">
+                                                            {{ getEducationCodeById($Rec->Education) }}
+                                                            ,
+                                                            ( {{ getSpecializationbyId($Rec->Specialization) }})
+
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">CGPA/Percentage :</div>
+                                                        <div class="text text-dark">{{ $Rec->CGPA }}</div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">Passing Year :</div>
+                                                        <div class="text text-dark"> {{ $Rec->PassingYear }}</div>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="compose-mail-popup" style="display: none;">
         <div class="card">
@@ -176,11 +358,12 @@
                         <div class="mb-3">
                             <input type="hidden" name="CandidateName" id="CandidateName"
                                 value="{{ $Rec->FName }} {{ $Rec->LName }}">
-                            <input type="text" class="form-control" value="{{ $Rec->Email }}" readonly name="eMailId"
-                                id="eMailId">
+                            <input type="text" class="form-control" value="{{ $Rec->Email }}" readonly
+                                name="eMailId" id="eMailId">
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Subject" name="Subject" id="Subject">
+                            <input type="text" class="form-control" placeholder="Subject" name="Subject"
+                                id="Subject">
                         </div>
                         <div class="mb-3">
                             <textarea class="form-control" placeholder="Message" rows="10" cols="10" name="eMailMsg" id="eMailMsg"></textarea>
