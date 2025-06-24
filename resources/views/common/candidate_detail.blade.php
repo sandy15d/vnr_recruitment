@@ -725,7 +725,7 @@
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="cand_education">
+       {{--      <div class="tab-pane fade" id="cand_education">
                 <div class="col-md-12 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
@@ -995,7 +995,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="tab-pane fade" id="cand_reference">
                 <div class="col-md-12 d-flex">
