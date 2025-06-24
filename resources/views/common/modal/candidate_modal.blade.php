@@ -1179,3 +1179,46 @@
         </div>
     </div>
 </div>
+
+<div id="review_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Send Offer Letter for review</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('send_for_review') }}" method="POST" id="reviewForm">
+                    @csrf
+                    <div class="form-group mb-2">
+                        <input type="hidden" name="ReviewJaid" value="{{ $JAId }}">
+                        <label for="ReviewCompany">Company</label>
+                        <select name="ReviewCompany" id="ReviewCompany" class="form-select form-select-sm"
+                            onchange="getEmployee(this.value)">
+                            <option value="">Select</option>
+                            @foreach ($company_list as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="spinner-border text-primary d-none" role="status" id="EmpLoader"> <span
+                            class="visually-hidden">Loading...</span></div>
+                    <div class="form-group">
+                        <label>Select Employee</label>
+                        <select name="review_to[]" id="review_to"
+                            class="form-select form-select-sm multiple-select" multiple>
+
+                        </select>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
