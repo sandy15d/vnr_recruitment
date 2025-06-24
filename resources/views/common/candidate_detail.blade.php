@@ -380,6 +380,7 @@
     </div>
 
     <div class="overlay email-toggle-btn-mobile"></div>
+    @include('common.modal.candidate_modal')
 @endsection
 @section('script_section')
     <script>
