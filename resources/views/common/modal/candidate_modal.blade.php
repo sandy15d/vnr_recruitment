@@ -1256,3 +1256,1354 @@
 @endphp
 
 
+<div id="work_exp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Work Experience</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="WorkExpForm" action="{{ route('Candidate_Experience_Save') }}" method="POST">
+                    <input type="hidden" name="Work_JCId" id="Work_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Company</td>
+                                    <td>Designation</td>
+                                    <td>Gross Monthly Salary</td>
+                                    <td>Anual CTC</td>
+                                    <td>Job Start Date</td>
+                                    <td>Job End Date</td>
+                                    <td>Reason for Leaving</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="WorkExpData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="WorkExpCompany[]" id="WorkExpCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpDesignation[]" id="WorkExpDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpGrossMonthlySalary[]"
+                                            id="WorkExpGrossMonthlySalary1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpAnualCTC[]" id="WorkExpAnualCTC1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="WorkExpJobStartDate[]" id="WorkExpJobStartDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="WorkExpJobEndDate[]" id="WorkExpJobEndDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpReasonForLeaving[]"
+                                            id="WorkExpReasonForLeaving1" class="form-control form-control-sm">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Experience" id="addExperience" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="current_emp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Current Employment</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="CurrentEmpForm" action="{{ route('Candidate_CurrentEmployement_Save') }}" method="POST">
+                    <input type="hidden" name="Curr_JCId" id="Curr_JCId">
+                    <div class="form-group">
+                        <label>Name of Company</label>
+                        <input type="text" name="Currcompany_name" id="Currcompany_name"
+                            class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Designation</label>
+                        <input type="text" name="CurrDesignation" id="CurrDesignation"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date of Joining</label>
+                        <input type="date" name="CurrDateOfJoining" id="CurrDateOfJoining"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Reporting To</label>
+                        <input type="text" name="CurrReportingTo" id="CurrReportingTo"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Reporting Manager Designation</label>
+                        <input type="text" name="CurrRepDesig" id="CurrRepDesig"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Job Responsibility</label>
+                        <textarea name="CurrJobResponsibility" id="CurrJobResponsibility" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Job Change Reason</label>
+                        <textarea name="CurrReason" id="CurrReason" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Notice Period</label>
+                        <input type="text" name="CurrNoticePeriod" id="CurrNoticePeriod"
+                            class="form-control form-control-sm">
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="current_salary_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Present Salary Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="CurrentSalaryForm" action="{{ route('Candidate_CurrentSalary_Save') }}" method="POST">
+                    <input type="hidden" name="Sal_JCId" id="Sal_JCId">
+                    <div class="form-group">
+                        <label>Salary (Per Month)</label>
+                        <input type="text" name="CurrSalary" id="CurrSalary"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Annual Package (CTC)</label>
+                        <input type="text" name="CurrCTC" id="CurrCTC"
+                            class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">DA @ headquarter</label>
+                        <input type="text" name="CurrDA" id="CurrDA"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">DA Outside Headquarter</label>
+                        <input type="text" name="DAOutHq" id="DAOutHq"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Petrol Allowances</label>
+                        <input type="text" name="PetrolAlw" id="PetrolAlw"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Phone Allowances</label>
+                        <input type="text" name="PhoneAlw" id="PhoneAlw"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hotel Eligibility</label>
+                        <input type="text" name="HotelElg" id="HotelElg"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="training_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Training & Practical Experience</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="TrainingForm" action="{{ route('Candidate_Training_Save') }}" method="POST">
+                    <input type="hidden" name="Training_JCId" id="Training_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Nature of Training</td>
+                                    <td>Organization / Institution</td>
+                                    <td>From Date</td>
+                                    <td>To Date</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="TrainingData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="TrainingNature[]" id="TrainingNature1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="TrainingOrganization[]"
+                                            id="TrainingOrganization1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="TrainingFromDate[]" id="TrainingFromDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="TrainingToDate[]" id="TrainingToDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Experience" id="addTraining"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="pre_org_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Previous Organization Reference</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="PreOrgRefForm" action="{{ route('Candidate_PreOrgRef_Save') }}" method="POST">
+                    <input type="hidden" name="PreOrgRef_JCId" id="PreOrgRef_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Name of Company</td>
+                                    <td>Email Id</td>
+                                    <td>Contact No</td>
+                                    <td>Designation</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="PreOrgRefData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="PreOrgName[]" id="PreOrgName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgCompany[]" id="PreOrgCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgEmail[]" id="PreOrgEmail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgContact[]" id="PreOrgContact1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgDesignation[]" id="PreOrgDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addPreOrgRef"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="vnr_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Acquaintances or relatives working with VNR Group Companies</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="VNRRefForm" action="{{ route('Candidate_VnrRef_Save') }}" method="POST">
+                    <input type="hidden" name="Vnr_JCId" id="Vnr_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>VNR Group <br>Company Name</td>
+                                    <td>Designation</td>
+                                    <td>Location</td>
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="VNRRefData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="VnrRefName[]" id="VnrRefName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefContact[]" id="VnrRefContact1"
+                                            class="form-control form-control-sm">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefEmail[]" id="VnrRefEmail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <select name="VnrRefCompany[]" id="VnrRefCompany1"
+                                            class="form-select form-select-sm" onchange="GetOtherCompany(1);">
+                                            <option value="">Select</option>
+                                            <option value="VNR Seeds Pvt. Ltd.">VNR
+                                                Seeds Pvt. Ltd.
+                                            </option>
+                                            <option value="VNR Nursery Pvt. Ltd.">
+                                                VNR Nursery Pvt. Ltd.
+                                            </option>
+                                            <option value="Other">Other</option>
+                                        </select>
+
+                                        <input type="text" name="OtherCompany[]" id="OtherCompany1"
+                                            class="d-none form-control form-control-sm"
+                                            placeholder="Other Company Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefDesignation[]" id="VnrRefDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefLocation[]" id="VnrRefLocation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefRelWithPerson[]"
+                                            id="VnrRefRelWithPerson1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeVnrRef"><i class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addVnrRef" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="vnr_business_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Acquaintances or relatives associated with VNR as business associates</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="BusinessForm" action="{{ route('Candidate_VnrRef_Business_Save') }}" method="POST">
+                    <input type="hidden" name="Business_JCId" id="Business_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Business relation with <br>VNR</td>
+                                    <td>Location of Business / <br>acquaintances
+                                    </td>
+
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="VNR_Business_AcqData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Name[]"
+                                            id="VnrRefBusiness_Name1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Contact[]"
+                                            id="VnrRefBusiness_Contact1" class="form-control form-control-sm">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Email[]"
+                                            id="VnrRefBusiness_Email1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <select name="VnrRefBusinessRelation[]" id="VnrRefBusinessRelation1"
+                                            class="form-select form-select-sm">
+                                            <option value="">Select</option>
+                                            <option value="Dealer">Dealer</option>
+                                            <option value="Distributor">Distributor
+                                            </option>
+                                            <option value="Retailer">Retailer
+                                            </option>
+                                            <option value="Organizer">Organizer
+                                            </option>
+                                            <option value="Vendor">Vendor</option>
+
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Location[]"
+                                            id="VnrRefBusiness_Location1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_RelWithPerson[]"
+                                            id="VnrRefBusiness_RelWithPerson1" class="form-control form-control-sm">
+                                    </td>
+
+
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeVnrRef_Business"><i
+                                                    class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addVnrRef_Business"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="other_seed_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Relatives or acquaintances is/are working or associated with any other Seed
+                    Company</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="OtherSeedForm" action="{{ route('Candidate_Other_Seed_Relation_Save') }}"
+                    method="POST">
+                    <input type="hidden" name="OtherSeed_JCId" id="OtherSeed_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Company Name</td>
+                                    <td>Designation</td>
+                                    <td>Location</td>
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="OtherSeed">
+                                <tr>
+                                    <td><input type="text" name="OtherSeedName[]" id="OtherSeedName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedMobile[]" id="OtherSeedMobile1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedEMail[]" id="OtherSeedEMail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedCompany[]" id="OtherSeedCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedDesignation[]"
+                                            id="OtherSeedDesignation1" class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedLocation[]" id="OtherSeedLocation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedRelation[]" id="OtherSeedRelation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeOtherSeed"><i class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addOtherSeed"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="resume_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Resume</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @php
+                    $resume = $Rec->Resume;
+                    $ext = substr($resume, strrpos($resume, '.') + 1);
+                @endphp
+                @if ($ext == 'pdf' || $ext == 'PDF')
+                    <object width="760" height="500"
+                        data="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
+                        id="{{ $Rec->JCId }}"></object>
+                @else
+                    @php
+                        $url = html_entity_decode('https://docs.google.com/viewer?embedded=true&url=');
+                    @endphp
+                    <iframe src="{{ $url }}{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
+                        width="100%" height="500" style="border: none;"></iframe>
+                @endif
+
+                <div class="row">
+                    <div class="col-12" style="float: right">
+                        <a href="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}">Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="language_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Language Proficiency</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <input type="hidden" name="Language_JCId" id="Language_JCId">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" style="vertical-align: middle">
+                        <thead class="text-center">
+                            <tr>
+                                <td>Language</td>
+                                <td>Reading</td>
+                                <td>Writing</td>
+                                <td>Speaking</td>
+                                <td style="width:30px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="LanguageData">
+                            <tr>
+                                <td>
+                                    <input type="text" id="Language1" class="form-control form-control-sm"
+                                        value="Hindi" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Read1" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Write1" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Speak1" value="0">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="Language2" class="form-control form-control-sm"
+                                        value="English" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Read2" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Write2" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Speak2" value="0">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <input type="button" value="Add Language" id="addLanguage" class="btn btn-primary btn-sm">
+                <div class="submit-section">
+                    <button class="btn btn-primary" id="save_language">Submit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="OfferLtrModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <form action="{{ route('update_offerletter_basic') }}" method="POST" id="offerletterbasicform">
+            <input type="hidden" name="Of_JAId" id="Of_JAId">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter Basic Details</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" style="vertical-align: middle;">
+                        <tbody>
+                            <tr>
+                                <input type="hidden" name="JCId" id="JCId">
+                                <input type="hidden" name="SelectedForC" id="SelectedForC">
+                                <input type="hidden" name="SelectedForD" id="SelectedForD">
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">Department</td>
+                                <td>
+                                    <input type="text" name="SelectedDepartment" id="SelectedDepartment"
+                                        disabled
+                                        style="background-color: white;border:aliceblue; width: 160px; color:black">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sub Department</td>
+                                <td>
+                                    <select name="SubDepartment" id="SubDepartment"
+                                        class="form-select form-select-sm" style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Section</td>
+                                <td>
+                                    <select name="Section" id="Section" class="form-select form-select-sm"
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">Grade</td>
+                                <td>
+                                    <select name="Grade" id="Grade" class="form-select form-select-sm"
+                                        style="width: 200px;" required>
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:150px;">Designation</td>
+                                <td>
+                                    <select name="Designation" id="Designation" class="form-select form-select-sm"
+                                        style="width: 200px;" required>
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>Designation Suffix</td>
+                                <td>
+                                    <select name="DesigSuffix" id="DesigSuffix" class="form-select form-select-sm"
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                        <option value="Department">Department</option>
+                                        <option value="SubDepartment">Sub Department</option>
+                                        <option value="Section">Section</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:150px;">Vertical</td>
+                                <td>
+                                    <select name="Vertical" id="Vertical" class="form-select form-select-sm"
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:150px;">MW</td>
+                                <td>
+                                    <input type="text" name="MW" id="MW"
+                                        class="form-control form-control-sm" style="width: 200px;" readonly></input>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Location(HQ)</td>
+                                <td>
+                                    <table class="table borderless" style="margin-bottom: 0px;">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input " type="checkbox"
+                                                            id="permanent_chk" name="permanent_chk"
+                                                            value="1">
+                                                        <label class="form-check-label"
+                                                            for="permanent_chk">Permanent
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline d-none"
+                                                        id="permanent_div">
+                                                        <select name="Of_PermState" id="Of_PermState"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select State</option>
+                                                        </select>
+                                                        <select name="PermHQ" id="PermHQ"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select HQ</option>
+                                                        </select>
+                                                        <input type="text" name="Of_PermCity" id="Of_PermCity"
+                                                            class="form-control form-control-sm d-inline"
+                                                            style="width: 130px;" placeholder="City">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input " type="checkbox"
+                                                            id="temporary_chk" name="temporary_chk"
+                                                            value="1">
+                                                        <label class="form-check-label"
+                                                            for="temporary_chk">Temporary
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline d-none"
+                                                        id="temporary_div" style="margin-right:0px;">
+                                                        <select name="TempState" id="TempState"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select State</option>
+
+                                                        </select>
+                                                        <select name="TempHQ" id="TempHQ"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select HQ</option>
+
+                                                        </select>
+                                                        <input type="text" name="TempCity" id="TempCity"
+                                                            class="form-control form-control-sm d-inline"
+                                                            style="width: 100px;" placeholder="City">
+
+                                                        <select name="TemporaryMonth" id="TemporaryMonth"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 90px;">
+                                                            <option value="0">Select Months</option>
+                                                            <option value="One">1</option>
+                                                            <option value="Two">2</option>
+                                                            <option value="Three">3</option>
+                                                            <option value="Four">4</option>
+                                                            <option value="Five">5</option>
+                                                            <option value="Six">6</option>
+                                                            <option value="Seven">7</option>
+                                                            <option value="Eight">8</option>
+                                                            <option value="Nine">9</option>
+                                                            <option value="Ten">10</option>
+                                                            <option value="Eleven">11</option>
+                                                            <option value="Twelve">12</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-check form-check-inline d-none"
+                                                        id="temporary_div1"
+                                                        style="margin-right:0px; padding-left:125px;">
+                                                        <select name="TempState1" id="TempState1"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select State</option>
+
+                                                        </select>
+                                                        <select name="TempHQ1" id="TempHQ1"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select HQ</option>
+
+                                                        </select>
+                                                        <input type="text" name="TempCity1" id="TempCity1"
+                                                            class="form-control form-control-sm d-inline"
+                                                            style="width: 100px;" placeholder="City">
+
+                                                        <select name="TemporaryMonth1" id="TemporaryMonth1"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 90px;">
+                                                            <option value="0">Select Months</option>
+                                                            <option value="One">1</option>
+                                                            <option value="Two">2</option>
+                                                            <option value="Three">3</option>
+                                                            <option value="Four">4</option>
+                                                            <option value="Five">5</option>
+                                                            <option value="Six">6</option>
+                                                            <option value="Seven">7</option>
+                                                            <option value="Eight">8</option>
+                                                            <option value="Nine">9</option>
+                                                            <option value="Ten">10</option>
+                                                            <option value="Eleven">11</option>
+                                                            <option value="Twelve">12</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Reporting</td>
+                                <td>
+                                    <div class="form-check form-check-inline scon">
+                                        <input class="form-check-input" type="radio" id="RepWithEmp"
+                                            value="RepWithEmp" name="repchk"
+                                            onclick="$('#rep_with_emp_tr').removeClass('d-none'); $('#rep_without_emp_tr').addClass('d-none');">
+                                        <label class="form-check-label" for="RepWithEmp">Reporting Manager &
+                                            Desig.</label>
+                                    </div>
+                                    <div class="form-check form-check-inline scon">
+                                        <input class="form-check-input" type="radio" id="RepWithoutEmp"
+                                            value="RepWithoutEmp" name="repchk"
+                                            onclick="$('#rep_with_emp_tr').addClass('d-none');$('#rep_without_emp_tr').removeClass('d-none');">
+                                        <label class="form-check-label" for="RepWithoutEmp">Designation</label>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+                            <tr id="rep_with_emp_tr">
+                                <td></td>
+                                <td>
+                                    <table class="table borderless" style="margin-bottom: 0px; ">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input " type="checkbox"
+                                                            id="administrative_chk" name="administrative_chk"
+                                                            value="1">
+                                                        <label class="form-check-label"
+                                                            for="administrative_chk">Administrative
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline d-none"
+                                                        id="administrative_div">
+                                                        <select name="AdministrativeDepartment"
+                                                            id="AdministrativeDepartment"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 160px;">
+                                                            <option value="">Select Department</option>
+                                                        </select>
+                                                        <select name="AdministrativeEmployee"
+                                                            id="AdministrativeEmployee"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 160px;">
+                                                            <option value="">Select Employee</option>
+                                                        </select>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input " type="checkbox"
+                                                            id="functional_chk" name="functional_chk"
+                                                            value="1">
+                                                        <label class="form-check-label"
+                                                            for="functional_chk">Functional
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline d-none"
+                                                        style="padding-left: 43px;" id="functional_div">
+                                                        <select name="FunctionalDepartment"
+                                                            id="FunctionalDepartment"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 160px;">
+                                                            <option value="">Select Department</option>
+                                                        </select>
+                                                        <select name="FunctionalEmployee" id="FunctionalEmployee"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 160px;">
+                                                            <option value="">Select Employee</option>
+                                                        </select>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="rep_without_emp_tr">
+                                <td></td>
+                                <td>
+                                    <select name="DesignationRep" id="DesignationRep"
+                                        class="form-select form-select-sm" style="width: 300px;">
+                                        <option value="">Select Reporting Designation</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:150px;">Show Reporting details in OL</td>
+                                <td>
+                                    <select name="RepLineVisibility" id="RepLineVisibility"
+                                        class="form-select form-select-sm" style="width: 200px;" required>
+                                        <option value="">Select</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="bu_tr" class="d-none">
+                                <td style="width:150px;">BU</td>
+                                <td>
+                                    <select name="BU" id="BU" class="form-select form-select-sm"
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="zone_tr" class="d-none">
+                                <td style="width:150px;">Zone</td>
+                                <td>
+                                    <select name="Zone" id="Zone" class="form-select form-select-sm"
+                                    style="width: 200px;">
+                                    <option value="">Select</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr id="region_tr" class="d-none">
+                                <td style="width:150px;">Region</td>
+                                <td>
+                                    <select name="Region" id="Region" class="form-select form-select-sm"
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="territory_tr" class="d-none">
+                                <td style="width:150px;">Territory</td>
+                                <td>
+
+                                    <select name="Territory" id="Territory" class="form-select form-select-sm"
+                                    style="width: 200px;">
+                                    <option value="">Select</option>
+                                </select>
+                                </td>
+                            </tr>
+                            {{-- <tr>
+                            <td>CTC</td>
+                            <td>CTC:Rs. <input type="text" name="CTC" id="CTC"
+                                               class="form-control form-control-sm d-inline" style="width: 200px;">
+                            </td>
+                        </tr> --}}
+                            <tr>
+                                <td>Gross Monthly Salary</td>
+                                <td><input type="number" name="grsM_salary" id="grsM_salary"
+                                        class="form-control form-control-sm d-inline" style="width: 200px;">
+                                    Minimum Basic Salary: Rs. <input type="number" name="MinBasicSalary"
+                                        id="MinBasicSalary" class="form-control form-control-sm d-inline"
+                                        style="width: 200px;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PF Wage Limit</td>
+                                <td>
+                                    <select name="PF_Wage_Limit" id="PF_Wage_Limit"
+                                        class="form-select form-select-sm" style="width:200px;">
+                                        <option value="Actual">Actual Basic Salary</option>
+                                        <option value="Ceiling">PF Wage Ceiling</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Vehicle Policy</td>
+                                <td>
+                                    <select name="vehicle_policy" id="vehicle_policy"
+                                        class="form-select form-select-sm" style="width: 200px;" required>
+                                        <option value="">Select Policy</option>
+                                        <option value="NA">Policy Not Required</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mobile Handset</td>
+                                <td>
+                                    <select name="mobile_allow" id="mobile_allow"
+                                        class="form-select form-select-sm d-inline" style="width:200px;" required>
+                                        <option value="">Select</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input " type="checkbox" id="GPRS"
+                                            name="GPRS">
+                                        <label class="form-check-label" for="GPRS">GPRS
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> Communication Allowance</td>
+                                <td>
+                                    <select name="Communication_Allowance" id="Communication_Allowance" class="form-select form-select-sm"
+                                        style="width: 200px" required>
+                                        <option value="">Select</option>
+                                        <option value="N">No</option>
+                                        <option value="Y">Yes</option>
+                                        {{-- <option value="prepaid">Prepaid</option>
+                                        <option value="postpaid">Postpaid</option>
+                                        <option value="both">Both</option> --}}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Service Condition</td>
+                                <td>
+                                    <div class="form-check form-check-inline scon">
+                                        <input class="form-check-input" type="radio" id="Training"
+                                            value="Training" name="ServiceCond"
+                                            onclick="$('#training_tr').removeClass('d-none');">
+                                        <label class="form-check-label" for="Training">Training</label>
+                                    </div>
+                                    <div class="form-check form-check-inline scon">
+                                        <input class="form-check-input" type="radio" id="Probation"
+                                            value="Probation" name="ServiceCond"
+                                            onclick="$('#training_tr').addClass('d-none');">
+                                        <label class="form-check-label" for="Probation">Probation</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="nopnot"
+                                            value="nopnot" name="ServiceCond"
+                                            onclick="$('#training_tr').addClass('d-none');">
+                                        <label class="form-check-label" for="nopnot">No Probation / No
+                                            Training</label>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <tr id="training_tr" class="d-none">
+                                <td></td>
+                                <td>
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+
+                                                        <label>
+                                                            Orientation Period:
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-inline" style="padding-left: 112px;">
+
+                                                        <select name="OrientationPeriod" id="OrientationPeriod"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select</option>
+                                                            <option value="One">1</option>
+                                                            <option value="Two">2</option>
+                                                            <option value="Three">3</option>
+                                                            <option value="Four">4</option>
+                                                            <option value="Five">5</option>
+                                                            <option value="Six">6</option>
+                                                        </select>
+                                                        <span>Months</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+
+                                                        <label>
+                                                            Stipend during Orientation Period:
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-inline" style="padding-left: 18px;">
+
+                                                        <input type="text" name="Stipend" id="Stipend"
+                                                            class="form-control form-control-sm d-inline"
+                                                            style="width: 130px;">
+                                                        <span>per months</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+
+                                                        <label>Designation & Grade <br>After Training Completion
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline" id="permanent_div"
+                                                        style="padding-left: 71px;">
+                                                        <select name="AftDesignation" id="AftDesignation"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select Designation</option>
+                                                        </select>
+                                                        <select name="AftGrade" id="AftGrade"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select Grade</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Service Bond</td>
+                                <td>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="ServiceBond"
+                                            id="ServiceBondYes" value="Yes"
+                                            onclick="$('#bond_tr').removeClass('d-none');">
+                                        <label class="form-check-label" for="ServiceBondYes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="ServiceBond"
+                                            id="ServiceBondNo" value="No" checked
+                                            onclick="$('#bond_tr').addClass('d-none');">
+                                        <label class="form-check-label" for="ServiceBondNo">No</label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr id="bond_tr" class="d-none">
+                                <td></td>
+                                <td>
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+
+                                                        <label>
+                                                            Service Bond Duration
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-inline">
+
+                                                        <select name="ServiceBondDuration" id="ServiceBondDuration"
+                                                            class="form-select form-select-sm d-inline"
+                                                            style="width: 130px;">
+                                                            <option value="">Select</option>
+                                                            <option value="One">1</option>
+                                                            <option value="Two">2</option>
+                                                            <option value="Three">3</option>
+                                                            <option value="Four">4</option>
+                                                            <option value="Five">5</option>
+                                                            <option value="Six">6</option>
+                                                            <option value="Seven">7</option>
+                                                            <option value="Eight">8</option>
+                                                            <option value="Nine">9</option>
+                                                            <option value="Ten">10</option>
+                                                        </select>
+                                                        <span>Years</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+
+                                                        <label>
+                                                            Service Bond Refund
+                                                        </label>
+                                                    </div>
+                                                    <div class="d-inline">
+                                                        &nbsp;
+                                                        <input type="text" name="ServiceBondRefund"
+                                                            id="ServiceBondRefund"
+                                                            class="form-control form-control-sm d-inline"
+                                                            style="width: 130px;" value="50">
+                                                        <span>% of CTC</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Pre-Medical Check-up</td>
+                                <td>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="MedicalCheckup"
+                                            id="MedicalCheckupYes" value="Yes">
+                                        <label class="form-check-label" for="MedicalCheckupYes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="MedicalCheckup"
+                                            id="MedicalCheckupNo" value="No" checked>
+                                        <label class="form-check-label" for="MedicalCheckupNo">No</label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Signing Authority
+                                </td>
+                                <td>
+                                    <select name="SignAuth" id="SignAuth" class="form-select form-select-sm"
+                                        style="width: 170px">
+                                        <option value=""></option>
+                                        <option value="General Manager HR">General Manager HR</option>
+                                        <option value="Managing Director">Managing Director</option>
+                                        <option value="Director">Director</option>
+                                        <option value="Business Head">Business Head</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Remarks / Reason for Rivision</td>
+                                <td>
+                                    <input type="text" name="Remark" id="Remark"
+                                        class="form-control form-control-sm">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
