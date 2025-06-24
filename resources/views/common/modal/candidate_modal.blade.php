@@ -595,123 +595,131 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="col-lg-12">
-                    <form id="EducationInfoForm" action="{{ route('Candidate_Education_Save') }}" method="POST">
-                        <input type="hidden" name="Edu_JCId" id="Edu_JCId">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="text-center">
-                                    <tr>
-                                        <th>Qualification</th>
-                                        <th style="width: 20%">Course</th>
-                                        <th style="width: 20%">Specialization
-                                        </th>
-                                        <th>Board/University</th>
-                                        <th>Passing Year</th>
-                                        <th style="width: 10%">Percentage</th>
-                                        <th>Attchment</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="EducationData">
-                                    <tr>
-                                        <td style="width: 12%">
-                                            <select name="Qualification[]" id="Qualification1"
-                                                class="form-select form-select-sm edureq">
-                                                <option value="">Select</option>
-                                                <option value="Below 10th">Below 10th
-                                                </option>
-                                                <option value="10th">10th</option>
-                                                <option value="12th">12th</option>
-                                                <option value="Graduation">Graduation
-                                                </option>
-                                                <option value="Post_Graduation">Post
-                                                    Graduation
-                                                </option>
-                                                <option value="Doctorate">Doctorate</option>
-                                                <option value="Diploma">Diploma</option>
-                                                <option value="PG_Diploma">PG Diploma
-                                                </option>
-                                                <option value="Other">Other</option>
+               <div class="col-lg-12">
+                                                    <form id="EducationInfoForm"
+                                                          action="{{ route('Candidate_Education_Save') }}" method="POST">
+                                                           <input type="hidden" name="Edu_JCId" id="Edu_JCId">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead class="text-center">
+                                                                <tr>
+                                                                    <th>Qualification</th>
+                                                                    <th style="width: 20%">Course</th>
+                                                                    <th style="width: 20%">Specialization
+                                                                    </th>
+                                                                    <th>Board/University</th>
+                                                                    <th>Passing Year</th>
+                                                                    <th style="width: 10%">Percentage</th>
+                                                                    <th>Attchment</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody id="EducationData">
+                                                                <tr>
+                                                                    <td style="width: 12%">
+                                                                        <select name="Qualification[]"
+                                                                                id="Qualification1" class="form-select form-select-sm edureq">
+                                                                            <option value="">Select</option>
+                                                                            <option value="Below 10th">Below 10th
+                                                                            </option>
+                                                                            <option value="10th">10th</option>
+                                                                            <option value="12th">12th</option>
+                                                                            <option value="Graduation">Graduation
+                                                                            </option>
+                                                                            <option value="Post_Graduation">Post
+                                                                                Graduation
+                                                                            </option>
+                                                                            <option value="Doctorate">Doctorate</option>
+                                                                            <option value="Diploma">Diploma</option>
+                                                                            <option value="PG_Diploma">PG Diploma
+                                                                            </option>
+                                                                            <option value="Other">Other</option>
 
-                                            </select>
-                                        </td>
-                                        <td style="width: 10%">
-                                            <select name="Course[]" id="Course1"
-                                                class="form-select form-select-sm edureq"
-                                                onchange="getSpecialization(this.value,1)">
-                                                <option value="">Select</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td style="width: 10%">
+                                                                        <select name="Course[]" id="Course1"
+                                                                                class="form-select form-select-sm edureq"
+                                                                                onchange="getSpecialization(this.value,1)">
+                                                                            <option value="">Select</option>
 
-                                                @foreach ($education_list as $key => $value)
-                                                    <option value="{{ $key }}">
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td style="width: 15%">
-                                            <select name="Specialization[]" id="Specialization1"
-                                                class="form-select form-select-sm edureq">
-                                                <option value="">Select</option>
-                                                <option value="0">Other</option>
-                                                @foreach ($specialization_list as $key => $value)
-                                                    <option value="{{ $key }}">
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td style="width: 20%">
-                                            <select name="Collage[]" id="Collage1"
-                                                class="form-select form-select-sm edureq"
-                                                onchange="getOtherInstitute(1);">
-                                                <option value="">Select</option>
-                                                <option value="637">Other</option>
-                                                @foreach ($institute_list as $key => $value)
-                                                    <option value="{{ $key }}">
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <input type="text" name="OtherInstitute[]" id="OtherInstitute1"
-                                                class="form-control form-control-sm mt-1 d-none">
-                                        </td>
-                                        <td>
-                                            <select name="PassingYear[]" id="PassingYear1"
-                                                class="form-select form-select-sm edureq">
-                                                <option value="">Select</option>
-                                                @for ($i = 1980; $i <= $Year; $i++)
-                                                    <option value="{{ $i }}">
-                                                        {{ $i }}
-                                                    </option>
-                                                @endfor
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="Percentage[]" id="Percentage1"
-                                                class="form-control form-control-sm edureq">
-                                        </td>
-                                        <td>
-                                            <input type="file" name="Attachment[]" id="Attachment1"
-                                                class="form-control form-control-sm">
-                                        </td>
-                                        <td></td>
-                                    </tr>
+                                                                            @foreach ($education_list as $key => $value)
+                                                                                <option
+                                                                                        value="{{ $key }}">
+                                                                                    {{ $value }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td style="width: 15%">
+                                                                        <select name="Specialization[]"
+                                                                                id="Specialization1"
+                                                                                class="form-select form-select-sm edureq">
+                                                                            <option value="">Select</option>
+                                                                            <option value="0">Other</option>
+                                                                            @foreach ($specialization_list as $key => $value)
+                                                                                <option
+                                                                                        value="{{ $key }}">
+                                                                                    {{ $value }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td style="width: 20%">
+                                                                        <select name="Collage[]" id="Collage1"
+                                                                                class="form-select form-select-sm edureq"
+                                                                                onchange="getOtherInstitute(1);">
+                                                                            <option value="">Select</option>
+                                                                            <option value="637">Other</option>
+                                                                            @foreach ($institute_list as $key => $value)
+                                                                                <option
+                                                                                        value="{{ $key }}">
+                                                                                    {{ $value }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        <input type="text" name="OtherInstitute[]"
+                                                                               id="OtherInstitute1"
+                                                                               class="form-control form-control-sm mt-1 d-none">
+                                                                    </td>
+                                                                    <td>
+                                                                        <select name="PassingYear[]"
+                                                                                id="PassingYear1"
+                                                                                class="form-select form-select-sm edureq">
+                                                                            <option value="">Select</option>
+                                                                            @for ($i = 1980; $i <= $Year; $i++)
+                                                                                <option
+                                                                                        value="{{ $i }}">
+                                                                                    {{ $i }}
+                                                                                </option>
+                                                                            @endfor
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" name="Percentage[]"
+                                                                               id="Percentage1"
+                                                                               class="form-control form-control-sm edureq">
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="file" name="Attachment[]" id="Attachment1" class="form-control form-control-sm">
+                                                                    </td>
+                                                                    <td></td>
+                                                                </tr>
 
-                                </tbody>
-                            </table>
-                        </div>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
 
-                        <input type="button" value="Add Qualification" id="addEducation"
-                            class="btn btn-warning btn-sm">
+                                                        <input type="button" value="Add Qualification" id="addEducation"
+                                                               class="btn btn-warning btn-sm">
 
-                        <div class="submit-section text-center">
-                            <button class="btn btn-primary submit-btn">Save
-                                Details
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                                                        <div class="submit-section text-center">
+                                                            <button class="btn btn-primary submit-btn">Save
+                                                                Details
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
             </div>
         </div>
     </div>
@@ -873,28 +881,34 @@
                     </div>
                     <div class="form-group">
                         <label for="">Annual Package (CTC)</label>
-                        <input type="text" name="CurrCTC" id="CurrCTC" class="form-control form-control-sm">
+                        <input type="text" name="CurrCTC" id="CurrCTC"
+                            class="form-control form-control-sm">
                     </div>
 
                     <div class="form-group">
                         <label for="">DA @ headquarter</label>
-                        <input type="text" name="CurrDA" id="CurrDA" class="form-control form-control-sm">
+                        <input type="text" name="CurrDA" id="CurrDA"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="form-group">
                         <label for="">DA Outside Headquarter</label>
-                        <input type="text" name="DAOutHq" id="DAOutHq" class="form-control form-control-sm">
+                        <input type="text" name="DAOutHq" id="DAOutHq"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="form-group">
                         <label for="">Petrol Allowances</label>
-                        <input type="text" name="PetrolAlw" id="PetrolAlw" class="form-control form-control-sm">
+                        <input type="text" name="PetrolAlw" id="PetrolAlw"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="form-group">
                         <label for="">Phone Allowances</label>
-                        <input type="text" name="PhoneAlw" id="PhoneAlw" class="form-control form-control-sm">
+                        <input type="text" name="PhoneAlw" id="PhoneAlw"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="form-group">
                         <label for="">Hotel Eligibility</label>
-                        <input type="text" name="HotelElg" id="HotelElg" class="form-control form-control-sm">
+                        <input type="text" name="HotelElg" id="HotelElg"
+                            class="form-control form-control-sm">
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Submit</button>
@@ -953,7 +967,8 @@
                         </table>
                     </div>
 
-                    <input type="button" value="Add Experience" id="addTraining" class="btn btn-primary btn-sm">
+                    <input type="button" value="Add Experience" id="addTraining"
+                        class="btn btn-primary btn-sm">
                     <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
@@ -1016,7 +1031,8 @@
                         </table>
                     </div>
 
-                    <input type="button" value="Add Reference" id="addPreOrgRef" class="btn btn-primary btn-sm">
+                    <input type="button" value="Add Reference" id="addPreOrgRef"
+                        class="btn btn-primary btn-sm">
                     <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
@@ -1301,19 +1317,19 @@
                 @endphp
                 @if ($ext == 'pdf' || $ext == 'PDF')
                     <object width="760" height="500"
-                        data="{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}"
+                        data="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
                         id="{{ $Rec->JCId }}"></object>
                 @else
                     @php
                         $url = html_entity_decode('https://docs.google.com/viewer?embedded=true&url=');
                     @endphp
-                    <iframe src="{{ $url }}{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}"
+                    <iframe src="{{ $url }}{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
                         width="100%" height="500" style="border: none;"></iframe>
                 @endif
 
                 <div class="row">
                     <div class="col-12" style="float: right">
-                        <a href="{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}" download target="_blank">Download</a>
+                        <a href="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}">Download</a>
                     </div>
                 </div>
             </div>
@@ -1732,9 +1748,9 @@
                                 <td style="width:150px;">Zone</td>
                                 <td>
                                     <select name="Zone" id="Zone" class="form-select form-select-sm"
-                                        style="width: 200px;">
-                                        <option value="">Select</option>
-                                    </select>
+                                    style="width: 200px;">
+                                    <option value="">Select</option>
+                                </select>
                                 </td>
                             </tr>
                             <tr id="region_tr" class="d-none">
@@ -1749,11 +1765,11 @@
                             <tr id="territory_tr" class="d-none">
                                 <td style="width:150px;">Territory</td>
                                 <td>
-
+                                  
                                     <select name="Territory" id="Territory" class="form-select form-select-sm"
-                                        style="width: 200px;">
-                                        <option value="">Select</option>
-                                    </select>
+                                    style="width: 200px;">
+                                    <option value="">Select</option>
+                                </select>
                                 </td>
                             </tr>
                             {{-- <tr>
@@ -1811,8 +1827,8 @@
                             <tr>
                                 <td> Communication Allowance</td>
                                 <td>
-                                    <select name="Communication_Allowance" id="Communication_Allowance"
-                                        class="form-select form-select-sm" style="width: 200px" required>
+                                    <select name="Communication_Allowance" id="Communication_Allowance" class="form-select form-select-sm"
+                                        style="width: 200px" required>
                                         <option value="">Select</option>
                                         <option value="N">No</option>
                                         <option value="Y">Yes</option>
@@ -2366,7 +2382,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->Test_Paper != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Test_Paper) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Test_Paper }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2382,7 +2398,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->IntervAssessment != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->IntervAssessment) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->IntervAssessment }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2401,7 +2417,7 @@ if($AboutAns != null){
                                 </td>
                                 <td style="width: 10%; text-align:center">
                                     @if ($Docs != null && $Docs->OfferLtr != null)
-                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
+                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->OfferLtr }}"
                                             target="_blank" class="btn btn-primary btn-sm">View</a>
                                     @endif
                                 </td>
@@ -2420,7 +2436,7 @@ if($AboutAns != null){
                                 </td>
                                 <td style="width: 10%; text-align:center">
                                     @if ($Docs != null && $Docs->RelievingLtr != null)
-                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->RelievingLtr) }}"
+                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->RelievingLtr }}"
                                             target="_blank" class="btn btn-primary btn-sm">View</a>
                                     @endif
                                 </td>
@@ -2437,7 +2453,7 @@ if($AboutAns != null){
                                 </td>
                                 <td style="width: 10%; text-align:center">
                                     @if ($Docs != null && $Docs->SalarySlip != null)
-                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->SalarySlip) }}"
+                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->SalarySlip }}"
                                             target="_blank" class="btn btn-primary btn-sm">View</a>
                                     @endif
                                 </td>
@@ -2456,7 +2472,7 @@ if($AboutAns != null){
                                 </td>
                                 <td style="width: 10%; text-align:center">
                                     @if ($Docs != null && $Docs->AppraisalLtr != null)
-                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->AppraisalLtr) }}"
+                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->AppraisalLtr }}"
                                             target="_blank" class="btn btn-primary btn-sm">View</a>
                                     @endif
                                 </td>
@@ -2475,7 +2491,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->VaccinationCert != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->VaccinationCert) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->VaccinationCert }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2491,7 +2507,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->Aadhar != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Aadhar) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Aadhar }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2509,7 +2525,7 @@ if($AboutAns != null){
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->DL != null)
                                     <a title="View"
-                                        href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->DL) }}"
+                                        href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->DL }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2525,7 +2541,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->PF_Form2 != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form2) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form2 }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2542,7 +2558,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->PF_Form2 != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form11) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form11 }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2559,7 +2575,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->Gratutity != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Gratutity) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Gratutity }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2576,7 +2592,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->ESIC != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2594,7 +2610,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->ESIC_Family != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC_Family) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC_Family }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2611,7 +2627,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->Health != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Health) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Health }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2628,7 +2644,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->Ethical != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Ethical) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Ethical }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>
@@ -2646,7 +2662,7 @@ if($AboutAns != null){
                             </td>
                             <td style="width: 10%; text-align:center">
                                 @if ($Docs != null && $Docs->BloodGroup != null)
-                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BloodGroup) }}"
+                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->BloodGroup }}"
                                         target="_blank" class="btn btn-primary btn-sm">View</a>
                                 @endif
                             </td>

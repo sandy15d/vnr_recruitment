@@ -1,3 +1,4 @@
+
 @php
 
     use Illuminate\Support\Carbon;
@@ -67,47 +68,64 @@
     $OfBasic = DB::table('offerletterbasic')
         ->leftJoin('candjoining', 'candjoining.JAId', '=', 'offerletterbasic.JAId')
         ->leftJoin('appointing', 'appointing.JAId', '=', 'offerletterbasic.JAId')
-        ->leftJoin('candidate_entitlement', 'candidate_entitlement.JAId', '=', 'offerletterbasic.JAId')
-        ->select(
-            'offerletterbasic.*',
-            'candjoining.JoinOnDt',
-            'appointing.A_Date',
-            'appointing.Agr_Date',
-            'appointing.B_Date',
-            'appointing.ConfLtrDate',
-            'candjoining.EmpCode',
-            'candjoining.Verification',
-            'candjoining.Joined',
-            'candjoining.PositionCode',
-            'candjoining.ForwardToESS',
-            'candjoining.NoJoiningRemark',
-            'candjoining.RejReason as RejReason1',
-            'candidate_entitlement.TwoWheel',
-            'candidate_entitlement.FourWheel',
-        )
+        ->leftJoin('candidate_entitlement','candidate_entitlement.JAId','=','offerletterbasic.JAId')
+        ->select('offerletterbasic.*', 'candjoining.JoinOnDt', 'appointing.A_Date', 'appointing.Agr_Date',
+        'appointing.B_Date', 'appointing.ConfLtrDate', 'candjoining.EmpCode', 'candjoining.Verification',
+        'candjoining.Joined', 'candjoining.PositionCode', 'candjoining.ForwardToESS', 'candjoining.NoJoiningRemark',
+        'candjoining.RejReason as RejReason1','candidate_entitlement.TwoWheel','candidate_entitlement.FourWheel')
         ->where('offerletterbasic.JAId', $JAId)
         ->first();
 
-    $FamilyInfo = DB::table('jf_family_det')->where('JCId', $JCId)->get();
-    $Education = DB::table('candidateeducation')->where('JCId', $JCId)->get();
-    $Experience = DB::table('jf_work_exp')->where('JCId', $JCId)->get();
+    $FamilyInfo = DB::table('jf_family_det')
+        ->where('JCId', $JCId)
+        ->get();
+    $Education = DB::table('candidateeducation')
+        ->where('JCId', $JCId)
+        ->get();
+    $Experience = DB::table('jf_work_exp')
+        ->where('JCId', $JCId)
+        ->get();
 
-    $Training = DB::table('jf_tranprac')->where('JCId', $JCId)->get();
+    $Training = DB::table('jf_tranprac')
+        ->where('JCId', $JCId)
+        ->get();
 
-    $PreRef = DB::table('jf_reference')->where('JCId', $JCId)->where('from', 'Previous Organization')->get();
+    $PreRef = DB::table('jf_reference')
+        ->where('JCId', $JCId)
+        ->where('from', 'Previous Organization')
+        ->get();
 
-    $VnrRef = DB::table('jf_reference')->where('JCId', $JCId)->where('from', 'VNR')->get();
+    $VnrRef = DB::table('jf_reference')
+        ->where('JCId', $JCId)
+        ->where('from', 'VNR')
+        ->get();
     $Year = Carbon::now()->year;
-    $sql = DB::table('offerletterbasic_history')->where('JAId', $JAId)->get();
-    $lang = DB::table('jf_language')->where('JCId', $JCId)->get();
+    $sql = DB::table('offerletterbasic_history')
+        ->where('JAId', $JAId)
+        ->get();
+    $lang = DB::table('jf_language')
+        ->where('JCId', $JCId)
+        ->get();
     $count = count($sql);
-    $OtherSeed = DB::table('relation_other_seed_cmp')->where('JCId', $JCId)->get();
-    $VnrBusinessRef = DB::table('vnr_business_ref')->where('JCId', $JCId)->get();
-    $AboutAns = DB::table('about_answer')->where('JCId', $JCId)->first();
-    $Docs = DB::table('jf_docs')->where('JCId', $JCId)->first();
-    $vehicle_info = DB::table('vehicle_information')->where('JCId', $JCId)->first();
+    $OtherSeed = DB::table('relation_other_seed_cmp')
+        ->where('JCId', $JCId)
+        ->get();
+    $VnrBusinessRef = DB::table('vnr_business_ref')
+        ->where('JCId', $JCId)
+        ->get();
+    $AboutAns = DB::table('about_answer')
+        ->where('JCId', $JCId)
+        ->first();
+    $Docs = DB::table('jf_docs')
+        ->where('JCId', $JCId)
+        ->first();
+    $vehicle_info = DB::table('vehicle_information')
+        ->where('JCId', $JCId)
+        ->first();
     $country_list = DB::table('core_country')->pluck('country_name', 'id');
-    $candidate_log = DB::table('candidate_log')->where('JCId', $JCId)->get();
+    $candidate_log = DB::table('candidate_log')
+        ->where('JCId', $JCId)
+        ->get();
 
     if ($OfBasic != null && $OfBasic->Grade != null) {
         $position_code_list = DB::table('position_codes')
@@ -125,7 +143,7 @@
 @section('title', 'Candidate Detail')
 @section('PageContent')
     <style>
-        .table> :not(caption)>*>* {
+        .table > :not(caption) > * > * {
             padding: 2px 1px;
         }
 
@@ -173,10 +191,9 @@
                             <div class="profile-img-wrap">
                                 <div class="profile-img">
                                     @if ($Rec->CandidateImage == null)
-                                        <img src="{{ URL::to('/') }}/assets/images/user1.png" />
+                                        <img src="{{ URL::to('/') }}/assets/images/user1.png"/>
                                     @else
-                                        <img
-                                            src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $Rec->CandidateImage) }}" />
+                                        <img src="{{ URL::to('/') }}/uploads/Picture/{{ $Rec->CandidateImage }}"/>
                                     @endif
                                 </div>
                             </div>
@@ -186,14 +203,16 @@
                                         <div class="profile-info-left">
                                             <h6 class="user-name m-t-0 mb-0"> {{ $Rec->FName }} {{ $Rec->MName }}
                                                 {{ $Rec->LName }}
-                                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                                     <span>
-                                                        <a data-bs-target="#profile_info" data-bs-toggle="modal"
-                                                            class="edit-icon" onclick="GetProfileData();"
-                                                            href="javascript:void(0);">
-                                                            <i class="fa fa-pencil"></i>
-                                                        </a>
-                                                    </span>
+                                                    <a data-bs-target="#profile_info"
+                                                       data-bs-toggle="modal"
+                                                       class="edit-icon"
+                                                       onclick="GetProfileData();"
+                                                       href="javascript:void(0);">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </span>
                                                 @endif
                                             </h6>
                                             <h6 class="staff-id">Applied For: {{ $Rec->JobTitle }}</h6>
@@ -214,12 +233,12 @@
                                             <div class="staff-msg">
                                                 @if ($Rec->Resume != null)
                                                     <a class="btn btn-custom btn-sm" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#resume_modal">View
+                                                       data-bs-toggle="modal" data-bs-target="#resume_modal">View
                                                         Resume</a>
                                                 @endif
-                                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                                     <a href="javascript:;"
-                                                        class="btn btn-primary btn-sm compose-mail-btn">Send
+                                                       class="btn btn-primary btn-sm compose-mail-btn">Send
                                                         Mail</a>
                                                 @endif
 
@@ -228,32 +247,31 @@
                                         </div>
 
                                     </div>
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <div class="col-md-7">
                                             <ul class="personal-info">
                                                 <li>
                                                     <div class="title">Suitable For</div>
                                                     <div>
                                                         :&emsp;
-                                                        @if ($Rec->Suitable_Chk_Date != null)
+                                                        @if($Rec->Suitable_Chk_Date != null)
                                                             @php
 
-                                                                $SuitableFor = explode(',', $Rec->Suitable_For);
-                                                                foreach ($SuitableFor as $row) {
-                                                                    $Su[] = getDepartment($row);
-                                                                }
-                                                                if ($Rec->Irrelevant_Candidate == 'Y') {
-                                                                    echo 'Irrelevant Candidate';
-                                                                }
-                                                                echo implode(', ', $Su) .
-                                                                    ' (Remarks : ' .
-                                                                    $Rec->Suitable_Remark .
-                                                                    ')';
+                                                                $SuitableFor = explode(',',$Rec->Suitable_For);
+                                                                  foreach ($SuitableFor as $row) {
+                                                                     $Su[] = getDepartment($row);
+                                                                   }
+                                                                  if($Rec->Irrelevant_Candidate=='Y'){
+                                                                      echo "Irrelevant Candidate";
+                                                                  }
+                                                                   echo implode(', ', $Su) .' (Remarks : '.$Rec->Suitable_Remark.')';
                                                             @endphp
+
                                                         @endif
-                                                        <i class='fa fa-pencil-square-o text-primary' aria-hidden='true'
-                                                            style='font-size:14px;cursor: pointer;' id="SuitableFor"
-                                                            data-id="{{ $Rec->JCId }}"></i>
+                                                        <i class='fa fa-pencil-square-o text-primary'
+                                                           aria-hidden='true'
+                                                           style='font-size:14px;cursor: pointer;'
+                                                           id="SuitableFor" data-id="{{$Rec->JCId}}"></i>
                                                     </div>
                                                 </li>
                                                 <li>
@@ -261,11 +279,7 @@
                                                     <div>
                                                         @if ($Rec->JPId != 0)
                                                             :
-                                                            &emsp;<?= '<b>' . $Rec->Status . '</b>' . "<i
-                                                                class='fa fa-pencil-square-o text-primary'
-                                                                aria-hidden='true' style='font-size:14px;cursor: pointer;'
-                                                                id='HrScreening' data-id='$Rec->JAId'
-                                                                data-applydate='$Rec->ApplyDate'></i>" ?>
+                                                            &emsp;<?= '<b>' . $Rec->Status . '</b>' . "<i class='fa fa-pencil-square-o text-primary' aria-hidden='true' style='font-size:14px;cursor: pointer;' id='HrScreening' data-id='$Rec->JAId' data-applydate='$Rec->ApplyDate'></i>" ?>
                                                         @else
                                                             :
                                                         @endif
@@ -275,38 +289,44 @@
                                                     <div class="title">Move Candidate to</div>
                                                     <div>
                                                         :&emsp;<i class='fa fa-pencil-square-o text-primary'
-                                                            aria-hidden='true' style='font-size:14px;cursor: pointer;'
-                                                            id="MoveCandidate" data-id="{{ $Rec->JAId }}"></i>
-                                                    </div>
-                                                </li>
+                                                                  aria-hidden='true'
+                                                                  style='font-size:14px;cursor: pointer;'
+                                                                  id="MoveCandidate" data-id="{{$Rec->JAId}}"></i>
+                                                    </div> 
+                                                </li> 
                                                 <li>
                                                     @if ($Rec->BlackList == 0)
                                                         <div class="title">Blacklist Candidate :</div>
                                                         <div>
                                                             :&emsp;<i class='fa fa-pencil-square-o text-primary'
-                                                                aria-hidden='true' style='font-size:14px;cursor: pointer;'
-                                                                id="BlackListCandidate" data-id="{{ $Rec->JCId }}"></i>
+                                                                      aria-hidden='true'
+                                                                      style='font-size:14px;cursor: pointer;'
+                                                                      id="BlackListCandidate"
+                                                                      data-id="{{$Rec->JCId}}"></i>
                                                         </div>
+
                                                     @else
+
                                                         @if (Auth::user()->role == 'A')
                                                             <div class="title">Unblock Candidate :</div>
                                                             <div>
                                                                 :&emsp;<i class='fa fa-pencil-square-o text-primary'
-                                                                    aria-hidden='true'
-                                                                    style='font-size:14px;cursor: pointer;'
-                                                                    id="UnBlockCandidate"
-                                                                    data-id="{{ $Rec->JCId }}"></i>
+                                                                          aria-hidden='true'
+                                                                          style='font-size:14px;cursor: pointer;'
+                                                                          id="UnBlockCandidate"
+                                                                          data-id="{{$Rec->JCId}}"></i>
                                                             </div>
+
                                                         @endif
                                                     @endif
                                                 </li>
                                             </ul>
                                         </div>
                                     @endif
-                                    @if (Auth::user()->role == 'H')
+                                    @if(Auth::user()->role =='H')
                                         <div class="col-md-7">
                                             <ul class="personal-info">
-                                                @if ($Rec->AddressLine1 != null)
+                                                @if($Rec->AddressLine1 != null)
                                                     <li style="margin-bottom: 0px">
                                                         <div class="title">Address:</div>
                                                         <div class="text  text-dark">{{ $Rec->AddressLine1 }},
@@ -316,11 +336,11 @@
                                                         </div>
                                                     </li>
                                                 @endif
-                                                @if ($Rec->Education != null || $Rec->Education != 0)
+                                                @if($Rec->Education != null || $Rec->Education != 0)
                                                     <li style="margin-bottom: 0px">
                                                         <div class="title">Highest Education:</div>
-                                                        <div class="text  text-dark">
-                                                            {{ getEducationCodeById($Rec->Education) }}
+                                                        <div
+                                                            class="text  text-dark">{{ getEducationCodeById($Rec->Education) }}
                                                             ,
                                                             ( {{ getSpecializationbyId($Rec->Specialization) }})
 
@@ -335,7 +355,7 @@
                                                         <div class="text text-dark"> {{ $Rec->PassingYear }}</div>
                                                     </li>
                                                 @endif
-                                            </ul>
+                                            </ul> 
                                         </div>
                                     @endif
                                 </div>
@@ -353,37 +373,37 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                     <ul class="nav nav-tabs nav-tabs-bottom" id="myTab">
                         <li class="nav-item"><a href="#cand_profile" data-bs-toggle="tab"
-                                class="nav-link active">Profile</a></li>
+                                                class="nav-link active">Profile</a></li>
 
                         <li class="nav-item"><a href="#cand_contact" data-bs-toggle="tab" class="nav-link">Contact</a>
                         </li>
 
                         <li class="nav-item"><a href="#cand_education" data-bs-toggle="tab"
-                                class="nav-link">Education</a>
+                                                class="nav-link">Education</a>
                         </li>
 
                         <li class="nav-item"><a href="#cand_experience" data-bs-toggle="tab"
-                                class="nav-link">Employement</a></li>
+                                                class="nav-link">Employement</a></li>
 
                         <li class="nav-item"><a href="#cand_reference" data-bs-toggle="tab"
-                                class="nav-link">Reference</a>
+                                                class="nav-link">Reference</a>
                         </li>
 
                         <li class="nav-item"><a href="#cand_other" data-bs-toggle="tab" class="nav-link"> Other
                             </a></li>
-                        @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                            <li class="nav-item"><a href="#vehicle_info" data-bs-toggle="tab" class="nav-link">Vehicle
-                                    Info</a>
+                        @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                            <li class="nav-item"><a href="#vehicle_info" data-bs-toggle="tab"
+                                                    class="nav-link">Vehicle Info</a>
                             </li>
                             <li class="nav-item"><a href="#cand_document" data-bs-toggle="tab"
-                                    class="nav-link">Documents</a>
+                                                    class="nav-link">Documents</a>
                             </li>
 
                             <li class="nav-item"><a href="#job_offer" data-bs-toggle="tab" class="nav-link">Job
                                     Offer</a></li>
 
                             <li class="nav-item"><a href="#onboarding" data-bs-toggle="tab"
-                                    class="nav-link">Onboarding</a>
+                                                    class="nav-link">Onboarding</a>
                             </li>
                         @endif
                         <li class="nav-item"><a href="#cand_history" data-bs-toggle="tab" class="nav-link">History</a>
@@ -398,8 +418,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="tab-content">
+ 
+        <div class="tab-content"> 
 
             <div id="cand_profile" class=" tab-pane fade pro-overview show active">
                 <div class="row">
@@ -407,9 +427,12 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Personal Informations
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#personal_info_modal" onclick="GetPersonalData();"><i
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#"
+                                           class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#personal_info_modal"
+                                           onclick="GetPersonalData();"><i
                                                 class="fa fa-pencil"></i>
                                         </a>
                                     @endif
@@ -474,9 +497,11 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Emergency Contact
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#emergency_contact_modal" onclick="GetEmergencyContact();"><i
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#emergency_contact_modal"
+                                           onclick="GetEmergencyContact();"><i
                                                 class="fa fa-pencil"></i>
                                         </a>
                                     @endif
@@ -498,7 +523,7 @@
                                 </ul>
 
                                 <hr>
-                                <h6 class="section-title">Secondary</h6>
+                                <h6 class="section-title">Secondary</h6> 
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Name</div>
@@ -522,10 +547,13 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Bank Informations & Other
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#bank_info_modal" onclick="GetBankInfo();"><i
-                                                class="fa fa-pencil"></i></a>
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#"
+                                           class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#bank_info_modal"
+                                           onclick="GetBankInfo();"><i
+                                                class="fa fa-pencil"></i></a> 
                                     @endif
                                 </h6>
                                 <ul class="personal-info">
@@ -575,39 +603,41 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Family Informations
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#family_info_modal" onclick="GetFamily();"><i
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#family_info_modal"
+                                           onclick="GetFamily();"><i
                                                 class="fa fa-pencil"></i></a>
                                     @endif
                                 </h6>
                                 <div class="table-responsive">
                                     <table class="table table-nowrap">
                                         <thead class="text-center bg-success bg-gradient text-light font-weight-normal">
-                                            <tr>
-                                                <th>Relation</th>
-                                                <th>Name</th>
-                                                <th>DOB</th>
-                                                <th>Qulification</th>
-                                                <th>Occupation</th>
-                                            </tr>
+                                        <tr>
+                                            <th>Relation</th>
+                                            <th>Name</th>
+                                            <th>DOB</th>
+                                            <th>Qulification</th>
+                                            <th>Occupation</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($FamilyInfo != null)
-                                                @foreach ($FamilyInfo as $item)
-                                                    <tr>
-                                                        <td>{{ $item->relation }}</td>
-                                                        <td>{{ $item->name }}</td>
-                                                        <td>{{ date('d-M-Y', strtotime($item->dob)) }}</td>
-                                                        <td>{{ $item->qualification }}</td>
-                                                        <td>{{ $item->occupation }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
+                                        @if ($FamilyInfo != null)
+                                            @foreach ($FamilyInfo as $item)
                                                 <tr>
-                                                    <td colspan="6">Record not found</td>
+                                                    <td>{{ $item->relation }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ date('d-M-Y', strtotime($item->dob)) }}</td>
+                                                    <td>{{ $item->qualification }}</td>
+                                                    <td>{{ $item->occupation }}</td>
                                                 </tr>
-                                            @endif
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="6">Record not found</td>
+                                            </tr>
+                                        @endif
                                         </tbody>
                                         </tbody>
                                     </table>
@@ -619,14 +649,14 @@
             </div>
 
             <div class="tab-pane fade" id="cand_contact">
-                <div class="row">
+                <div class="row"> 
                     <div class="col-md-6 d-flex">
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Current Address
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#current_address_modal" onclick="GetCurrentAddress();">
+                                           data-bs-target="#current_address_modal" onclick="GetCurrentAddress();">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     @endif
@@ -673,9 +703,9 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Permanent Address
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#permanent_address_modal" onclick="GetPermanentAddress();">
+                                           data-bs-target="#permanent_address_modal" onclick="GetPermanentAddress();">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     @endif
@@ -725,54 +755,54 @@
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
                             <h6 class="card-title border-bot">Educational Details
-                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                     <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                        data-bs-target="#education_info_modal" onclick="GetQualification();">
-                                        <i class="fa fa-pencil"></i>
+                                       data-bs-target="#education_info_modal" onclick="GetQualification();">
+                                        <i class="fa fa-pencil"></i> 
                                     </a>
                                 @endif
                             </h6>
                             <div class="table-responsive">
                                 <table class="table text-center">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr>
-                                            <td>Qualification</td>
-                                            <td>Course</td>
-                                            <td>Specialization</td>
-                                            <td>Board/University</td>
-                                            <td>Passing Year</td>
-                                            <td>Percentage/Grade</td>
-                                        </tr>
+                                    <tr>
+                                        <td>Qualification</td>
+                                        <td>Course</td>
+                                        <td>Specialization</td>
+                                        <td>Board/University</td>
+                                        <td>Passing Year</td>
+                                        <td>Percentage/Grade</td>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($Education as $item)
-                                            <tr>
-                                                <td>{{ $item->Qualification }}</td>
-                                                <td>
-                                                    @if ($item->Course != null)
-                                                        {{ getEducationById($item->Course) }}
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if (is_null($item->Specialization))
-                                                        -
-                                                    @else
-                                                        {{ getSpecializationbyId($item->Specialization) }}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($item->Institute != null)
-                                                        {{ getCollegeById($item->Institute) }}
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
-                                                <td>{{ $item->YearOfPassing ?? '-' }}</td>
-                                                <td>{{ $item->CGPA ?? '-' }}</td>
-                                            </tr>
-                                        @endforeach
+                                    @foreach ($Education as $item)
+                                        <tr>
+                                            <td>{{ $item->Qualification }}</td>
+                                            <td>
+                                                @if ($item->Course != null)
+                                                    {{ getEducationById($item->Course) }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (is_null($item->Specialization))
+                                                    -
+                                                @else
+                                                    {{ getSpecializationbyId($item->Specialization) }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->Institute != null)
+                                                    {{ getCollegeById($item->Institute) }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->YearOfPassing ?? '-' }}</td>
+                                            <td>{{ $item->CGPA ?? '-' }}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -787,9 +817,9 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Current Employement
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#current_emp_modal" onclick="GetCurrentEmployementData();"><i
+                                           data-bs-target="#current_emp_modal" onclick="GetCurrentEmployementData();"><i
                                                 class="fa fa-pencil"></i></a>
                                     @endif
                                 </h6>
@@ -839,9 +869,12 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Present Salary Details
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#current_salary_modal" onclick="GetPresentSalaryDetails();"><i
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#"
+                                           class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#current_salary_modal"
+                                           onclick="GetPresentSalaryDetails();"><i
                                                 class="fa fa-pencil"></i></a>
                                     @endif
                                 </h6>
@@ -891,9 +924,9 @@
                         <div class="card-body">
                             <h6 class="card-title border-bot">Previous Employement Records <small>(except the
                                     present)</small>
-                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                     <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                        data-bs-target="#work_exp_modal" onclick="getWorkExp();">
+                                       data-bs-target="#work_exp_modal" onclick="getWorkExp();">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 @endif
@@ -902,36 +935,36 @@
                             <div class="table-responsive">
                                 <table class="table text-center">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr>
-                                            <td style="width: 5%">S.No.</td>
-                                            <td style="width: 20%">Company Name</td>
-                                            <td style="width: 15%">Designation</td>
-                                            <td style="width: 10%">Gross Monthly Salary</td>
-                                            <td style="width: 10%">Anual CTC</td>
-                                            <td style="width: 10%">From</td>
-                                            <td style="width: 10%">To</td>
-                                            <td style="width: 20%">Reason for Leaving</td>
-                                        </tr>
+                                    <tr>
+                                        <td style="width: 5%">S.No.</td>
+                                        <td style="width: 20%">Company Name</td>
+                                        <td style="width: 15%">Designation</td>
+                                        <td style="width: 10%">Gross Monthly Salary</td>
+                                        <td style="width: 10%">Anual CTC</td>
+                                        <td style="width: 10%">From</td>
+                                        <td style="width: 10%">To</td>
+                                        <td style="width: 20%">Reason for Leaving</td>
+                                    </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($Experience as $item)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $item->company }}</td>
+                                            <td>{{ $item->desgination }}</td>
+                                            <td>{{ $item->gross_mon_sal }}</td>
+                                            <td>{{ $item->annual_ctc }}</td>
+                                            <td>{{ $item->job_start }}</td>
+                                            <td>{{ $item->job_end }}</td>
+                                            <td>{{ $item->reason_fr_leaving }}</td>
+                                        </tr>
                                         @php
-                                            $i = 1;
+                                            $i++;
                                         @endphp
-                                        @foreach ($Experience as $item)
-                                            <tr>
-                                                <td>{{ $i }}</td>
-                                                <td>{{ $item->company }}</td>
-                                                <td>{{ $item->desgination }}</td>
-                                                <td>{{ $item->gross_mon_sal }}</td>
-                                                <td>{{ $item->annual_ctc }}</td>
-                                                <td>{{ $item->job_start }}</td>
-                                                <td>{{ $item->job_end }}</td>
-                                                <td>{{ $item->reason_fr_leaving }}</td>
-                                            </tr>
-                                            @php
-                                                $i++;
-                                            @endphp
-                                        @endforeach
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -944,9 +977,9 @@
                         <div class="card-body">
                             <h6 class="card-title border-bot">Training & Practical Experience <small>(Other than regular
                                     jobs)</small>
-                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                     <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                        data-bs-target="#training_modal" onclick="getTraining();">
+                                       data-bs-target="#training_modal" onclick="getTraining();">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 @endif
@@ -955,31 +988,31 @@
                             <div class="table-responsive">
                                 <table class="table text-center">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr>
-                                            <td style="width: 5%">S.No.</td>
-                                            <td style="width: 20%">Training Nature</td>
-                                            <td style="width: 15%">Organization</td>
-                                            <td style="width: 10%">From</td>
-                                            <td style="width: 10%">To</td>
+                                    <tr>
+                                        <td style="width: 5%">S.No.</td>
+                                        <td style="width: 20%">Training Nature</td>
+                                        <td style="width: 15%">Organization</td>
+                                        <td style="width: 10%">From</td>
+                                        <td style="width: 10%">To</td>
 
-                                        </tr>
+                                    </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($Training as $item)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $item->training }}</td>
+                                            <td>{{ $item->organization }}</td>
+                                            <td>{{ $item->from }}</td>
+                                            <td>{{ $item->to }}</td>
+                                        </tr>
                                         @php
-                                            $i = 1;
+                                            $i++;
                                         @endphp
-                                        @foreach ($Training as $item)
-                                            <tr>
-                                                <td>{{ $i }}</td>
-                                                <td>{{ $item->training }}</td>
-                                                <td>{{ $item->organization }}</td>
-                                                <td>{{ $item->from }}</td>
-                                                <td>{{ $item->to }}</td>
-                                            </tr>
-                                            @php
-                                                $i++;
-                                            @endphp
-                                        @endforeach
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -994,9 +1027,9 @@
                     <div class="card  flex-fill">
                         <div class="card-body">
                             <h6 class="card-title border-bot">Previous Organization Reference
-                                @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                     <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                        data-bs-target="#pre_org_ref_modal" onclick="getPreOrgRef();">
+                                       data-bs-target="#pre_org_ref_modal" onclick="getPreOrgRef();">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 @endif
@@ -1005,32 +1038,32 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr>
-                                            <td>S.No.</td>
-                                            <td>Name</td>
-                                            <td>Company</td>
-                                            <td>Designation</td>
-                                            <td>Contact No.</td>
-                                            <td>Email</td>
-                                        </tr>
+                                    <tr>
+                                        <td>S.No.</td>
+                                        <td>Name</td>
+                                        <td>Company</td>
+                                        <td>Designation</td>
+                                        <td>Contact No.</td>
+                                        <td>Email</td>
+                                    </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($PreRef as $item)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->company }}</td>
+                                            <td>{{ $item->designation }}</td>
+                                            <td>{{ $item->contact }}</td>
+                                            <td>{{ $item->email }}</td>
+                                        </tr>
                                         @php
-                                            $i = 1;
+                                            $i++;
                                         @endphp
-                                        @foreach ($PreRef as $item)
-                                            <tr>
-                                                <td>{{ $i }}</td>
-                                                <td>{{ $item->name }}</td>
-                                                <td>{{ $item->company }}</td>
-                                                <td>{{ $item->designation }}</td>
-                                                <td>{{ $item->contact }}</td>
-                                                <td>{{ $item->email }}</td>
-                                            </tr>
-                                            @php
-                                                $i++;
-                                            @endphp
-                                        @endforeach
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -1044,9 +1077,9 @@
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Acquaintances or relatives working with
                                     VNR Group Companies
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#vnr_ref_modal" onclick="getVnrRef();"><i
+                                           data-bs-target="#vnr_ref_modal" onclick="getVnrRef();"><i
                                                 class="fa fa-pencil"></i></a>
                                     @endif
 
@@ -1054,33 +1087,33 @@
 
                                 <table class="table table-bordered">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr class="text-center">
-                                            <th>Name</th>
-                                            <th>Mobile</th>
-                                            <th>Email</th>
-                                            <th>VNR Group /<br>Company Name</th>
-                                            <th>Designation</th>
-                                            <th>Location</th>
-                                            <th>Your Relationship <br>with person mentioned</th>
-                                        </tr>
+                                    <tr class="text-center">
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>VNR Group /<br>Company Name</th>
+                                        <th>Designation</th>
+                                        <th>Location</th>
+                                        <th>Your Relationship <br>with person mentioned</th>
+                                    </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                        @foreach ($VnrRef as $item)
-                                            <tr>
-                                                <td>{{ $item->name }}</td>
-                                                <td>{{ $item->contact }}</td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>{{ $item->company }}
-                                                    {{ $item->company == 'Other' ? '/ ' . $item->other_company : '' }}
-                                                </td>
-                                                </td>
-                                                <td>{{ $item->designation }}</td>
-                                                <td>{{ $item->location }}</td>
-                                                <td>{{ $item->rel_with_person }}</td>
+                                    @foreach ($VnrRef as $item)
+                                        <tr>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->contact }}</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>{{ $item->company }}
+                                                {{ $item->company == 'Other' ? '/ ' . $item->other_company : '' }}
+                                            </td>
+                                            </td>
+                                            <td>{{ $item->designation }}</td>
+                                            <td>{{ $item->location }}</td>
+                                            <td>{{ $item->rel_with_person }}</td>
 
 
-                                            </tr>
-                                        @endforeach
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -1094,38 +1127,39 @@
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Acquaintances or relatives associated with
                                     VNR as business associates
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#vnr_business_ref_modal" onclick="getVnrRef_Business();"><i
+                                           data-bs-target="#vnr_business_ref_modal"
+                                           onclick="getVnrRef_Business();"><i
                                                 class="fa fa-pencil"></i></a>
                                     @endif
                                 </h6>
 
                                 <table class="table">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr class="text-center">
-                                            <th>Name</th>
-                                            <th>Mobile</th>
-                                            <th>Email</th>
-                                            <th>Business Relation <br>With VNR</th>
-                                            <th>Location of Business /
-                                                acquaintances
-                                            </th>
-                                            <th>Your Relationship <br>with person mentioned</th>
-                                        </tr>
+                                    <tr class="text-center">
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Business Relation <br>With VNR</th>
+                                        <th>Location of Business /
+                                            acquaintances
+                                        </th>
+                                        <th>Your Relationship <br>with person mentioned</th>
+                                    </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                        @foreach ($VnrBusinessRef as $item)
-                                            <tr>
-                                                <td>{{ $item->Name ?? '' }}</td>
-                                                <td>{{ $item->Mobile ?? '' }}</td>
-                                                <td>{{ $item->Email ?? '' }}</td>
-                                                <td>{{ $item->BusinessRelation ?? '' }}</td>
-                                                </td>
-                                                <td>{{ $item->Location ?? '' }}</td>
-                                                <td>{{ $item->PersonRelation ?? '' }}</td>
-                                            </tr>
-                                        @endforeach
+                                    @foreach ($VnrBusinessRef as $item)
+                                        <tr>
+                                            <td>{{ $item->Name ?? '' }}</td>
+                                            <td>{{ $item->Mobile ?? '' }}</td>
+                                            <td>{{ $item->Email ?? '' }}</td>
+                                            <td>{{ $item->BusinessRelation ?? '' }}</td>
+                                            </td>
+                                            <td>{{ $item->Location ?? '' }}</td>
+                                            <td>{{ $item->PersonRelation ?? '' }}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -1139,37 +1173,39 @@
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Relatives or acquaintances is/are working
                                     or associated with any other Seed Company
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#other_seed_modal" onclick="getOtherSeed();"><i
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#other_seed_modal"
+                                           onclick="getOtherSeed();"><i
                                                 class="fa fa-pencil"></i></a>
                                     @endif
                                 </h6>
 
                                 <table class="table">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <tr class="text-center">
-                                            <th>Name</th>
-                                            <th>Mobile</th>
-                                            <th>Email</th>
-                                            <th>Company Name</th>
-                                            <th>Designation</th>
-                                            <th>Location</th>
-                                            <th>Your Relationship <br>with person mentioned</th>
-                                        </tr>
+                                    <tr class="text-center">
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Company Name</th>
+                                        <th>Designation</th>
+                                        <th>Location</th>
+                                        <th>Your Relationship <br>with person mentioned</th>
+                                    </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                        @foreach ($OtherSeed as $item)
-                                            <tr>
-                                                <td>{{ $item->Name ?? '' }}</td>
-                                                <td>{{ $item->Mobile ?? '' }}</td>
-                                                <td>{{ $item->Email ?? '' }}</td>
-                                                <td>{{ $item->company_name ?? '' }}</td>
-                                                <td>{{ $item->Designation ?? '' }}</td>
-                                                <td>{{ $item->Location ?? '' }}</td>
-                                                <td>{{ $item->Relation ?? '' }}</td>
-                                            </tr>
-                                        @endforeach
+                                    @foreach ($OtherSeed as $item)
+                                        <tr>
+                                            <td>{{ $item->Name ?? '' }}</td>
+                                            <td>{{ $item->Mobile ?? '' }}</td>
+                                            <td>{{ $item->Email ?? '' }}</td>
+                                            <td>{{ $item->company_name ?? '' }}</td>
+                                            <td>{{ $item->Designation ?? '' }}</td>
+                                            <td>{{ $item->Location ?? '' }}</td>
+                                            <td>{{ $item->Relation ?? '' }}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -1184,9 +1220,9 @@
                         <div class="card flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Language Proficiency
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
                                         <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#language_modal" onclick="getLanguageProficiency();">
+                                           data-bs-target="#language_modal" onclick="getLanguageProficiency();">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     @endif
@@ -1194,30 +1230,30 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <tr>
-                                                <td>S.No.</td>
-                                                <td>Language</td>
-                                                <td>Reading</td>
-                                                <td>Writing</td>
-                                                <td>Speaking</td>
-                                            </tr>
+                                        <tr>
+                                            <td>S.No.</td>
+                                            <td>Language</td>
+                                            <td>Reading</td>
+                                            <td>Writing</td>
+                                            <td>Speaking</td>
+                                        </tr>
                                         </thead>
                                         <tbody>
+                                        @php
+                                            $i = 1;
+                                        @endphp
+                                        @foreach ($lang as $item)
+                                            <tr>
+                                                <td>{{ $i }}</td>
+                                                <td>{{ $item->language }}</td>
+                                                <td>{{ $item->read == 1 ? 'Yes' : 'No' }}</td>
+                                                <td>{{ $item->write == 1 ? 'Yes' : 'No' }}</td> 
+                                                <td>{{ $item->speak == 1 ? 'Yes' : 'No' }}</td>
+                                            </tr>
                                             @php
-                                                $i = 1;
+                                                $i++;
                                             @endphp
-                                            @foreach ($lang as $item)
-                                                <tr>
-                                                    <td>{{ $i }}</td>
-                                                    <td>{{ $item->language }}</td>
-                                                    <td>{{ $item->read == 1 ? 'Yes' : 'No' }}</td>
-                                                    <td>{{ $item->write == 1 ? 'Yes' : 'No' }}</td>
-                                                    <td>{{ $item->speak == 1 ? 'Yes' : 'No' }}</td>
-                                                </tr>
-                                                @php
-                                                    $i++;
-                                                @endphp
-                                            @endforeach
+                                        @endforeach
                                         </tbody>
                                         </tbody>
                                     </table>
@@ -1233,112 +1269,114 @@
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">About Yourself
-                                    @if (Auth::user()->role == 'A' || Auth::user()->role == 'R')
-                                        <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                            data-bs-target="#about_modal"><i class="fa fa-pencil"></i></a>
+                                    @if(Auth::user()->role =='A' || Auth::user()->role =='R')
+                                        <a href="#" class="edit-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#about_modal"><i
+                                                class="fa fa-pencil"></i></a>
                                     @endif
                                 </h6>
 
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q1. What is your aim in life?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutAim ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q2. What are you hobbies and interest?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutHobbi ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q3. Where do you see yourself 5 Years from now?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->About5Year ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q4. What are your greatest personal assets (qualities, skills,
-                                                    abilities) which make you successful in the jobs you take up?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutAssets ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q5. What are your areas where you think you need to improve yourself?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutImprovement ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q6. What are your Strengths?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutStrength ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q7. In the past or at present, have/are you suffered /suffering from,
-                                                    any form of physical disability or any minor or major illness or
-                                                    deficiency?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutDeficiency ?? '' }}
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q8. Have you Been criminally prosecuted? if so, give details separately.
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;
-                                                    @if ($AboutAns != null)
-                                                        {{ $AboutAns->CriminalChk == 'Y' ? 'Yes' : 'No' }}
-                                                    @endif
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q1. What is your aim in life?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutAim ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q2. What are you hobbies and interest?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutHobbi ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q3. Where do you see yourself 5 Years from now?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->About5Year ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q4. What are your greatest personal assets (qualities, skills,
+                                                abilities) which make you successful in the jobs you take up?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutAssets ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q5. What are your areas where you think you need to improve yourself?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutImprovement ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q6. What are your Strengths?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutStrength ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q7. In the past or at present, have/are you suffered /suffering from,
+                                                any form of physical disability or any minor or major illness or
+                                                deficiency?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutDeficiency ?? '' }}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q8. Have you Been criminally prosecuted? if so, give details separately.
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;
+                                                @if ($AboutAns != null)
+                                                    {{ $AboutAns->CriminalChk == 'Y' ? 'Yes' : 'No' }}
+                                                @endif
 
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F1F8E9">
-                                                <td class="fw-bold">
-                                                    Q9. Do You have a valid driving licence?
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: #F9FBE7">
-                                                <td>
-                                                    &ensp;&ensp;&ensp;{{ $AboutAns->AboutDeficiency ?? '' }}
-                                                </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F1F8E9">
+                                            <td class="fw-bold">
+                                                Q9. Do You have a valid driving licence?
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #F9FBE7">
+                                            <td>
+                                                &ensp;&ensp;&ensp;{{ $AboutAns->AboutDeficiency ?? '' }}
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1468,39 +1506,42 @@
                                         <li>
                                             <div class="title" style="width: 150px;">Application Form <span
                                                     style="float: right">:</span></div>
-                                            <div class="text"><input type="text" id="link{{ $Rec->JCId }}"
-                                                    value="{{ url('jobportal/jobapply?jcid=' . $JCId . '') }}"
-                                                    class="frminp d-inline">
+                                            <div class="text"><input type="text"
+                                                                     id="link{{ $Rec->JCId }}"
+                                                                     value="{{ url('jobportal/jobapply?jcid=' . $JCId . '') }}"
+                                                                     class="frminp d-inline">
                                                 <button onclick="copylink({{ $Rec->JCId }})"
-                                                    class="frmbtn btn btn-sm btn-secondary"> Copy Link
+                                                        class="frmbtn btn btn-sm btn-secondary"> Copy Link
                                                 </button>
                                             </div>
                                         </li>
+
                                     @endif
 
                                     @if ($OfBasic != null && $OfBasic->OfferLtrGen == '1')
+                                    
                                         <li>
                                             <div class="title" style="width: 150px;">Offer Letter<span
                                                     style="float: right">:</span></div>
                                             <div class="text"><input type="text" name="" id="oflink"
-                                                    class="frminp d-inline"
-                                                    value="{{ route('candidate-offer-letter') }}?jaid={{ $sendingId }}">
+                                                                     class="frminp d-inline"
+                                                                     value="{{ route('candidate-offer-letter') }}?jaid={{ $sendingId }}">
                                                 <button class="frmbtn btn btn-sm btn-secondary"
-                                                    onclick="copyOfLink();">Copy
+                                                        onclick="copyOfLink();">Copy
                                                     Link
                                                 </button>
                                             </div>
                                         </li>
                                     @endif
-
+ 
                                     <li>
                                         <div class="title" style="width: 150px;">Interview Form<span
                                                 style="float: right">:</span></div>
                                         <div class="text"><input type="text" name="" id="interviewlink"
-                                                class="frminp d-inline"
-                                                value="{{ route('candidate-interview-form') }}?jaid={{ $sendingId }}">
+                                                                 class="frminp d-inline"
+                                                                 value="{{ route('candidate-interview-form') }}?jaid={{ $sendingId }}">
                                             <button class="frmbtn btn btn-sm btn-secondary"
-                                                onclick="copyJIntFrmLink();">Copy
+                                                    onclick="copyJIntFrmLink();">Copy
                                                 Link
                                             </button>
                                         </div>
@@ -1512,9 +1553,9 @@
                                         <div class="text">
 
                                             <input type="text" name="" id="firoblink" class="frminp d-inline"
-                                                value="{{ route('firo_b') }}?jcid={{ $firobid }}">
+                                                   value="{{ route('firo_b') }}?jcid={{ $firobid }}">
                                             <button class="frmbtn btn btn-sm btn-secondary"
-                                                onclick="copyFiroBlink();">Copy
+                                                    onclick="copyFiroBlink();">Copy
                                                 Link
                                             </button>
 
@@ -1526,16 +1567,16 @@
                                             <div class="title" style="width: 150px;">Joining Form<span
                                                     style="float: right">:</span></div>
                                             <div class="text"><input type="text" name="" id="jflink"
-                                                    class="frminp d-inline"
-                                                    value="{{ route('candidate-joining-form') }}?jaid={{ $sendingId }}">
+                                                                     class="frminp d-inline"
+                                                                     value="{{ route('candidate-joining-form') }}?jaid={{ $sendingId }}">
                                                 <button class="frmbtn btn btn-sm btn-secondary"
-                                                    onclick="copyJFrmLink();">Copy
+                                                        onclick="copyJFrmLink();">Copy
                                                     Link
                                                 </button>
 
                                                 @if ($Rec->FinalSubmit == 1 && $OfBasic->ForwardToESS == 'No')
                                                     <button class="frmbtn btn btn-primary btn-sm"
-                                                        id="open_joining_form">Re-Open Joining Form
+                                                            id="open_joining_form">Re-Open Joining Form
                                                     </button>
                                                 @endif
                                             </div>
@@ -1546,8 +1587,8 @@
                                         <div class="title" style="width: 150px;">Upload Documents<span
                                                 style="float: right">:</span></div>
                                         <div class="text">
-                                            <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                                style="float:left" data-bs-target="#document_modal">
+                                            <a href="#" class="edit-icon" data-bs-toggle="modal" style="float:left"
+                                               data-bs-target="#document_modal">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         </div>
@@ -1569,7 +1610,7 @@
                                              </button>
 
                                          </div>
-                                     </li> --}}
+                                     </li>--}}
                                 </ul>
 
                             </div>
@@ -1584,92 +1625,80 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <tr>
-                                                <th style="width: 5%" class=" text-center">S.No.</th>
-                                                <th class="text-center" style="width: 20%">Document Name</th>
-                                                <th class="text-center">View</th>
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th> 
 
-                                            </tr>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">1</td>
-                                                <td style="width:50%">Interview Application Form</td>
-                                                <td style="width: 10%; text-align:center" class="text-center">
-                                                    @if ($Rec->InterviewSubmit == 1)
-                                                        @php
-                                                            $sendingId = base64_encode($Rec->JAId);
-                                                        @endphp
+                                        <tr>
+                                            <td class="text-center">1</td>
+                                            <td style="width:50%">Interview Application Form</td>
+                                            <td style="width: 10%; text-align:center" class="text-center">
+                                                @if ($Rec->InterviewSubmit == 1)
+                                                    @php
+                                                        $sendingId = base64_encode($Rec->JAId);
+                                                    @endphp
 
-                                                        <a href="{{ route('interview_form_detail') }}?jaid={{ $sendingId }}"
-                                                            target="_blank">View</a>
+                                                    <a href="{{ route('interview_form_detail') }}?jaid={{ $sendingId }}"
+                                                       target="_blank">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">2</td>
+                                            <td>Firo B</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->FIROB_Test == 1)
+                                                    @php
+                                                        $firobUserCount = DB::table('firob_user')
+                                                            ->where('userid', $Rec->JCId)
+                                                            ->count();
+
+                                                    @endphp
+                                                    @if ($firobUserCount == 54)
+                                                        <span>
+            <a href="javascript:void(0);"
+               onclick='window.open("{{ route('firob_result') }}?jcid={{ $Rec->JCId }}", "", "width=750,height=900");'>Result 1</a>
+        </span>
+                                                        |
+                                                        <span>
+                     <a href="javascript:void(0);"
+                        onclick='window.open("{{ route('firob_result_summery') }}?jcid={{ $Rec->JCId }}", "", "width=750,height=900");'>Result 2</a>
+        </span>
+                                                    @else
+                                                        <a href="javascript:void(0);" class="text-danger"
+                                                           onclick="delete_firob()">
+                                                            <i class="fa fa-trash text-danger"></i> Reset..?
+                                                        </a>
                                                     @endif
-                                                </td>
-                                            </tr>
+                                                @endif
 
-                                            <tr>
-                                                <td class="text-center">2</td>
-                                                <td>Firo B</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->FIROB_Test == 1)
-                                                        @php
-                                                            $firobUserCount = DB::table('firob_user')
-                                                                ->where('userid', $Rec->JCId)
-                                                                ->count();
-
-                                                        @endphp
-                                                        @if ($firobUserCount == 54)
-                                                            <span>
-                                                                <a href="javascript:void(0);" 
-                                                                    onclick="openResultWindow('{{ route('firob_result') }}?jcid={{ $Rec->JCId }}')">Result
-                                                                    1</a>
-                                                            </span>
-                                                            |
-                                                            <span>
-                                                                <a href="javascript:void(0);"
-                                                                    onclick="openResultWindow('{{ route('firob_result_summery') }}?jcid={{ $Rec->JCId }}')">Result
-                                                                    2</a>
-                                                            </span>
-
-                                                            <script>
-                                                            function openResultWindow(url) {
-                                                                var width = 750;
-                                                                var height = 900;
-                                                                var left = (screen.width - width) / 2;
-                                                                var top = (screen.height - height) / 2;
-                                                                window.open(url, "", `width=${width},height=${height},left=${left},top=${top}`);
-                                                            }
-                                                            </script>
-                                                        @else
-                                                            <a href="javascript:void(0);" class="text-danger"
-                                                                onclick="delete_firob()">
-                                                                <i class="fa fa-trash text-danger"></i> Reset..?
-                                                            </a>
-                                                        @endif
-                                                    @endif
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">3</td>
-                                                <td>Test Papers</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Test_Paper != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Test_Paper) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">4</td>
-                                                <td>Interview Assessment Sheet</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->IntervAssessment != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->IntervAssessment) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">3</td>
+                                            <td>Test Papers</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Test_Paper != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Test_Paper }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">4</td>
+                                            <td>Interview Assessment Sheet</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->IntervAssessment != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->IntervAssessment }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
                                         </tbody>
                                     </table>
@@ -1688,112 +1717,114 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <tr>
-                                                <th style="width: 5%" class=" text-center">S.No.</th>
-                                                <th class="text-center" style="width: 20%">Document Name</th>
-                                                <th class="text-center">View</th>
-                                                <th style="width: 5%" class=" text-center">S.No.</th>
-                                                <th class="text-center" style="width: 20%">Document Name</th>
-                                                <th class="text-center">View</th>
-                                            </tr>
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>Offer Letter</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
-                                                        <a href="{{ route('offer_ltr_print') }}?jaid={{ $Rec->JAId }}"
-                                                            class="btn btn-link btn-sm">View</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">2</td>
-                                                <td>Joining Form</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->FinalSubmit == 1)
-                                                        <a href="{{ route('joining_form_print') }}?jaid={{ $sendingId }}"
-                                                            target="_blank" class="btn btn-link btn-sm">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Offer Letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                    <a href="{{ route('offer_ltr_print') }}?jaid={{ $Rec->JAId }}"
 
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Appointment Letter</td>
-                                                <td style="width: 10%; text-align:center" colspan="4">
-                                                    @if ($Rec->AppLtrGen == 'Yes')
-                                                        <a href="{{ route('appointment_ltr_print') }}?jaid={{ $Rec->JAId }}"
-                                                            target="_blank">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Service Agreement (E Stamp)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->AgrLtrGen == 'Yes')
-                                                        <a href="{{ route('service_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">First Page</a> |
-                                                        <a href="{{ route('service_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">Rest All</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">5</td>
-                                                <td>Service Agreement (Old Stamp)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->AgrLtrGen == 'Yes')
-                                                        <a href="{{ route('service_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">
-                                                            View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                                       class="btn btn-link btn-sm">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">2</td>
+                                            <td>Joining Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->FinalSubmit == 1)
 
-                                            <tr>
-                                                <td class=" text-center">6</td>
-                                                <td>Service Bond (E Stamp)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->BLtrGen == 'Yes')
-                                                        <a href="{{ route('service_bond_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">First Page</a> |
-                                                        <a href="{{ route('service_bond_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">Rest All</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">7</td>
-                                                <td>Service Bond(Old Stamp)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->BLtrGen == 'Yes')
-                                                        <a href="{{ route('service_bond_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">
-                                                            View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                                    <a href="{{ route('joining_form_print') }}?jaid={{ $sendingId }}"
+                                                       target="_blank" class="btn btn-link btn-sm">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
-                                            <tr>
-                                                <td class=" text-center">9</td>
-                                                <td>Confidentiality Agreement (E Stamp)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->ConfLtrGen == 'Yes')
-                                                        <a href="{{ route('conf_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">
-                                                            First Page</a> |
-                                                        <a href="{{ route('conf_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">
-                                                            Rest All</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">10</td>
-                                                <td>Confidentiality Agreement (Old Stamp)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Rec->ConfLtrGen == 'Yes')
-                                                        <a href="{{ route('conf_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                            target="_blank">
-                                                            View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Appointment Letter</td>
+                                            <td style="width: 10%; text-align:center" colspan="4">
+                                                @if ($Rec->AppLtrGen == 'Yes')
+                                                    <a href="{{ route('appointment_ltr_print') }}?jaid={{ $Rec->JAId }}"
+                                                       target="_blank">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Service Agreement (E Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->AgrLtrGen == 'Yes')
+                                                    <a href="{{ route('service_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">First Page</a> |
+                                                    <a href="{{ route('service_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">Rest All</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">5</td>
+                                            <td>Service Agreement (Old Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->AgrLtrGen == 'Yes')
+                                                    <a href="{{ route('service_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class=" text-center">6</td>
+                                            <td>Service Bond (E Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->BLtrGen == 'Yes')
+                                                    <a href="{{ route('service_bond_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">First Page</a> |
+                                                    <a href="{{ route('service_bond_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">Rest All</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">7</td>
+                                            <td>Service Bond(Old Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->BLtrGen == 'Yes')
+                                                    <a href="{{ route('service_bond_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        View</a>
+                                                @endif
+                                            </td>
+                                        </tr> 
+
+                                        <tr>
+                                            <td class=" text-center">9</td>
+                                            <td>Confidentiality Agreement (E Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->ConfLtrGen == 'Yes')
+                                                    <a href="{{ route('conf_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        First Page</a> |
+                                                    <a href="{{ route('conf_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        Rest All</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">10</td>
+                                            <td>Confidentiality Agreement (Old Stamp)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Rec->ConfLtrGen == 'Yes')
+                                                    <a href="{{ route('conf_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">
+                                                        View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1807,165 +1838,163 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <tr>
-                                                <th style="width: 5%" class=" text-center">S.No.</th>
-                                                <th class="text-center" style="width: 20%">Document Name</th>
-                                                <th class="text-center">View</th>
-                                                <th style="width: 5%" class=" text-center">S.No.</th>
-                                                <th class="text-center" style="width: 20%">Document Name</th>
-                                                <th class="text-center">View</th>
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
 
-                                            </tr>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>PF Form 2</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->PF_Form2 != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form2) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">2</td>
-                                                <td>PF Form 11</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->PF_Form11 != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form11) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>PF Form 2</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PF_Form2 != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form2 }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">2</td>
+                                            <td>PF Form 11</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PF_Form11 != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form11 }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
 
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Gratutity Form</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Gratutity != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Gratutity) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">4</td>
-                                                <td>ESIC</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->ESIC != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">5</td>
-                                                <td>ESIC_Family</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->ESIC_Family != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC_Family) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">6</td>
-                                                <td>PF- E nomination Form</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->PFeNomination != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PFeNomination) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">7</td>
-                                                <td>Form 16(From Pervious Employer)</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Form16 != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Form16) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                                <td class=" text-center">8</td>
-                                                <td>EPFO Joint Request</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Epfo_Joint != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Epfo_Joint) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Gratutity Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Gratutity != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Gratutity }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">4</td>
+                                            <td>ESIC</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->ESIC != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>ESIC_Family</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->ESIC_Family != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC_Family }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">6</td>
+                                            <td>PF- E nomination Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PFeNomination != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PFeNomination }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">7</td>
+                                            <td>Form 16(From Pervious Employer)</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Form16 != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Form16 }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                            <td class=" text-center">8</td>
+                                            <td>EPFO Joint Request</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Epfo_Joint != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Epfo_Joint }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody> 
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
                 <div class="row">
-                    <div class="col-md-6 d-flex">
+                    <div class="col-md-6 d-flex"> 
                         <div class="card profile-box flex-fill" style="min-height:17px;">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Previous Employment Documents</h6>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <tr>
-                                                <th style="width: 5%" class=" text-center">S.No.</th>
-                                                <th class="text-center" style="width: 20%">Document Name</th>
-                                                <th class="text-center">View</th>
-                                            </tr>
+                                        <tr>
+                                            <th style="width: 5%" class=" text-center">S.No.</th>
+                                            <th class="text-center" style="width: 20%">Document Name</th>
+                                            <th class="text-center">View</th>
+                                        </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>Offer or Appointment letter</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->OfferLtr != null)
-                                                   
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">2</td>
-                                                <td>Relieving Letter</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->RelievingLtr != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->RelievingLtr) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Pay/Salary slip</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->SalarySlip != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->SalarySlip) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Appraisal or last increment letter</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->AppraisalLtr != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->AppraisalLtr) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tbody> 
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Offer or Appointment letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->OfferLtr != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->OfferLtr }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td> 
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>Relieving Letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->RelievingLtr != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->RelievingLtr }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Pay/Salary slip</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->SalarySlip != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->SalarySlip }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Appraisal or last increment letter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->AppraisalLtr != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->AppraisalLtr }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Resignation Acceptance by Recent Employer</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Resignation_Accept != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Resignation_Accept) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Resignation Acceptance by Recent Employer</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Resignation_Accept != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Resignation_Accept }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1976,26 +2005,25 @@
                         <div class="card profile-box flex-fill" style="min-height:17px;">
                             <div class="card-body">
                                 <h6 class="card-title border-bot">Educational Certificates</h6>
-                                <div class="table-responsive">
+                                <div class="table-responsive"> 
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <th style="width: 5%" class=" text-center">S.No.</th>
-                                            <th class="text-center" style="width: 20%">Document Name</th>
-                                            <th class="text-center">View</th>
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($Education as $item)
-                                                @if ($item->File_Attachment != null)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->Qualification }}</td>
-                                                        <td>
-                                                            <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $item->File_Attachment) }}"
-                                                                download>View</a>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
+                                        @foreach ($Education as $item)
+                                            @if($item->File_Attachment != null)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{ $item->Qualification }}</td>
+                                                    <td>
+                                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $item->File_Attachment }}"
+                                                           download>View</a></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -2011,61 +2039,61 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <th style="width: 5%" class=" text-center">S.No.</th>
-                                            <th class="text-center" style="width: 20%">Document Name</th>
-                                            <th class="text-center">View</th>
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>Aadhaar Card</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Aadhar != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Aadhar) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">2</td>
-                                                <td>PAN Card</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->PanCard != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PanCard) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Driving Licence</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->DL != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->DL) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Passport</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Passport != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Passport) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">5</td>
-                                                <td>Bank Passbook/Document</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->BankDoc != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BankDoc) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tbody> 
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Aadhaar Card</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Aadhar != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Aadhar }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>PAN Card</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->PanCard != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PanCard }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Driving Licence</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->DL != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->DL }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Passport</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Passport != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Passport }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Bank Passbook/Document</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->BankDoc != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->BankDoc }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -2079,71 +2107,71 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <th style="width: 5%" class=" text-center">S.No.</th>
-                                            <th class="text-center" style="width: 20%">Document Name</th>
-                                            <th class="text-center">View</th>
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>Blood Group Certificate</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->BloodGroup != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BloodGroup) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">2</td>
-                                                <td>Health Declaration Form</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Health != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Health) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Vaccination Certificate</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->VaccinationCert != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->VaccinationCert) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Declaration for Compliance to Ethical Financial Dealings</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Ethical != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Ethical) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">5</td>
-                                                <td>Investment Declaration</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Invst_Decl != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Invst_Decl) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">6</td>
-                                                <td>Self Declaration for Resignation</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($Docs != null && $Docs->Resignation != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Resignation) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Blood Group Certificate</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->BloodGroup != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->BloodGroup }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>Health Declaration Form</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Health != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Health }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td> 
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Vaccination Certificate</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->VaccinationCert != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->VaccinationCert }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Declaration for Compliance to Ethical Financial Dealings</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Ethical != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Ethical }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Investment Declaration</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Invst_Decl != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Invst_Decl }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">6</td>
+                                            <td>Self Declaration for Resignation</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($Docs != null && $Docs->Resignation != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Resignation }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -2159,62 +2187,62 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <th style="width: 5%" class=" text-center">S.No.</th>
-                                            <th class="text-center" style="width: 20%">Document Name</th>
-                                            <th class="text-center">View</th>
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>Invoice</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->invoice != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->invoice) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">2</td>
-                                                <td>RC</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->rc_file != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->rc_file) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Vehicle Image</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->vehicle_image != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->vehicle_image) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Invoice</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->invoice != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->invoice }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td> 
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>RC</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->rc_file != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->rc_file }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr> 
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Vehicle Image</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->vehicle_image != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->vehicle_image }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Insurance</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->insurance != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->insurance) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">5</td>
-                                                <td>Current Odo Meter</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->odo_meter != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->odo_meter) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Insurance</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->insurance != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->insurance }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Current Odo Meter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->odo_meter != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->odo_meter }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -2228,62 +2256,62 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="text-center bg-success bg-gradient text-light">
-                                            <th style="width: 5%" class=" text-center">S.No.</th>
-                                            <th class="text-center" style="width: 20%">Document Name</th>
-                                            <th class="text-center">View</th>
+                                        <th style="width: 5%" class=" text-center">S.No.</th>
+                                        <th class="text-center" style="width: 20%">Document Name</th>
+                                        <th class="text-center">View</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class=" text-center">1</td>
-                                                <td>Invoice</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->four_invoice != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_invoice) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">2</td>
-                                                <td>RC</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->four_rc_file != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_rc_file) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">3</td>
-                                                <td>Vehicle Image</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->four_vehicle_image != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_vehicle_image) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">1</td>
+                                            <td>Invoice</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_invoice != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_invoice }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">2</td>
+                                            <td>RC</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_rc_file != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_rc_file }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">3</td>
+                                            <td>Vehicle Image</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_vehicle_image != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_vehicle_image }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
-                                            <tr>
-                                                <td class=" text-center">4</td>
-                                                <td>Insurance</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->four_insurance != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_insurance) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class=" text-center">5</td>
-                                                <td>Current Odo Meter</td>
-                                                <td style="width: 10%; text-align:center">
-                                                    @if ($vehicle_info != null && $vehicle_info->four_odo_meter != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_odo_meter) }}"
-                                                            class="view-pdf">View</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class=" text-center">4</td>
+                                            <td>Insurance</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_insurance != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_insurance }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=" text-center">5</td>
+                                            <td>Current Odo Meter</td>
+                                            <td style="width: 10%; text-align:center">
+                                                @if ($vehicle_info != null && $vehicle_info->four_odo_meter != null)
+                                                    <a href="{{ URL::to('/') }}/uploads/vehicle_upload/{{ $vehicle_info->four_odo_meter }}"
+                                                       class="view-pdf">View</a>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -2302,122 +2330,121 @@
 
                                 <table class="table table-bordered table-striped text-left">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <th style="width: 50%">Action</th>
-                                        <th>Date</th>
+                                    <th style="width: 50%">Action</th>
+                                    <th>Date</th>
                                     </thead>
                                     <tbody>
+                                    <tr>
+                                        <td>Job Applied</td>
+                                        <td> {{ date('d-M-Y', strtotime($Rec->ApplyDate)) }}</td>
+                                    </tr>
+                                    @if ($Rec->Status != null)
                                         <tr>
-                                            <td>Job Applied</td>
-                                            <td> {{ date('d-M-Y', strtotime($Rec->ApplyDate)) }}</td>
+                                            <td>HR Screening Status</td>
+                                            <td>{{ $Rec->Status }}</td>
                                         </tr>
-                                        @if ($Rec->Status != null)
+                                        <tr>
+                                            <td>HR Screening Date</td>
+                                            <td>{{date('d-M-Y', strtotime($Rec->HrScreeningDate))}}</td>
+                                        </tr>
+                                 <!-- =====================================================-->
+                                         @if ($Rec->Status == 'Rejected')
+                                         <tr>
+                                           <td>Reason for Rejection</td> 
+                                           <td>{{ $Rec->RejectRemark }}</td>
+                                            <!-- <td>{{date('d-M-Y', strtotime($Rec->RejectRemark))}}</td> -->
+                                        </tr>
+                                         @endif
+                                <!-- =============================================================== -->
+                                    @endif
+                                   
+
+                                    @if ($Rec->Status == 'Selected')
+                                        <tr>
+                                            <td>Forwarded for Technical Screening</td>
+                                            <td>{{ $Rec->FwdTechScr }}</td>
+                                        </tr>
+                                        @if ($Rec->FwdTechScr == 'Yes')
                                             <tr>
-                                                <td>HR Screening Status</td>
-                                                <td>{{ $Rec->Status }}</td>
+                                                <td>Technical Screening Sent Date</td>
+                                                <td> {{ date('d-M-Y', strtotime($Rec->ReSentForScreen)) }}</td>
                                             </tr>
                                             <tr>
-                                                <td>HR Screening Date</td>
-                                                <td>{{ date('d-M-Y', strtotime($Rec->HrScreeningDate)) }}</td>
+                                                <td>Technical Screening Date</td>
+                                                <td>{{ $Rec->ResScreened ? date('d-M-Y', strtotime($Rec->ResScreened)) : ' ' }}</td>
+                                                <!-- <td> {{ date('d-M-Y', strtotime($Rec->ResScreened)) }}</td> -->
                                             </tr>
-                                            <!-- =====================================================-->
-                                            @if ($Rec->Status == 'Rejected')
-                                                <tr>
-                                                    <td>Reason for Rejection</td>
-                                                    <td>{{ $Rec->RejectRemark }}</td>
-                                                    <!-- <td>{{ date('d-M-Y', strtotime($Rec->RejectRemark)) }}</td> -->
-                                                </tr>
+                                            <tr>
+                                                <td>Technical Screening Status</td> 
+                                                <td>{{ $Rec->ScreenStatus }}</td>
+                                            </tr>
+
+                                <!-- =============================================================== -->
+                                            @if($Rec->ScreenStatus == 'Reject')
+                                            <tr>
+                                                <td>Reason for Rejection</td> 
+                                                <td>{{ $Rec->RejectionRem }}</td>
+                                            </tr>
                                             @endif
-                                            <!-- =============================================================== -->
+                                <!-- ================================================================== -->
                                         @endif
+                                    @endif
 
+                                    @if ($Rec->ScreenStatus == 'Shortlist')
+                                        <tr>
+                                            <td>Inderview Date</td>
+                                            <td>{{ date('d-M-Y', strtotime($Rec->IntervDt)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Interview Status</td>
+                                            <td>{{ $Rec->IntervStatus }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($Rec->IntervStatus == '2nd Round Interview')
+                                        <tr>
+                                            <td>2nd Round Interview Date</td>
+                                            <td>{{ date('d-M-Y', strtotime($Rec->IntervDt2)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2nd Round Interview Status</td>
+                                            <td>{{ $Rec->IntervStatus2 }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($Rec->SelectedForD != null)
+                                        <tr>
+                                            <td>Offer Letter Sent</td>
+                                            <td>{{ $OfBasic->OfferLetterSent ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Offer Letter Status</td>
+                                            <td>{{ $OfBasic->Answer ?? '' }}</td>
+                                        </tr>
+                                    @endif
 
-                                        @if ($Rec->Status == 'Selected')
-                                            <tr>
-                                                <td>Forwarded for Technical Screening</td>
-                                                <td>{{ $Rec->FwdTechScr }}</td>
-                                            </tr>
-                                            @if ($Rec->FwdTechScr == 'Yes')
-                                                <tr>
-                                                    <td>Technical Screening Sent Date</td>
-                                                    <td> {{ date('d-M-Y', strtotime($Rec->ReSentForScreen)) }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Technical Screening Date</td>
-                                                    <td>{{ $Rec->ResScreened ? date('d-M-Y', strtotime($Rec->ResScreened)) : ' ' }}
-                                                    </td>
-                                                    <!-- <td> {{ date('d-M-Y', strtotime($Rec->ResScreened)) }}</td> -->
-                                                </tr>
-                                                <tr>
-                                                    <td>Technical Screening Status</td>
-                                                    <td>{{ $Rec->ScreenStatus }}</td>
-                                                </tr>
+                                    @if ($OfBasic != null && $OfBasic->Answer == 'Rejected')
+                                        <tr>
+                                            <td>Offer Letter Rejected Reason</td>
+                                            <td>
 
-                                                <!-- =============================================================== -->
-                                                @if ($Rec->ScreenStatus == 'Reject')
-                                                    <tr>
-                                                        <td>Reason for Rejection</td>
-                                                        <td>{{ $Rec->RejectionRem }}</td>
-                                                    </tr>
+                                                @if ($OfBasic->RejReason !='' || $OfBasic->RejReason != null)
+                                                    {{ $OfBasic->RejReason }}
+                                                @else
+                                                    {{ $OfBasic->RejReason1 }}
                                                 @endif
-                                                <!-- ================================================================== -->
-                                            @endif
-                                        @endif
-
-                                        @if ($Rec->ScreenStatus == 'Shortlist')
-                                            <tr>
-                                                <td>Inderview Date</td>
-                                                <td>{{ date('d-M-Y', strtotime($Rec->IntervDt)) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Interview Status</td>
-                                                <td>{{ $Rec->IntervStatus }}</td>
-                                            </tr>
-                                        @endif
-                                        @if ($Rec->IntervStatus == '2nd Round Interview')
-                                            <tr>
-                                                <td>2nd Round Interview Date</td>
-                                                <td>{{ date('d-M-Y', strtotime($Rec->IntervDt2)) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2nd Round Interview Status</td>
-                                                <td>{{ $Rec->IntervStatus2 }}</td>
-                                            </tr>
-                                        @endif
-                                        @if ($Rec->SelectedForD != null)
-                                            <tr>
-                                                <td>Offer Letter Sent</td>
-                                                <td>{{ $OfBasic->OfferLetterSent ?? '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Offer Letter Status</td>
-                                                <td>{{ $OfBasic->Answer ?? '' }}</td>
-                                            </tr>
-                                        @endif
-
-                                        @if ($OfBasic != null && $OfBasic->Answer == 'Rejected')
-                                            <tr>
-                                                <td>Offer Letter Rejected Reason</td>
-                                                <td>
-
-                                                    @if ($OfBasic->RejReason != '' || $OfBasic->RejReason != null)
-                                                        {{ $OfBasic->RejReason }}
-                                                    @else
-                                                        {{ $OfBasic->RejReason1 }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endif
-                                        @if ($OfBasic != null && $OfBasic->Answer == 'Accepted')
-                                            <tr>
-                                                <td>Joining Form Sent</td>
-                                                <td>{{ $OfBasic->JoiningFormSent }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Joining Form Status</td>
-                                                <td>{{ $Rec->FinalSubmit == 1 ? 'Submitted' : 'Not Submitted' }}
-                                                </td>
-                                            </tr>
-                                        @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @if ($OfBasic != null && $OfBasic->Answer == 'Accepted')
+                                        <tr>
+                                            <td>Joining Form Sent</td>
+                                            <td>{{ $OfBasic->JoiningFormSent }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Joining Form Status</td>
+                                            <td>{{ $Rec->FinalSubmit == 1 ? 'Submitted' : 'Not Submitted' }}
+                                            </td>
+                                        </tr>
+                                    @endif
                                     </tbody>
                                 </table>
 
@@ -2430,22 +2457,22 @@
                                 <h6 class="card-title border-bot">Activity Log</h6>
                                 <table class="table table-bordered table-striped " id="CandLogTable">
                                     <thead class="text-center bg-success bg-gradient text-light">
-                                        <th>S.No.</th>
-                                        <th style="width: 20%">Date</th>
-                                        <th>Action</th>
+                                    <th>S.No.</th>
+                                    <th style="width: 20%">Date</th>
+                                    <th>Action</th>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $i = 0;
-                                        @endphp
-                                        @foreach ($candidate_log as $item => $value)
-                                            <tr>
-                                                <td class="text-center">{{ ++$i }}</td>
-                                                <td class="text-center">{{ date('d-M-Y', strtotime($value->Date)) }}
-                                                </td>
-                                                <td>{{ $value->Description }}</td>
-                                            </tr>
-                                        @endforeach
+                                    @php
+                                        $i = 0;
+                                    @endphp
+                                    @foreach ($candidate_log as $item => $value)
+                                        <tr>
+                                            <td class="text-center">{{ ++$i }}</td>
+                                            <td class="text-center">{{ date('d-M-Y', strtotime($value->Date)) }}
+                                            </td>
+                                            <td>{{ $value->Description }}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
 
@@ -2463,270 +2490,275 @@
                                 <h6 class="card-title border-bot">Offer Letter Basic Details
                                     {{-- @if ($OfBasic != null && ($OfBasic->Answer == '' || $OfBasic->Answer == 'Rejected')) --}}
                                     <a href="javascript:void(0);" class="edit-icon" data-bs-toggle="modal"
-                                        data-bs-target="#OfferLtrModal" id="offerltredit"
-                                        data-id="{{ $Rec->JAId }}" ">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                        {{-- @endif --}}
-                                    </h6>
-                                    <ul class="personal-info">
-                                        <li>
-                                            <div class="title" style="width: 150px;">Department<span
-                                                    style="float: right">:</span></div>
-                                            <div class="text">
-                                                 @if ($OfBasic != null)
-                                        {{ getDepartment($OfBasic->Department) ?? '-' }}
-                                        ({{ getcompany_code($OfBasic->Company) }})
-                                    @else
-                                        -
-                                        @endif
-                            </div>
-                            </li>
-                            <li>
-                                <div class="title" style="width: 150px;">Designation<span
-                                        style="float: right">:</span></div>
-                                <div class="text">
-                                    @if ($OfBasic != null)
-                                        @if ($OfBasic->Designation == 0)
-                                            -
-                                        @else
-                                            {{ getDesignation($OfBasic->Designation) ?? '-' }}
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </div>
-                            </li>
-                            <li>
-                                <div class="title" style="width: 150px;">Grade<span style="float: right">:</span>
-                                </div>
-                                <div class="text">
-                                    @if ($OfBasic != null)
-                                        @if ($OfBasic->Grade == 0)
-                                            -
-                                        @else
-                                            {{ getGradeValue($OfBasic->Grade) ?? '-' }}
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </div>
-                            </li>
-                            <li>
-                                <div class="title" style="width: 150px;">Reporting Mgr.<span
-                                        style="float: right">:</span></div>
-                                <div class="text">
-                                    @if ($OfBasic != null)
-                                        @if ($OfBasic->repchk == 'RepWithoutEmp')
-                                            {{ getDesignation($OfBasic->reporting_only_desig) }}
-                                        @else
-                                            @if ($OfBasic->A_ReportingManager == '' || $OfBasic->A_ReportingManager == null)
-                                                -
-                                            @else
-                                                {{ getFullName($OfBasic->A_ReportingManager) ?? '-' }}
-                                            @endif
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </div>
-                            </li>
-                            <li>
-                                <div class="title" style="width: 150px;">CTC<span style="float: right">:</span>
-                                </div>
-                                <div class="text">
-                                    @if ($OfBasic != null)
-                                        @if ($OfBasic->CTC == '' || $OfBasic->CTC == null)
-                                            -
-                                        @else
-                                            {{ $OfBasic->CTC ?? '-' }}
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </div>
-                            </li>
-                            <li>
-                                <div class="title" style="width: 150px;">Service Condition<span
-                                        style="float: right">:</span></div>
-                                <div class="text">
-                                    @if ($OfBasic != null)
-                                        @if ($OfBasic->ServiceCondition == 'Training')
-                                            Training
-                                        @elseif($OfBasic->ServiceCondition == 'Probation')
-                                            Probation
-                                        @elseif($OfBasic->ServiceCondition == 'nopnot')
-                                            No Probation No Training
-                                        @else
-                                            -
-                                        @endif
-                                    @endif
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="title" style="width: 150px;">Service Bond<span
-                                        style="float: right">:</span></div>
-                                <div class="text">
-                                    @if ($OfBasic != null)
-                                        @if ($OfBasic->ServiceBond == 'Yes')
-                                            Yes
-                                        @elseif($OfBasic->ServiceBond == 'No')
-                                            No
-                                        @else
-                                            -
-                                        @endif
-                                    @endif
-                                </div>
-                            </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-7 d-flex">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
-                            <h6 class="card-title border-bot">Offer Letter Generation & Review
-                                {{-- @if ($OfBasic != null && ($OfBasic->Answer == '' || $OfBasic->Answer == 'Rejected')) --}}
-                                <a href="javascript:void(0);" class="edit-icon" id="offerltrgen"
-                                    data-id="{{ $Rec->JAId }}">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                {{-- @endif --}}
-                            </h6>
-
-                            <ul class="personal-info">
-                                <li>
-                                    <div class="title" style="width: 300px;">Offer Letter Generated<span
-                                            style="float: right">:</span></div>
-                                    <div class="text">
-                                        @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
-                                            <span class="badge badge-success">Yes</span>
-                                        @else
-                                            <span class="badge badge-danger">No</span>
-                                        @endif
-                                        @if ($count > 1)
-                                            ( <a href="javascript:vaoid(0);" class="offer-history-btn"
-                                                data-bs-toggle="modal" data-bs-target="#HistoryModal"
-                                                onclick="getOfHistory({{ $Rec->JAId }});"> View History</a>)
-                                        @endif
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="title" style="width: 300px;">Send for Review<span
-                                            style="float: right">:</span></div>
-                                    <div class="text">
-
-                                        @if ($OfBasic != null && $OfBasic->SendReview == 1)
-                                            <span class="text-dark">Yes</span> ( <a href="javascript:void(0);"
-                                                onclick="viewReview({{ $Rec->JAId }});" data-bs-toggle="modal"
-                                                data-bs-target="#view_review">View</a>
-                                            )
-                                        @else
-                                            <span class="text-danger">No</span>
-                                        @endif
-                                        @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
-                                            (<a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#review_modal">
-                                                Send Now</a>)
-                                        @endif
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="title" style="width: 300px;">Send to Candidate<span
-                                            style="float: right">:</span></div>
-                                    <div class="text">
-                                        @if ($OfBasic != null && $OfBasic->OfferLetterSent == 'Yes')
-                                            <span class="text-dark">Yes</span>
-                                        @else
-                                            <span class="text-danger">No</span>
-                                            @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
-                                                ( <a href="javascript:void(0);" class=""
-                                                    onclick="sendOfferLtr({{ $Rec->JAId }});">
-                                                    Send Now</a>)
-                                            @endif
-                                        @endif
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="title" style="width: 300px;">Candidate Response<span
-                                            style="float: right">:</span></div>
-                                    <div class="text"> <span
-                                            class="text-danger">{{ $OfBasic->Answer ?? '-' }}</span>
-                                        @if ($OfBasic != null && $OfBasic->Answer == 'Rejected')
-                                            ( <a href="javascript:void(0);" class=""
-                                                onclick="offerReopen({{ $Rec->JAId }});"> Offer Reopen</a>)
-                                        @endif
-
-                                        @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer == null)
-                                            <a class="btn btn-xs btn-warning" href="javascript:void(0);"
-                                                onclick="OLAction({{ $JAId }});">OL Action on behalf of
-                                                candidate</a>
-                                        @endif
-                                        @if ($OfBasic != null && $OfBasic->HR_Remark != '')
-                                            (HR Remark:- {{ $OfBasic->HR_Remark }})
-                                        @endif
-
-                                    </div>
-                                </li>
-
-                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer == 'Rejected')
+                                       data-bs-target="#OfferLtrModal" id="offerltredit"
+                                       data-id="{{ $Rec->JAId }}"
+                                        ">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    {{-- @endif --}}
+                                </h6>
+                                <ul class="personal-info">
                                     <li>
-                                        <div class="title" style="width: 300px;">Rejection Reason<span
+                                        <div class="title" style="width: 150px;">Department<span
                                                 style="float: right">:</span></div>
-                                        <div class="text text-danger">
+                                        <div class="text">
                                             @if ($OfBasic != null)
-                                                {{ $OfBasic->RejReason ?? '-' }}
+                                                {{ getDepartment($OfBasic->Department) ?? '-' }}
+                                                ({{ getcompany_code($OfBasic->Company) }})
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Designation<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->Designation == 0)
+                                                    -
+                                                @else
+                                                    {{ getDesignation($OfBasic->Designation) ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Grade<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->Grade == 0)
+                                                    -
+                                                @else
+                                                    {{ getGradeValue($OfBasic->Grade) ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Reporting Mgr.<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->repchk == 'RepWithoutEmp')
+                                                    {{ getDesignation($OfBasic->reporting_only_desig) }}
+                                                @else
+                                                    @if ($OfBasic->A_ReportingManager == '' || $OfBasic->A_ReportingManager == null)
+                                                        -
+                                                    @else
+                                                        {{ getFullName($OfBasic->A_ReportingManager) ?? '-' }}
+                                                    @endif
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">CTC<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->CTC == '' || $OfBasic->CTC == null)
+                                                    -
+                                                @else
+                                                    {{ $OfBasic->CTC ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Service Condition<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->ServiceCondition == 'Training')
+                                                    Training
+                                                @elseif($OfBasic->ServiceCondition == 'Probation')
+                                                    Probation
+                                                @elseif($OfBasic->ServiceCondition == 'nopnot')
+                                                    No Probation No Training
+                                                @else
+                                                    -
+                                                @endif
                                             @endif
                                         </div>
                                     </li>
 
-                                @endif
-                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
-                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
-                                        <li>
-                                            <div class="title" style="width: 300px;">Date of Joining<span
-                                                    style="float: right">:</span></div>
-
-                                            <div class="text">
-                                                <input type="date"
-                                                    class="form-control frminp form-control-sm d-inline-block"
-                                                    id="dateofJoin" name="" readonly=""
-                                                    style="width: 130px;" value="{{ $OfBasic->JoinOnDt ?? '' }}">
-                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                    id="joindtenable" onclick="joinDateEnbl()"
-                                                    style="font-size: 16px;cursor: pointer;"></i>
-                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                    id="JoinSave" onclick="saveJoinDate()">Save
-                                                </button>
-                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                    id="JoinCanc" onclick="window.location.reload();">Cancel
-                                                </button>
-                                            </div>
-
-                                        </li>
-                                    @endif
-                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
-                                        <li>
-                                            <div class="title" style="width: 300px;">Onboarding process (mail to
-                                                candidate)<span style="float: right">:</span></div>
-                                            <div class="text">
-                                                @if ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes')
-                                                    <span class="text-dark">Yes</span>
+                                    <li>
+                                        <div class="title" style="width: 150px;">Service Bond<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null)
+                                                @if ($OfBasic->ServiceBond == 'Yes')
+                                                    Yes
+                                                @elseif($OfBasic->ServiceBond == 'No')
+                                                    No
                                                 @else
-                                                    <span class="text-danger">No</span>
-                                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
-                                                        ( <a href="javascript:void(0);" class=""
-                                                            onclick="sendJoiningForm({{ $Rec->JAId }});"> Send
-                                                            Now</a>)
-                                                    @endif
+                                                    -
                                                 @endif
+                                            @endif
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Offer Letter Generation & Review
+                                    {{-- @if ($OfBasic != null && ($OfBasic->Answer == '' || $OfBasic->Answer == 'Rejected')) --}}
+                                    <a href="javascript:void(0);" class="edit-icon" id="offerltrgen"
+                                       data-id="{{ $Rec->JAId }}">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    {{-- @endif --}}
+                                </h6>
+
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title" style="width: 300px;">Offer Letter Generated<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                <span class="badge badge-success">Yes</span>
+                                            @else
+                                                <span class="badge badge-danger">No</span>
+                                            @endif
+                                            @if ($count > 1)
+                                                ( <a href="javascript:vaoid(0);" class="offer-history-btn"
+                                                     data-bs-toggle="modal" data-bs-target="#HistoryModal"
+                                                     onclick="getOfHistory({{ $Rec->JAId }});"> View History</a>)
+                                            @endif
+
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 300px;">Send for Review<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+
+                                            @if ($OfBasic != null && $OfBasic->SendReview == 1)
+                                                <span class="text-dark">Yes</span> ( <a href="javascript:void(0);"
+                                                                                        onclick="viewReview({{ $Rec->JAId }});"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#view_review">View</a>
+                                                )
+                                            @else
+                                                <span class="text-danger">No</span>
+                                            @endif
+                                            @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                (<a href="javascript:void(0);" data-bs-toggle="modal"
+                                                    data-bs-target="#review_modal">
+                                                    Send Now</a>)
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 300px;">Send to Candidate<span
+                                                style="float: right">:</span></div>
+                                        <div class="text">
+                                            @if ($OfBasic != null && $OfBasic->OfferLetterSent == 'Yes')
+                                                <span class="text-dark">Yes</span>
+                                            @else
+                                                <span class="text-danger">No</span>
+                                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                    ( <a href="javascript:void(0);" class=""
+                                                         onclick="sendOfferLtr({{ $Rec->JAId }});">
+                                                        Send Now</a>)
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title" style="width: 300px;">Candidate Response<span
+                                                style="float: right">:</span></div>
+                                        <div class="text"> <span
+                                                class="text-danger">{{ $OfBasic->Answer ?? '-' }}</span>
+                                            @if ($OfBasic != null && $OfBasic->Answer == 'Rejected')
+                                                ( <a href="javascript:void(0);" class=""
+                                                     onclick="offerReopen({{ $Rec->JAId }});"> Offer Reopen</a>)
+                                            @endif
+
+                                            @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer == null)
+                                                <a class="btn btn-xs btn-warning" href="javascript:void(0);"
+                                                   onclick="OLAction({{$JAId}});">OL Action on behalf of candidate</a>
+                                            @endif
+                                            @if($OfBasic != null && $OfBasic->HR_Remark != '')
+                                                (HR Remark:- {{$OfBasic->HR_Remark}})
+
+                                            @endif
+
+                                        </div>
+                                    </li>
+
+                                    @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer == 'Rejected')
+                                        <li>
+                                            <div class="title" style="width: 300px;">Rejection Reason<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text text-danger">
+                                                @if ($OfBasic != null)
+                                                    {{ $OfBasic->RejReason ?? '-' }}
+
+                                                @endif
+                                            </div>
                                         </li>
+
                                     @endif
-                                @endif
-                                @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
+                                    @if($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                        @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
+                                            <li>
+                                                <div class="title" style="width: 300px;">Date of Joining<span
+                                                        style="float: right">:</span></div>
+
+                                                <div class="text">
+                                                    <input type="date"
+                                                           class="form-control frminp form-control-sm d-inline-block"
+                                                           id="dateofJoin"
+                                                           name="" readonly="" style="width: 130px;"
+                                                           value="{{ $OfBasic->JoinOnDt ?? '' }}">
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="joindtenable"
+                                                       onclick="joinDateEnbl()"
+                                                       style="font-size: 16px;cursor: pointer;"></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="JoinSave" onclick="saveJoinDate()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="JoinCanc" onclick="window.location.reload();">Cancel
+                                                    </button>
+                                                </div>
+
+                                            </li>
+                                        @endif
+                                        @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
+                                            <li>
+                                                <div class="title" style="width: 300px;">Onboarding process (mail to
+                                                    candidate)<span style="float: right">:</span></div>
+                                                <div class="text">
+                                                    @if ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes')
+                                                        <span class="text-dark">Yes</span>
+                                                    @else
+                                                        <span class="text-danger">No</span>
+                                                        @if ($OfBasic != null && $OfBasic->OfferLtrGen == 1)
+                                                            ( <a href="javascript:void(0);" class=""
+                                                                 onclick="sendJoiningForm({{ $Rec->JAId }});"> Send
+                                                                Now</a>)
+                                                        @endif
+                                                     @endif
+                                            </li>
+                                        @endif
+                                    @endif
+                                    @if($OfBasic != null && $OfBasic->OfferLtrGen == 1 && $OfBasic->Answer != 'Rejected')
                                     <li>
                                         <div class="title" style="width: 300px;">Ref. Check <span
                                                 style="float: right">:</span>
@@ -2736,342 +2768,42 @@
                                                 <span class="text-dark">Yes</span>
                                                 (
                                                 <a href="{{ route('view_reference_check') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                    target="_blank">View</a>)
+                                                   target="_blank">View</a>)
                                             @else
                                                 <span class="text-danger">No</span>( <a href="javascript:void(0);"
-                                                    class="" data-bs-toggle="modal" data-bs-target="#ref_modal">
+                                                                                        class="" data-bs-toggle="modal"
+                                                                                        data-bs-target="#ref_modal">
                                                     Send Now</a>)
                                             @endif
                                         </div>
                                     </li>
-                                @endif
-                                @if ($OfBasic != null)
-                                    <li>
-                                        <div class="title" style="width: 300px;">HR Closure<span
-                                                style="float: right">:</span>
-                                        </div>
-                                        <div class="text  text-dark">
-                                            <select name="Hr_Closure" id="Hr_Closure"
-                                                class="form-select form-select-sm frminp d-inline" disabled
-                                                style="width: 100px;">
-                                                <option value=""></option>
-                                                <option value="No"
-                                                    {{ $OfBasic->Hr_Closure == 'No' ? 'selected' : '' }}>
-                                                    No
-                                                </option>
-                                                <option value="Yes"
-                                                    {{ $OfBasic->Hr_Closure == 'Yes' ? 'selected' : '' }}>Yes
-                                                </option>
-                                            </select>
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true" id="ClosureEnbl"
-                                                onclick="ClosureEnbl()" style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="SaveClosure">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="ClosureCancle" onclick="window.location.reload();">Cancel
-                                            </button>
-                                        </div>
-                                    </li>
-                                @endif
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="onboarding">
-            <div class="row">
-                @if ($OfBasic != null && $OfBasic->Answer == 'Accepted')
-                    <div class="col-md-6 d-flex">
-                        <div class="card profile-box flex-fill">
-                            <div class="card-body">
-                                <h6 class="card-title border-bot">Joining Details </h6>
-                                <ul class="personal-info">
-
-                                    <li>
-                                        <div class="title" style="width: 150px;"> Appointment Letter <span
-                                                style="float: right">:</span></div>
-
-                                        <div class="text  text-dark">
-                                            @if ($Rec->AppLtrGen == 'No' || $Rec->AppLtrGen == null)
-                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                    onclick="appointmentGen({{ $Rec->JAId }})"
-                                                    style="font-size: 16px;cursor: pointer; ">Generate </i>
-                                            @else
-                                                <a href="{{ route('appointment_ltr_print') }}?jaid={{ $Rec->JAId }}"
-                                                    target="_blank">View</a>
-                                            @endif
-
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title" style="width: 150px;"> Service Agreement <span
-                                                style="float: right">:</span></div>
-                                        <div class="text  text-dark">
-                                            @if ($Rec->AgrLtrGen == 'No' || $Rec->AgrLtrGen == null)
-                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                    onclick="ServiceAgrGen({{ $Rec->JAId }})"
-                                                    style="font-size: 16px;cursor: pointer; ">Generate </i>
-                                            @else
-                                                <a href="{{ route('service_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                    target="_blank">First Page</a> |
-                                                <a href="{{ route('service_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                    target="_blank">Rest All</a> | <a
-                                                    href="{{ route('service_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                    target="_blank">
-                                                    Old Stamp</a>
-                                            @endif
-
-                                        </div>
-                                    </li>
-                                    @if ($OfBasic != null && $OfBasic->ServiceBond == 'Yes')
+                                    @endif
+                                    @if ($OfBasic != null )
                                         <li>
-                                            <div class="title" style="width: 150px;"> Service Bond <span
-                                                    style="float: right">:</span></div>
+                                            <div class="title" style="width: 300px;">HR Closure<span
+                                                    style="float: right">:</span>
+                                            </div>
                                             <div class="text  text-dark">
-                                                @if ($Rec->BLtrGen == 'No' || $Rec->BLtrGen == null)
-                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                        onclick="ServiceBondGen({{ $Rec->JAId }})"
-                                                        style="font-size: 16px;cursor: pointer; ">Generate
-                                                    </i>
-                                                @else
-                                                    <a href="{{ route('service_bond_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                        target="_blank">First Page</a> |
-                                                    <a href="{{ route('service_bond_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                        target="_blank">Rest All</a> | <a
-                                                        href="{{ route('service_bond_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                        target="_blank">
-                                                        Old Stamp</a>
-                                                @endif
-                                            </div>
-                                        </li>
-                                    @endif
-                                    @if (
-                                        $OfBasic->Department == 2 ||
-                                            $OfBasic->Department == 3 ||
-                                            $OfBasic->Department == 17 ||
-                                            $OfBasic->Department == 13 ||
-                                            $OfBasic->Department == 11 ||
-                                            $OfBasic->Department == 14)
-                                        <li>
-                                            <div class="title" style="width: 150px;"> Conf. Agreement <span
-                                                    style="float: right">:</span></div>
-                                            <div class="text  text-dark">
-                                                @if ($Rec->ConfLtrGen == 'No' || $Rec->ConfLtrGen == null)
-                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                        onclick="ConfidentialityAgrGen({{ $Rec->JAId }})"
-                                                        style="font-size: 16px;cursor: pointer; ">Generate
-                                                    </i>
-                                                @else
-                                                    <a href="{{ route('conf_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                        target="_blank">
-                                                        First Page</a> |
-                                                    <a href="{{ route('conf_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                        target="_blank">
-                                                        Rest All</a> | <a
-                                                        href="{{ route('conf_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
-                                                        target="_blank">
-                                                        Old Stamp</a>
-                                                @endif
-
-                                            </div>
-                                        </li>
-
-                                    @endif
-
-                                    <li>
-                                        <div class="title" style="width: 150px;"> Verify Joining Form <span
-                                                style="float: right">:</span></div>
-                                        <div class="text  text-dark">
-                                            <select name="Verification" id="Verification"
-                                                class="form-select form-select-sm frminp d-inline" disabled
-                                                style="width: 100px;">
-                                                <option value="Not Verified">Not Verified</option>
-                                                <option value="Verified"
-                                                    {{ $OfBasic->Verification == 'Verified' ? 'selected' : '' }}>
-                                                    Verified
-                                                </option>
-                                            </select>
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                id="VerificationEnable" onclick="VerificationEnable()"
-                                                style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="SaveVerification">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="verificationCancle" onclick="window.location.reload();">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="title" style="width: 150px;"> 2 Wheeler RC<span
-                                                style="float: right">:</span></div>
-                                        <div class="text  text-dark">
-                                            <select name="two_wheel_rc" id="two_wheel_rc"
-                                                class="form-select form-select-sm frminp d-inline" disabled
-                                                style="width: 100px;">
-                                                <option value="">Select</option>
-                                                <option value="N"
-                                                    {{ $OfBasic->two_wheel_rc == 'N' ? 'selected' : '' }}>
-                                                    No
-                                                </option>
-                                                <option value="Y"
-                                                    {{ $OfBasic->two_wheel_rc == 'Y' ? 'selected' : '' }}>
-                                                    Yes
-                                                </option>
-                                            </select>
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                id="TwoWheelRCEnable" onclick="TwoWheelRCEnable()"
-                                                style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="SaveTwoWheelRC">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="TwoWheelRCCancle" onclick="window.location.reload();">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </li>
-                                    @if ($OfBasic != null && $OfBasic->two_wheel_flat_rate != null)
-                                        <li>
-                                            <div class="title" style="width: 150px;">Two Wheel Flat Rate
-                                                <span style="float: right">:</span>
-                                            </div>
-                                            <div class="text  text-danger">
-                                                Rs. {{ $OfBasic->two_wheel_flat_rate }}/-
-                                            </div>
-                                        </li>
-                                    @endif
-                                    <li>
-                                        <div class="title" style="width: 150px;"> 4 Wheeler RC <span
-                                                style="float: right">:</span></div>
-                                        <div class="text  text-dark">
-                                            <select name="four_wheel_rc" id="four_wheel_rc"
-                                                class="form-select form-select-sm frminp d-inline" disabled
-                                                style="width: 100px;">
-                                                <option value="">Select</option>
-                                                <option value="N"
-                                                    {{ $OfBasic->four_wheel_rc == 'N' ? 'selected' : '' }}>
-                                                    No
-                                                </option>
-                                                <option value="Y"
-                                                    {{ $OfBasic->four_wheel_rc == 'Y' ? 'selected' : '' }}>
-                                                    Yes
-                                                </option>
-                                            </select>
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                id="FourWheelRCEnable" onclick="FourWheelRCEnable()"
-                                                style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="SaveFourWheelRC">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="FourWheelRCCancle" onclick="window.location.reload();">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </li>
-                                    @if ($OfBasic != null && $OfBasic->four_wheel_flat_rate != null)
-                                        <li>
-                                            <div class="title" style="width: 150px;">Four Wheel Flat Rate
-                                                <span style="float: right">:</span>
-                                            </div>
-                                            <div class="text  text-danger">
-                                                Rs. {{ $OfBasic->four_wheel_flat_rate }}/-
-                                            </div>
-                                        </li>
-                                    @endif
-                                    <li>
-                                        <div class="title" style="width: 150px;"> Candidate Joined <span
-                                                style="float: right">:</span></div>
-                                        <div class="text  text-dark">
-                                            <select name="Joined" id="Joined"
-                                                class="form-select form-select-sm frminp d-inline" disabled
-                                                style="width: 100px;">
-                                                <option value=""></option>
-                                                <option value="No" {{ $OfBasic->Joined == 'No' ? 'selected' : '' }}>
-                                                    No
-                                                </option>
-                                                <option value="Yes"
-                                                    {{ $OfBasic->Joined == 'Yes' ? 'selected' : '' }}>Yes
-                                                </option>
-                                            </select>
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true" id="JoinedEnbl"
-                                                onclick="JoinedEnbl()" style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="SaveJoined">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="JoinedCancle" onclick="window.location.reload();">Cancel
-                                            </button>
-                                        </div>
-                                    </li>
-                                    @if ($OfBasic != null && $OfBasic->NoJoiningRemark != null)
-                                        <li>
-                                            <div class="title" style="width: 150px;">Reason for Not Joining
-                                                <span style="float: right">:</span>
-                                            </div>
-                                            <div class="text  text-danger">
-                                                {{ $OfBasic->NoJoiningRemark }}
-                                            </div>
-                                        </li>
-                                    @endif
-
-                                    @if ($OfBasic->Joined == 'Yes')
-                                        <li>
-                                            <div class="title" style="width: 150px;">Emp Code<span
-                                                    style="float: right">:</span></div>
-                                            <div class="text">
-                                                <input type="text"
-                                                    class="form-control frminp form-control-sm d-inline-block"
-                                                    id="empCode" name="" readonly=""
-                                                    style="width: 100px;" value="{{ $OfBasic->EmpCode ?? '' }}">
-                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                    id="empCodeEnable" onclick="empCodeEnable()"
-                                                    style="font-size: 16px;cursor: pointer; "></i>
-                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                    id="EmpCodeSave" onclick="saveEmpCode()">Save
-                                                </button>
-                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                    id="empCancle" onclick="window.location.reload();">Cancel
-                                                </button>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="title" style="width: 150px;">Position Code<span
-                                                    style="float: right">:</span></div>
-                                            <div class="text">
-                                                {{-- <input type="text"
-                                                        class="form-control frminp form-control-sm d-inline-block"
-                                                        id="PositionCode" name="PositionCode" readonly=""
-                                                        style="width: 100px;"
-                                                        value="{{ $OfBasic->PositionCode ?? '' }}"> --}}
-
-                                                <select name="PositionCode" id="PositionCode"
-                                                    class="form-select form-select-sm d-inline-block"
-                                                    style="width: 170px;" disabled>
-                                                    <option value="">Select</option>
-                                                    @foreach ($position_code_list as $key => $value)
-                                                        <option value="{{ $value }}">{{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                    @if ($OfBasic->PositionCode != '')
-                                                        <option value="{{ $OfBasic->PositionCode }}" selected>
-                                                            {{ $OfBasic->PositionCode }}</option>
-                                                    @endif
+                                                <select name="Hr_Closure" id="Hr_Closure"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value=""></option>
+                                                    <option value="No"
+                                                        {{ $OfBasic->Hr_Closure == 'No' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Yes"
+                                                        {{ $OfBasic->Hr_Closure == 'Yes' ? 'selected' : '' }}>Yes
+                                                    </option>
                                                 </select>
-
-                                                <i class="fa fa-pencil text-primary" aria-hidden="true" id="PosEnbl"
-                                                    onclick="PosEnbl()" style="font-size: 16px;cursor: pointer; "></i>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="ClosureEnbl" onclick="ClosureEnbl()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
                                                 <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                    id="PositionCodeSave" onclick="PositionCodeSave()">Save
+                                                        id="SaveClosure">Save
                                                 </button>
                                                 <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                    id="posCancle" onclick="window.location.reload();">Cancel
+                                                        id="ClosureCancle" onclick="window.location.reload();">Cancel
                                                 </button>
                                             </div>
                                         </li>
@@ -3080,241 +2812,560 @@
                             </div>
                         </div>
                     </div>
-                @endif
-                <div class="col-md-6 d-flex">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
-                            <h6 class="card-title border-bot">Links
-
-                            </h6>
-                            <ul class="personal-info">
-
-
-                                @if ($Rec->InterviewSubmit == 1 || ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes'))
-                                    <li>
-                                        <div class="title" style="width: 150px;">Joining Form<span
-                                                style="float: right">:</span></div>
-                                        <div class="text"><input type="text" name="" id="jflink"
-                                                class="frminp d-inline"
-                                                value="{{ route('candidate-joining-form') }}?jaid={{ $sendingId }}">
-                                            <button class="frmbtn btn btn-sm btn-secondary"
-                                                onclick="copyJFrmLink();">Copy
-                                                Link
-                                            </button>
-                                        </div>
-                                    </li>
-                                @endif
-
-                            </ul>
-                            <br>
-                            <br>
-                            @if ($OfBasic != null)
-                                @if ($OfBasic->Company == 1)
-                                    @if ($OfBasic->ForwardToESS == 'No' && $OfBasic->Joined == 'Yes' && $OfBasic->EmpCode != '')
-                                        <center>
-                                            <button class="btn btn-sm btn-primary" id="ProcessToEss">Process
-                                                Data to
-                                                Ess
-                                            </button>
-                                        </center>
-                                    @endif
-                                @else
-                                    @if ($OfBasic->ForwardToESS == 'No' && $OfBasic->Joined == 'Yes' && $OfBasic->EmpCode != '')
-                                        <center>
-                                            <button class="btn btn-sm btn-primary" id="ProcessToEss">Process
-                                                Data to
-                                                Ess
-                                            </button>
-                                        </center>
-                                    @endif
-                                @endif
-                            @endif
-                            @if ($OfBasic != null && $OfBasic->ForwardToESS == 'Yes')
-                                <center>
-                                    <h3 class="text-success">Data Forwarded to ESS</h3>
-                                </center>
-                            @endif
-                        </div>
-                    </div>
                 </div>
-
             </div>
-        </div>
 
-        <div class="tab-pane fade" id="admin_change">
-            <div class="row">
-                <div class="col-7">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
+            <div class="tab-pane fade" id="onboarding">
+                <div class="row">
+                    @if ($OfBasic != null && $OfBasic->Answer == 'Accepted')
+                        <div class="col-md-6 d-flex">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h6 class="card-title border-bot">Joining Details </h6>
+                                    <ul class="personal-info">
 
-                            <ul class="personal-info">
-                                <li>
-                                    <div class="title">Offer Letter Date<span style="float: right">:</span>
-                                    </div>
-                                    <div class="text">
-
-                                        <input type="date" class="form-control frminp form-control-sm d-inline-block"
-                                            id="off_date" name="" readonly="" style="width: 130px;"
-                                            value="{{ $OfBasic->LtrDate ?? '' }}">
-                                        <i class="fa fa-pencil text-primary" aria-hidden="true" id="off_date_enable"
-                                            onclick="off_date_enable()" style="font-size: 16px;cursor: pointer; "></i>
-                                        <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                            id="save_off_date" onclick="save_off_date()">Save
-                                        </button>
-                                        <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                            id="off_date_can" onclick="window.location.reload();">Cancel
-                                        </button>
-
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="title">App. Ltr. Date<span style="float: right">:</span></div>
-                                    <div class="text">
-                                        <input type="date" class="form-control frminp form-control-sm d-inline-block"
-                                            id="a_date" name="" readonly="" style="width: 130px;"
-                                            value="{{ $OfBasic->A_Date ?? '' }}">
-                                        <i class="fa fa-pencil text-primary" aria-hidden="true" id="a_date_enable"
-                                            onclick="a_date_enable()" style="font-size: 16px;cursor: pointer; "></i>
-                                        <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                            id="save_a_date" onclick="save_a_date()">Save
-                                        </button>
-                                        <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                            id="a_date_can" onclick="window.location.reload();">Cancel
-                                        </button>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="title">Service Agr. Date<span style="float: right">:</span>
-                                    </div>
-                                    <div class="text">
-                                        <input type="date" class="form-control frminp form-control-sm d-inline-block"
-                                            id="agr_date" name="" readonly="" style="width: 130px;"
-                                            value="{{ $OfBasic->Agr_Date ?? '' }}">
-                                        <i class="fa fa-pencil text-primary" aria-hidden="true" id="agr_date_enable"
-                                            onclick="agr_date_enable()" style="font-size: 16px;cursor: pointer; "></i>
-                                        <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                            id="save_agr_date" onclick="save_agr_date()">Save
-                                        </button>
-                                        <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                            id="agr_date_can" onclick="window.location.reload();">Cancel
-                                        </button>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="title">Service Bond Date<span style="float: right">:</span>
-                                    </div>
-                                    <div class="text">
-                                        <input type="date" class="form-control frminp form-control-sm d-inline-block"
-                                            id="b_date" name="" readonly="" style="width: 130px;"
-                                            value="{{ $OfBasic->B_Date ?? '' }}">
-                                        <i class="fa fa-pencil text-primary" aria-hidden="true" id="b_date_enable"
-                                            onclick="b_date_enable()" style="font-size: 16px;cursor: pointer; "></i>
-                                        <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                            id="save_b_date" onclick="save_b_date()">Save
-                                        </button>
-                                        <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                            id="b_date_can" onclick="window.location.reload();">Cancel
-                                        </button>
-                                    </div>
-                                </li>
-                                @if ($OfBasic != null)
-                                    @if (
-                                        $OfBasic->Department == 2 ||
-                                            $OfBasic->Department == 3 ||
-                                            $OfBasic->Department == 17 ||
-                                            $OfBasic->Department == 13 ||
-                                            $OfBasic->Department == 11 ||
-                                            $OfBasic->Department == 14)
                                         <li>
-                                            <div class="title">Conf. Agr. Date<span style="float: right">:</span>
+                                            <div class="title" style="width: 150px;"> Appointment Letter <span
+                                                    style="float: right">:</span></div>
+
+                                            <div class="text  text-dark">
+                                                @if ($Rec->AppLtrGen == 'No' || $Rec->AppLtrGen == null)
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       onclick="appointmentGen({{ $Rec->JAId }})"
+                                                       style="font-size: 16px;cursor: pointer; ">Generate </i>
+                                                @else
+                                                    <a href="{{ route('appointment_ltr_print') }}?jaid={{ $Rec->JAId }}"
+                                                       target="_blank">View</a>
+                                                @endif
+
                                             </div>
-                                            <div class="text">
-                                                <input type="date"
-                                                    class="form-control frminp form-control-sm d-inline-block"
-                                                    id="conf_date" name="" readonly=""
-                                                    style="width: 130px;" value="{{ $OfBasic->ConfLtrDate ?? '' }}">
+                                        </li>
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Service Agreement <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                @if ($Rec->AgrLtrGen == 'No' || $Rec->AgrLtrGen == null)
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       onclick="ServiceAgrGen({{ $Rec->JAId }})"
+                                                       style="font-size: 16px;cursor: pointer; ">Generate </i>
+                                                @else
+                                                    <a href="{{ route('service_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">First Page</a> |
+                                                    <a href="{{ route('service_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                       target="_blank">Rest All</a> | <a
+                                                        href="{{ route('service_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                        target="_blank">
+                                                        Old Stamp</a>
+                                                @endif
+
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->ServiceBond == 'Yes')
+                                            <li>
+                                                <div class="title" style="width: 150px;"> Service Bond <span
+                                                        style="float: right">:</span></div>
+                                                <div class="text  text-dark">
+                                                    @if ($Rec->BLtrGen == 'No' || $Rec->BLtrGen == null)
+                                                        <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                           onclick="ServiceBondGen({{ $Rec->JAId }})"
+                                                           style="font-size: 16px;cursor: pointer; ">Generate
+                                                        </i>
+                                                    @else
+                                                        <a href="{{ route('service_bond_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">First Page</a> |
+                                                        <a href="{{ route('service_bond_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">Rest All</a> | <a
+                                                            href="{{ route('service_bond_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                            target="_blank">
+                                                            Old Stamp</a>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endif
+                                        @if (
+                                            $OfBasic->Department == 2 ||
+                                                $OfBasic->Department == 3 ||
+                                                 $OfBasic->Department == 17 ||
+                                                $OfBasic->Department == 13 ||
+                                                $OfBasic->Department == 11 ||
+                                                $OfBasic->Department == 14 )
+                                            <li>
+                                                <div class="title" style="width: 150px;"> Conf. Agreement <span
+                                                        style="float: right">:</span></div>
+                                                <div class="text  text-dark">
+                                                    @if ($Rec->ConfLtrGen == 'No' || $Rec->ConfLtrGen == null)
+                                                        <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                           onclick="ConfidentialityAgrGen({{ $Rec->JAId }})"
+                                                           style="font-size: 16px;cursor: pointer; ">Generate
+                                                        </i>
+                                                    @else
+                                                        <a href="{{ route('conf_agreement_print_e_first') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">
+                                                            First Page</a> |
+                                                        <a href="{{ route('conf_agreement_print') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                           target="_blank">
+                                                            Rest All</a> | <a
+                                                            href="{{ route('conf_agreement_print_old_stamp') }}?jaid={{ base64_encode($Rec->JAId) }}"
+                                                            target="_blank">
+                                                            Old Stamp</a>
+                                                    @endif
+
+                                                </div>
+                                            </li>
+
+                                        @endif
+
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Verify Joining Form <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="Verification" id="Verification"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value="Not Verified">Not Verified</option>
+                                                    <option value="Verified"
+                                                        {{ $OfBasic->Verification == 'Verified' ? 'selected' : '' }}>
+                                                        Verified
+                                                    </option>
+                                                </select>
                                                 <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                    id="conf_date_enable" onclick="conf_date_enable()"
-                                                    style="font-size: 16px;cursor: pointer; "></i>
+                                                   id="VerificationEnable" onclick="VerificationEnable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
                                                 <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                    id="save_conf_date" onclick="save_conf_date()">Save
+                                                        id="SaveVerification">Save
                                                 </button>
                                                 <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                    id="conf_date_can" onclick="window.location.reload();">
+                                                        id="verificationCancle" onclick="window.location.reload();">
                                                     Cancel
                                                 </button>
                                             </div>
                                         </li>
-                                    @endif
-                                @endif
-                                <li>
-                                    <div class="title">Disable Offer Letter<span style="float: right">:</span></div>
-                                    @if ($OfBasic != null)
-                                        <div class="text">
-                                            @if ($OfBasic->OfferLtrGen == 1 && $OfBasic->OfferLetterSent == 'Yes' && $OfBasic->disable_offer == 'N')
-                                                <button class="frmbtn btn btn-danger btn-sm"
-                                                    id="disable_offer_letter">Disable OL
+
+                                        <li>
+                                            <div class="title" style="width: 150px;"> 2 Wheeler RC<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="two_wheel_rc" id="two_wheel_rc"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value="">Select</option>
+                                                    <option value="N"
+                                                        {{ $OfBasic->two_wheel_rc == 'N' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Y"
+                                                        {{ $OfBasic->two_wheel_rc == 'Y' ? 'selected' : '' }}>
+                                                        Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="TwoWheelRCEnable" onclick="TwoWheelRCEnable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveTwoWheelRC">Save
                                                 </button>
-                                            @else
-                                                <button class="frmbtn btn btn-primary btn-sm"
-                                                    id="enable_offer_letter">Enable OL
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="TwoWheelRCCancle" onclick="window.location.reload();">
+                                                    Cancel
                                                 </button>
-                                            @endif
-                                        </div>
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->two_wheel_flat_rate != null)
+                                            <li>
+                                                <div class="title" style="width: 150px;">Two Wheel Flat Rate
+                                                    <span style="float: right">:</span>
+                                                </div>
+                                                <div class="text  text-danger">
+                                                    Rs. {{ $OfBasic->two_wheel_flat_rate }}/-
+                                                </div>
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <div class="title" style="width: 150px;"> 4 Wheeler RC <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="four_wheel_rc" id="four_wheel_rc"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value="">Select</option>
+                                                    <option value="N"
+                                                        {{ $OfBasic->four_wheel_rc == 'N' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Y"
+                                                        {{ $OfBasic->four_wheel_rc == 'Y' ? 'selected' : '' }}>
+                                                        Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="FourWheelRCEnable" onclick="FourWheelRCEnable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveFourWheelRC">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="FourWheelRCCancle" onclick="window.location.reload();">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->four_wheel_flat_rate != null)
+                                            <li>
+                                                <div class="title" style="width: 150px;">Four Wheel Flat Rate
+                                                    <span style="float: right">:</span>
+                                                </div>
+                                                <div class="text  text-danger">
+                                                    Rs. {{ $OfBasic->four_wheel_flat_rate }}/-
+                                                </div>
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <div class="title" style="width: 150px;"> Candidate Joined <span
+                                                    style="float: right">:</span></div>
+                                            <div class="text  text-dark">
+                                                <select name="Joined" id="Joined"
+                                                        class="form-select form-select-sm frminp d-inline" disabled
+                                                        style="width: 100px;">
+                                                    <option value=""></option>
+                                                    <option value="No"
+                                                        {{ $OfBasic->Joined == 'No' ? 'selected' : '' }}>
+                                                        No
+                                                    </option>
+                                                    <option value="Yes"
+                                                        {{ $OfBasic->Joined == 'Yes' ? 'selected' : '' }}>Yes
+                                                    </option>
+                                                </select>
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="JoinedEnbl" onclick="JoinedEnbl()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="SaveJoined">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="JoinedCancle" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        @if ($OfBasic != null && $OfBasic->NoJoiningRemark != null)
+                                            <li>
+                                                <div class="title" style="width: 150px;">Reason for Not Joining
+                                                    <span style="float: right">:</span>
+                                                </div>
+                                                <div class="text  text-danger">
+                                                    {{ $OfBasic->NoJoiningRemark }}
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($OfBasic->Joined == 'Yes')
+                                            <li>
+                                                <div class="title" style="width: 150px;">Emp Code<span
+                                                        style="float: right">:</span></div>
+                                                <div class="text">
+                                                    <input type="text"
+                                                           class="form-control frminp form-control-sm d-inline-block"
+                                                           id="empCode" name="" readonly=""
+                                                           style="width: 100px;" value="{{ $OfBasic->EmpCode ?? '' }}">
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="empCodeEnable" onclick="empCodeEnable()"
+                                                       style="font-size: 16px;cursor: pointer; "></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="EmpCodeSave" onclick="saveEmpCode()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="empCancle" onclick="window.location.reload();">Cancel
+                                                    </button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title" style="width: 150px;">Position Code<span
+                                                        style="float: right">:</span></div>
+                                                <div class="text">
+                                                    {{-- <input type="text"
+                                                        class="form-control frminp form-control-sm d-inline-block"
+                                                        id="PositionCode" name="PositionCode" readonly=""
+                                                        style="width: 100px;"
+                                                        value="{{ $OfBasic->PositionCode ?? '' }}"> --}}
+
+                                                    <select name="PositionCode" id="PositionCode"
+                                                            class="form-select form-select-sm d-inline-block"
+                                                            style="width: 170px;" disabled>
+                                                        <option value="">Select</option>
+                                                        @foreach ($position_code_list as $key => $value)
+                                                            <option value="{{ $value }}">{{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                        @if ($OfBasic->PositionCode != '')
+                                                            <option value="{{ $OfBasic->PositionCode }}" selected>
+                                                                {{ $OfBasic->PositionCode }}</option>
+                                                        @endif
+                                                    </select>
+
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="PosEnbl" onclick="PosEnbl()"
+                                                       style="font-size: 16px;cursor: pointer; "></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="PositionCodeSave" onclick="PositionCodeSave()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="posCancle" onclick="window.location.reload();">Cancel
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="col-md-6 d-flex">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h6 class="card-title border-bot">Links
+
+                                </h6>
+                                <ul class="personal-info">
+
+
+                                    @if ($Rec->InterviewSubmit == 1 || ($OfBasic != null && $OfBasic->JoiningFormSent == 'Yes'))
+                                        <li>
+                                            <div class="title" style="width: 150px;">Joining Form<span
+                                                    style="float: right">:</span></div>
+                                            <div class="text"><input type="text" name="" id="jflink"
+                                                                     class="frminp d-inline"
+                                                                     value="{{ route('candidate-joining-form') }}?jaid={{ $sendingId }}">
+                                                <button class="frmbtn btn btn-sm btn-secondary"
+                                                        onclick="copyJFrmLink();">Copy
+                                                    Link
+                                                </button>
+                                            </div>
+                                        </li>
                                     @endif
-                                </li>
+
+                                </ul>
+                                <br>
+                                <br>
                                 @if ($OfBasic != null)
-                                    <li>
-                                        <div class="title">Two Wheeler<span style="float: right">:</span></div>
-                                        <div class="text">
-                                            <input type="text"
-                                                class="form-control frminp form-control-sm d-inline-block"
-                                                id="TwoWheel" readonly style="width:250px;"
-                                                value="{{ $OfBasic->TwoWheel ?? '' }}">
-
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                id="TwoWheel_enable" onclick="TwoWheel_enable()"
-                                                style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="save_TwoWheel">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="TwoWheel_can" onclick="window.location.reload();">Cancel
-                                            </button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title">Four Wheeler<span style="float: right">:</span></div>
-                                        <div class="text">
-                                            <input type="text"
-                                                class="form-control frminp form-control-sm d-inline-block"
-                                                id="FourWheel" readonly style="width:250px;"
-                                                value="{{ $OfBasic->FourWheel ?? '' }}">
-
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
-                                                id="FourWheel_enable" onclick="FourWheel_enable()"
-                                                style="font-size: 16px;cursor: pointer; "></i>
-                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
-                                                id="save_FourWheel">Save
-                                            </button>
-                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
-                                                id="FourWheel_can" onclick="window.location.reload();">Cancel
-                                            </button>
-                                        </div>
-                                    </li>
+                                    @if ($OfBasic->Company == 1)
+                                        @if (
+                                            $OfBasic->ForwardToESS == 'No' &&
+                                                $OfBasic->Joined == 'Yes' &&
+                                                $OfBasic->EmpCode != '')
+                                            <center>
+                                                <button class="btn btn-sm btn-primary" id="ProcessToEss">Process
+                                                    Data to
+                                                    Ess
+                                                </button>
+                                            </center>
+                                        @endif
+                                    @else
+                                        @if ($OfBasic->ForwardToESS == 'No' && $OfBasic->Joined == 'Yes' && $OfBasic->EmpCode != '')
+                                            <center>
+                                                <button class="btn btn-sm btn-primary" id="ProcessToEss">Process
+                                                    Data to
+                                                    Ess
+                                                </button>
+                                            </center>
+                                        @endif
+                                    @endif
                                 @endif
+                                @if ($OfBasic != null && $OfBasic->ForwardToESS == 'Yes')
+                                    <center>
+                                        <h3 class="text-success">Data Forwarded to ESS</h3>
+                                    </center>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
 
-                            </ul>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="admin_change">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Offer Letter Date<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="off_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->LtrDate ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                               id="off_date_enable" onclick="off_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_off_date" onclick="save_off_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="off_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">App. Ltr. Date<span style="float: right">:</span></div>
+                                        <div class="text">
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="a_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->A_Date ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true" id="a_date_enable"
+                                               onclick="a_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_a_date" onclick="save_a_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="a_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Service Agr. Date<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="agr_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->Agr_Date ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                               id="agr_date_enable" onclick="agr_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_agr_date" onclick="save_agr_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="agr_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="title">Service Bond Date<span style="float: right">:</span>
+                                        </div>
+                                        <div class="text">
+                                            <input type="date"
+                                                   class="form-control frminp form-control-sm d-inline-block"
+                                                   id="b_date" name="" readonly="" style="width: 130px;"
+                                                   value="{{ $OfBasic->B_Date ?? '' }}">
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true" id="b_date_enable"
+                                               onclick="b_date_enable()"
+                                               style="font-size: 16px;cursor: pointer; "></i>
+                                            <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                    id="save_b_date" onclick="save_b_date()">Save
+                                            </button>
+                                            <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                    id="b_date_can" onclick="window.location.reload();">Cancel
+                                            </button>
+                                        </div>
+                                    </li>
+                                    @if ($OfBasic != null)
+                                        @if (
+                                            $OfBasic->Department == 2 ||
+                                                $OfBasic->Department == 3 ||
+                                                 $OfBasic->Department == 17 ||
+                                                $OfBasic->Department == 13 ||
+                                                $OfBasic->Department == 11 ||
+                                                $OfBasic->Department == 14 )
+                                            <li>
+                                                <div class="title">Conf. Agr. Date<span style="float: right">:</span>
+                                                </div>
+                                                <div class="text">
+                                                    <input type="date"
+                                                           class="form-control frminp form-control-sm d-inline-block"
+                                                           id="conf_date" name="" readonly=""
+                                                           style="width: 130px;"
+                                                           value="{{ $OfBasic->ConfLtrDate ?? '' }}">
+                                                    <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                       id="conf_date_enable" onclick="conf_date_enable()"
+                                                       style="font-size: 16px;cursor: pointer; "></i>
+                                                    <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                            id="save_conf_date" onclick="save_conf_date()">Save
+                                                    </button>
+                                                    <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                            id="conf_date_can" onclick="window.location.reload();">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @endif
+                                    <li>
+                                        <div class="title">Disable Offer Letter<span style="float: right">:</span></div>
+                                        @if ($OfBasic != null)
+                                            <div class="text">
+                                                @if ($OfBasic->OfferLtrGen == 1 && $OfBasic->OfferLetterSent == 'Yes' && $OfBasic->disable_offer =='N')
+                                                    <button class="frmbtn btn btn-danger btn-sm"
+                                                            id="disable_offer_letter">Disable OL
+                                                    </button>
+                                                @else
+                                                    <button class="frmbtn btn btn-primary btn-sm"
+                                                            id="enable_offer_letter">Enable OL
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </li>
+                                    @if($OfBasic != null)
+                                        <li>
+                                            <div class="title">Two Wheeler<span style="float: right">:</span></div>
+                                            <div class="text">
+                                                <input type="text"
+                                                       class="form-control frminp form-control-sm d-inline-block"
+                                                       id="TwoWheel" readonly style="width:250px;"
+                                                       value="{{ $OfBasic->TwoWheel ?? '' }}">
+
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="TwoWheel_enable"
+                                                   onclick="TwoWheel_enable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="save_TwoWheel">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="TwoWheel_can" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Four Wheeler<span style="float: right">:</span></div>
+                                            <div class="text">
+                                                <input type="text"
+                                                       class="form-control frminp form-control-sm d-inline-block"
+                                                       id="FourWheel" readonly style="width:250px;"
+                                                       value="{{ $OfBasic->FourWheel ?? '' }}">
+
+                                                <i class="fa fa-pencil text-primary" aria-hidden="true"
+                                                   id="FourWheel_enable"
+                                                   onclick="FourWheel_enable()"
+                                                   style="font-size: 16px;cursor: pointer; "></i>
+                                                <button class="btn btn-sm frmbtn btn-primary" style="display: none;"
+                                                        id="save_FourWheel">Save
+                                                </button>
+                                                <button class="btn btn-sm frmbtn btn-danger" style="display: none;"
+                                                        id="FourWheel_can" onclick="window.location.reload();">Cancel
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endif
+
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-   
 
     <div class="compose-mail-popup" style="display: none;">
         <div class="card">
@@ -3329,17 +3380,17 @@
                     <div class="email-form">
                         <div class="mb-3">
                             <input type="hidden" name="CandidateName" id="CandidateName"
-                                value="{{ $Rec->FName }} {{ $Rec->LName }}">
+                                   value="{{ $Rec->FName }} {{ $Rec->LName }}">
                             <input type="text" class="form-control" value="{{ $Rec->Email }}" readonly
-                                name="eMailId" id="eMailId">
+                                   name="eMailId" id="eMailId">
                         </div>
                         <div class="mb-3">
                             <input type="text" class="form-control" placeholder="Subject" name="Subject"
-                                id="Subject">
+                                   id="Subject">
                         </div>
                         <div class="mb-3">
                             <textarea class="form-control" placeholder="Message" rows="10" cols="10" name="eMailMsg"
-                                id="eMailMsg"></textarea>
+                                      id="eMailMsg"></textarea>
                         </div>
                         <div class="mb-0">
                             <div style="float: right">
@@ -3354,11 +3405,11 @@
 
     <div class="overlay email-toggle-btn-mobile"></div>
 
-  {{--   @include('common.modal.candidate_modal') --}}
+    @include('common.modal.candidate_modal')
 @endsection
 @section('script_section')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("#suitable_department").select2({
                 placeholder: "Please select department"
             });
@@ -3369,12 +3420,12 @@
                 ordering: false,
 
             });
-            $(document).on('click', '#HrScreening', function() {
+            $(document).on('click', '#HrScreening', function () {
 
                 $('#HrScreeningModal').modal('show');
             });
 
-            $(document).on("change", '#Irrelevant_Candidate', function() {
+            $(document).on("change", '#Irrelevant_Candidate', function () {
                 var Irrelevant_Candidate = $(this).val();
                 if (Irrelevant_Candidate == 'Y') {
                     $('#sui_dep_div').addClass('d-none');
@@ -3387,22 +3438,22 @@
 
 
         });
-        $(document).on('click', '#MoveCandidate', function() {
+        $(document).on('click', '#MoveCandidate', function () {
             var JAId = $(this).data('id');
             $('#MoveCandidate_JAId').val(JAId);
             $('#MoveCandidategModal').modal('show');
         });
-        $(document).on('change', '#MoveCompany', function() {
+        $(document).on('change', '#MoveCompany', function () {
             var CompanyId = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getDepartment') }}?CompanyId=" + CompanyId,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#MoveDepartment").empty();
                         $("#MoveDepartment").append(
                             '<option value="">Select Department</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#MoveDepartment").append('<option value="' + value +
                                 '">' +
                                 key +
@@ -3415,7 +3466,7 @@
                 }
             });
         });
-        $('#MoveCandidateForm').on('submit', function(e) {
+        $('#MoveCandidateForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -3425,7 +3476,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -3435,7 +3486,7 @@
                 }
             });
         });
-        $('#ScreeningForm').on('submit', function(e) {
+        $('#ScreeningForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             var reqcond = chkHrScreeninRequired();
@@ -3449,7 +3500,7 @@
                     processData: false,
                     dataType: 'json',
                     contentType: false,
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -3460,7 +3511,7 @@
                 });
             }
         });
-        $(document).on('click', '#BlackListCandidate', function() {
+        $(document).on('click', '#BlackListCandidate', function () {
             var JCId = $(this).data('id');
             var Remark = prompt("Please Enter Remark to BlackList Candidate");
             if (Remark != null) {
@@ -3472,7 +3523,7 @@
                         Remark: Remark
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 200) {
                             toastr.success(data.msg);
                             window.location.reload();
@@ -3486,7 +3537,7 @@
             }
         });
 
-        $(document).on('click', '#UnBlockCandidate', function() {
+        $(document).on('click', '#UnBlockCandidate', function () {
             var JCId = $(this).data('id');
             var Remark = prompt("Please Enter Remark to Unblock Candidate");
             if (Remark != null) {
@@ -3498,7 +3549,7 @@
                         Remark: Remark
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 200) {
                             toastr.success(data.msg);
                             window.location.reload();
@@ -3512,7 +3563,7 @@
             }
         });
 
-        $(document).on('click', '#SuitableFor', function() {
+        $(document).on('click', '#SuitableFor', function () {
             // Get the JCId from the clicked element's data attribute
             var jobCandidateId = $(this).data('id');
 
@@ -3524,11 +3575,10 @@
                     JCId: jobCandidateId
                 },
                 dataType: "json",
-                success: function(response) {
+                success: function (response) {
                     if (response.status === 200) {
                         // Populate fields with the fetched data
-                        $('#Irrelevant_Candidate').val(response.data.Irrelevant_Candidate).trigger(
-                            'change');
+                        $('#Irrelevant_Candidate').val(response.data.Irrelevant_Candidate).trigger('change');
 
                         // Split the Suitable_For data into an array and set it in the select element
                         var suitableForArray = response.data.Suitable_For.split(', ');
@@ -3541,7 +3591,7 @@
                         alert('An error occurred while fetching data.');
                     }
                 },
-                error: function() {
+                error: function () {
                     // Handle AJAX request failure
                     alert('Failed to communicate with the server. Please try again later.');
                 }
@@ -3552,7 +3602,7 @@
         });
 
 
-        $("#SuitableForm").on().submit(function(e) {
+        $("#SuitableForm").on().submit(function (e) {
             e.preventDefault();
             var form = this;
             var reqcond = chkSuitableRequired();
@@ -3566,7 +3616,7 @@
                     processData: false,
                     dataType: 'json',
                     contentType: false,
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -3580,7 +3630,7 @@
 
         function chkHrScreeninRequired() {
             var res = 0;
-            $('.reqinp_scr').each(function() {
+            $('.reqinp_scr').each(function () {
                 if ($(this).val() == '' || $(this).val() == null) {
                     $(this).addClass('errorfield');
                     res = 1;
@@ -3593,7 +3643,7 @@
 
         function chkSuitableRequired() {
             var res = 0;
-            $('.reqinp_suit').each(function() {
+            $('.reqinp_suit').each(function () {
                 if ($(this).val() == '' || $(this).val() == null) {
                     $(this).addClass('errorfield');
                     res = 1;
@@ -3605,8 +3655,8 @@
         }
 
 
-
-
+        
+      
 
         function GetProfileData() {
             var JCId = $('#JCId').val();
@@ -3617,7 +3667,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
                         $('#Pro_JCId').val(data.data.JCId);
                         $('#FName').val(data.data.FName);
@@ -3644,7 +3694,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
                         $('#P_JCId').val(data.data.JCId);
                         $("#FatherTitle").val(data.data.FatherTitle);
@@ -3684,7 +3734,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Emr_JCId').val($('#JCId').val());
                     $('#PrimaryName').val(data.data.cont_one_name);
                     $('#PrimaryRelation').val(data.data.cont_one_relation);
@@ -3705,7 +3755,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Bank_JCId').val($('#JCId').val());
                     $('#BankName').val(data.data.BankName);
                     $('#BranchName').val(data.data.BranchName);
@@ -3729,7 +3779,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Family_JCId').val($('#JCId').val());
                     MemberCount = data.data.length;
                     for (var i = 1; i <= MemberCount; i++) {
@@ -3751,18 +3801,18 @@
                 type: "GET",
                 url: "{{ route('getEmpByCompany') }}?ComapnyId=" + ComapnyId,
                 async: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#EmpLoader').removeClass('d-none');
                     $('#review_to').addClass('d-none');
                 },
 
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $('#EmpLoader').addClass('d-none');
                         $('#review_to').removeClass('d-none');
                         $("#review_to").empty();
 
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#review_to").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -3794,11 +3844,11 @@
                 type: "GET",
                 url: "{{ route('getEducation') }}",
                 async: false,
-                success: function(res) {
+                success: function (res) {
 
                     if (res) {
                         EducationList = '<option value="">Select</option>';
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             EducationList = EducationList + '<option value="' + key + '">' + key +
                                 '</option>';
                         });
@@ -3813,11 +3863,11 @@
                 type: "GET",
                 url: "{{ route('getCollege') }}",
                 async: false,
-                success: function(res) {
+                success: function (res) {
 
                     if (res) {
                         CollegeList = '<option value="">Select</option>';
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             CollegeList = CollegeList + '<option value="' + value + '">' + key +
                                 '</option>';
                         });
@@ -3832,10 +3882,10 @@
                 type: "GET",
                 url: "{{ route('getAllSP') }}",
                 async: false,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         SpecializationList = '<option value="">Select</option>';
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             SpecializationList = SpecializationList + '<option value="' + key + '">' +
                                 value +
                                 '</option>';
@@ -3900,7 +3950,7 @@
                     JCId: JCId,
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
 
                         EducationCount = data.data.length;
@@ -3971,7 +4021,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Work_JCId').val($('#JCId').val());
                     WorkExpCount = data.data.length;
                     for (var i = 1; i <= WorkExpCount; i++) {
@@ -4025,7 +4075,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                     TrainingCount = data.data.length;
                     for (var i = 1; i <= TrainingCount; i++) {
@@ -4071,7 +4121,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                     RefCount = data.data.length;
                     for (var i = 1; i <= RefCount; i++) {
@@ -4120,7 +4170,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                     RefCount = data.data.length;
                     for (var i = 1; i <= RefCount; i++) {
@@ -4184,7 +4234,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
                         VRef_Business_Count = data.data.length;
                         for (var i = 1; i <= VRef_Business_Count; i++) {
@@ -4242,7 +4292,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
                         OtherSeedCount = data.data.length;
                         for (var x = 1; x <= OtherSeedCount; x++) {
@@ -4306,7 +4356,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                     LanguageCount = data.data.length;
 
@@ -4362,14 +4412,14 @@
                 url: "{{ route('getSpecialization') }}?EducationId=" + EducationId,
                 async: false,
 
-                success: function(res) {
+                success: function (res) {
 
                     if (res) {
 
                         $("#Specialization" + No).empty();
                         $("#Specialization" + No).append(
                             '<option value="" selected disabled >Select Specialization</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#Specialization" + No).append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -4389,19 +4439,19 @@
                 type: "GET",
                 url: "{{ route('getDistrict') }}?StateId=" + StateId,
                 async: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#PreDistLoader').removeClass('d-none');
                     $('#PreDistrict').addClass('d-none');
                 },
-                success: function(res) {
+                success: function (res) {
                     if (res) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                                 $('#PreDistLoader').addClass('d-none');
                                 $('#PreDistrict').removeClass('d-none');
                                 $("#PreDistrict").empty();
                                 $("#PreDistrict").append(
                                     '<option value="" selected disabled >Select District</option>');
-                                $.each(res, function(key, value) {
+                                $.each(res, function (key, value) {
                                     $("#PreDistrict").append('<option value="' + value + '">' +
                                         key +
                                         '</option>');
@@ -4421,19 +4471,19 @@
                 type: "GET",
                 url: "{{ route('getDistrict') }}?StateId=" + StateId,
                 async: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#PermDistLoader').removeClass('d-none');
                     $('#PermDistrict').addClass('d-none');
                 },
-                success: function(res) {
+                success: function (res) {
                     if (res) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                                 $('#PermDistLoader').addClass('d-none');
                                 $('#PermDistrict').removeClass('d-none');
                                 $("#PermDistrict").empty();
                                 $("#PermDistrict").append(
                                     '<option value="" selected disabled >Select District</option>');
-                                $.each(res, function(key, value) {
+                                $.each(res, function (key, value) {
                                     $("#PermDistrict").append('<option value="' + value + '">' +
                                         key +
                                         '</option>');
@@ -4456,7 +4506,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Current_JCId').val($('#JCId').val());
                     $('#PreAddress').val(data.data.pre_address);
                     $('#PreCity').val(data.data.pre_city);
@@ -4476,7 +4526,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Permanent_JCId').val($('#JCId').val());
                     $('#PermAddress').val(data.data.perm_address);
                     $('#PermCity').val(data.data.perm_city);
@@ -4496,7 +4546,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Curr_JCId').val($('#JCId').val());
                     $('#Currcompany_name').val(data.data.PresentCompany);
                     $('#CurrDepartment').val(data.data.PresentDepartment);
@@ -4520,7 +4570,7 @@
                     JCId: JCId
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('#Sal_JCId').val($('#JCId').val());
                     $('#CurrSalary').val(data.data.GrossSalary);
                     $('#CurrCTC').val(data.data.CTC);
@@ -4534,7 +4584,7 @@
         } // GetPresentSalaryDetails
 
 
-        $(document).on('click', '.dlchk', function() {
+        $(document).on('click', '.dlchk', function () {
             var val = $(this).data('value');
 
             if (val == 'Y') {
@@ -4550,7 +4600,7 @@
             }
         });
 
-        $(document).on('click', '.crime', function() {
+        $(document).on('click', '.crime', function () {
             var val = $(this).data('value');
             if (val == 'Y') {
                 $('#crime_div').removeClass('d-none');
@@ -4563,98 +4613,98 @@
             }
         });
 
-        $(document).on('click', '#addMember', function() {
+        $(document).on('click', '#addMember', function () {
             MemberCount++;
             familymember(MemberCount);
         }); // addMember
 
-        $(document).on('click', '#removeMember', function() {
+        $(document).on('click', '#removeMember', function () {
             if (confirm('Are you sure you want to delete this member?')) {
                 $(this).closest('tr').remove();
                 MemberCount--;
             }
         });
 
-        $(document).on('click', '#addEducation', function() {
+        $(document).on('click', '#addEducation', function () {
             EducationCount++;
             Qualification(EducationCount);
         });
 
-        $(document).on('click', '#removeQualification', function() {
+        $(document).on('click', '#removeQualification', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 EducationCount--;
             }
         });
 
-        $(document).on('click', '#addExperience', function() {
+        $(document).on('click', '#addExperience', function () {
             WorkExpCount++;
             WorkExperience(WorkExpCount);
         });
 
-        $(document).on('click', '#removeWorkExp', function() {
+        $(document).on('click', '#removeWorkExp', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 WorkExpCount--;
             }
         });
 
-        $(document).on('click', '#addTraining', function() {
+        $(document).on('click', '#addTraining', function () {
             TrainingCount++;
             Training(TrainingCount);
         });
 
-        $(document).on('click', '#removeTraining', function() {
+        $(document).on('click', '#removeTraining', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 TrainingCount--;
             }
         });
 
-        $(document).on('click', '#addPreOrgRef', function() {
+        $(document).on('click', '#addPreOrgRef', function () {
             RefCount++;
             PreviousOrgReference(RefCount);
         });
 
-        $(document).on('click', '#removePreOrgRef', function() {
+        $(document).on('click', '#removePreOrgRef', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 RefCount--;
             }
         });
 
-        $(document).on('click', '#addVnrRef', function() {
+        $(document).on('click', '#addVnrRef', function () {
             VRefCount++;
             VNRReference(VRefCount);
         });
 
-        $(document).on('click', '#removeVnrRef', function() {
+        $(document).on('click', '#removeVnrRef', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 VRefCount--;
             }
         });
 
-        $(document).on('click', '#addLanguage', function() {
+        $(document).on('click', '#addLanguage', function () {
             LanguageCount++;
             LaguageProficiency(LanguageCount);
         });
 
-        $(document).on('click', '#removeLanguage', function() {
+        $(document).on('click', '#removeLanguage', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 LanguageCount--;
             }
         });
 
-        $(document).on('click', '#addOtherSeed', function() {
+        $(document).on('click', '#addOtherSeed', function () {
             OtherSeedCount++;
 
             OtherSeed(OtherSeedCount);
             $(".tab-content").height('auto');
         });
 
-        $(document).on('click', '#removeOtherSeed', function() {
+        $(document).on('click', '#removeOtherSeed', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 OtherSeedCount--;
@@ -4662,14 +4712,14 @@
             }
         });
 
-        $(document).on('click', '#addVnrRef_Business', function() {
+        $(document).on('click', '#addVnrRef_Business', function () {
             VRef_Business_Count++;
 
             VNRReference_Business(VRef_Business_Count);
             $(".tab-content").height('auto');
         });
 
-        $(document).on('click', '#removeVnrRef_Business', function() {
+        $(document).on('click', '#removeVnrRef_Business', function () {
             if (confirm('Are you sure you want to delete this record?')) {
                 $(this).closest('tr').remove();
                 VRef_Business_Count--;
@@ -4678,7 +4728,7 @@
         });
 
 
-        $(document).on('change', '#Religion', function() {
+        $(document).on('change', '#Religion', function () {
             var Religion = $(this).val();
             if (Religion == 'Others') {
                 $('#OtherReligion').removeClass('d-none');
@@ -4687,7 +4737,7 @@
             }
         });
 
-        $(document).on('change', '#Category', function() {
+        $(document).on('change', '#Category', function () {
             var Category = $(this).val();
             if (Category == 'Other') {
                 $('#OtherCategory').removeClass('d-none');
@@ -4696,7 +4746,7 @@
             }
         });
 
-        $(document).on('change', '#MaritalStatus', function() {
+        $(document).on('change', '#MaritalStatus', function () {
             var MaritalStatus = $(this).val();
             if (MaritalStatus == 'Married') {
                 $('#MDate').removeClass('d-none');
@@ -4707,7 +4757,7 @@
             }
         });
 
-        $('#CandidatePersonalForm').on('submit', function(e) {
+        $('#CandidatePersonalForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4717,7 +4767,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     if (data.status == 400) {
                         toastr.error(data.msg);
@@ -4731,7 +4781,7 @@
             });
         });
 
-        $('#CandidateProfileForm').on('submit', function(e) {
+        $('#CandidateProfileForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4741,7 +4791,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     if (data.status == 400) {
                         toastr.error(data.msg);
@@ -4755,7 +4805,7 @@
             });
         });
 
-        $('#EmergencyContactForm').on('submit', function(e) {
+        $('#EmergencyContactForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4765,7 +4815,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4778,7 +4828,7 @@
             });
         });
 
-        $('#BankInfoForm').on('submit', function(e) {
+        $('#BankInfoForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4788,7 +4838,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4801,7 +4851,7 @@
             });
         });
 
-        $('#FamilyInfoForm').on('submit', function(e) {
+        $('#FamilyInfoForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4811,7 +4861,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4824,7 +4874,7 @@
             });
         });
 
-        $('#CurrentAddressForm').on('submit', function(e) {
+        $('#CurrentAddressForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4832,22 +4882,22 @@
                 method: $(form).attr('method'),
                 data: new FormData(form),
                 processData: false,
-                dataType: 'json',
+                dataType: 'json', 
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
-                    } else {
+                    } else { 
                         $(form)[0].reset();
                         $('#current_address_modal').modal('hide');
                         toastr.success(data.msg);
-                        window.location.reload();
+                        window.location.reload(); 
                     }
                 }
             });
         });
 
-        $('#PermanentAddressForm').on('submit', function(e) {
+        $('#PermanentAddressForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4857,7 +4907,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4870,7 +4920,7 @@
             });
         });
 
-        $('#EducationInfoForm').on('submit', function(e) {
+        $('#EducationInfoForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4880,7 +4930,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4893,7 +4943,7 @@
             });
         });
 
-        $('#WorkExpForm').on('submit', function(e) {
+        $('#WorkExpForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4903,7 +4953,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4916,7 +4966,7 @@
             });
         });
 
-        $('#CurrentEmpForm').on('submit', function(e) {
+        $('#CurrentEmpForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4926,7 +4976,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4939,7 +4989,7 @@
             });
         });
 
-        $('#CurrentSalaryForm').on('submit', function(e) {
+        $('#CurrentSalaryForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4949,7 +4999,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4962,7 +5012,7 @@
             });
         });
 
-        $('#TrainingForm').on('submit', function(e) {
+        $('#TrainingForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4972,7 +5022,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -4985,7 +5035,7 @@
             });
         });
 
-        $('#PreOrgRefForm').on('submit', function(e) {
+        $('#PreOrgRefForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -4995,7 +5045,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -5008,7 +5058,7 @@
             });
         });
 
-        $('#VNRRefForm').on('submit', function(e) {
+        $('#VNRRefForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5018,7 +5068,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -5031,7 +5081,7 @@
             });
         });
 
-        $('#OtherSeedForm').on('submit', function(e) {
+        $('#OtherSeedForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5041,7 +5091,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -5054,7 +5104,7 @@
             });
         });
 
-        $('#BusinessForm').on('submit', function(e) {
+        $('#BusinessForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5064,7 +5114,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -5077,7 +5127,7 @@
             });
         });
 
-        $('#about_form').on('submit', function(e) {
+        $('#about_form').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             var formData = new FormData(this);
@@ -5089,7 +5139,7 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -5102,7 +5152,7 @@
             });
         });
 
-        $('#SendMailForm').on('submit', function(e) {
+        $('#SendMailForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5112,10 +5162,10 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#send_mail_btn').html('<i class="fa fa-spinner fa-spin"></i> Sending...');
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -5141,7 +5191,7 @@
                 .appendTo("body");
         }
 
-        $("#permanent_chk").change(function() {
+        $("#permanent_chk").change(function () {
             if (!this.checked) {
                 $("#permanent_div").addClass("d-none");
             } else {
@@ -5149,7 +5199,7 @@
             }
         });
 
-        $("#temporary_chk").change(function() {
+        $("#temporary_chk").change(function () {
             if (!this.checked) {
                 $("#temporary_div").addClass("d-none");
                 $("#temporary_div1").addClass("d-none");
@@ -5159,7 +5209,7 @@
             }
         });
 
-        $("#administrative_chk").change(function() {
+        $("#administrative_chk").change(function () {
             if (!this.checked) {
                 $("#administrative_div").addClass("d-none");
             } else {
@@ -5167,7 +5217,7 @@
             }
         });
 
-        $("#functional_chk").change(function() {
+        $("#functional_chk").change(function () {
             if (!this.checked) {
                 $("#functional_div").addClass("d-none");
             } else {
@@ -5175,7 +5225,7 @@
             }
         });
 
-        $(document).on('change', '#Grade', function() {
+        $(document).on('change', '#Grade', function () {
             var Grade = $(this).val();
             var value = 'nopnot';
             if (Grade >= 70) {
@@ -5190,12 +5240,12 @@
                 type: "GET",
                 url: "{{ route('get_designation_by_grade_department') }}?GradeId=" + Grade +
                     "&DepartmentId=" + $('#SelectedForD').val(),
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $("#Designation").empty();
                         $("#Designation").append(
                             '<option value="" selected>Select Designation</option>');
-                        $.each(res.grade_designation_list, function(key, value) {
+                        $.each(res.grade_designation_list, function (key, value) {
                             $("#Designation").append('<option value="' + value + '">' +
                                 key +
                                 '</option>');
@@ -5207,12 +5257,12 @@
             });
         });
 
-        $(document).on('change', '#Designation', function() {
+        $(document).on('change', '#Designation', function () {
             let DesigId = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('get_mw_by_designation') }}?DesigId=" + DesigId,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $("#MW").val(res.category)
                     } else {
@@ -5222,12 +5272,12 @@
             });
         });
 
-        $(document).on('click', '#offerltredit', function() {
+        $(document).on('click', '#offerltredit', function () {
             var JAId = $(this).data('id');
             $.ajax({
                 type: "GET",
                 url: "{{ route('get_offerltr_basic_detail') }}?JAId=" + JAId,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#Of_JAId').val(JAId);
                         $('#JCId').val(res.candidate_detail.JCId);
@@ -5236,7 +5286,7 @@
                         $("#Grade").empty();
                         $("#Grade").append(
                             '<option value="">Select Grade</option>');
-                        $.each(res.grade_list, function(key, value) {
+                        $.each(res.grade_list, function (key, value) {
                             $("#Grade").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5253,7 +5303,7 @@
                         $("#SubDepartment").empty();
                         $("#SubDepartment").append(
                             '<option value="">Select Sub Department</option>');
-                        $.each(res.sub_department_list, function(key, value) {
+                        $.each(res.sub_department_list, function (key, value) {
                             $("#SubDepartment").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5263,7 +5313,7 @@
                         $("#Section").empty();
                         $("#Section").append(
                             '<option value="">Select Section</option>');
-                        $.each(res.section_list, function(key, value) {
+                        $.each(res.section_list, function (key, value) {
                             $("#Section").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5273,7 +5323,7 @@
                         $("#Designation").empty();
                         $("#Designation").append(
                             '<option value="">Select Designation</option>');
-                        $.each(res.grade_designation_list, function(key, value) {
+                        $.each(res.grade_designation_list, function (key, value) {
                             $("#Designation").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5284,7 +5334,7 @@
                         $("#DesignationRep").empty();
                         $("#DesignationRep").append(
                             '<option value="">Select Reporting Designation</option>');
-                        $.each(res.designation_list, function(key, value) {
+                        $.each(res.designation_list, function (key, value) {
                             $("#DesignationRep").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5295,39 +5345,39 @@
                         $("#Vertical").empty();
                         $("#Vertical").append(
                             '<option value="">Select Vertical</option>');
-                        $.each(res.vertical_list, function(key, value) {
+                        $.each(res.vertical_list, function (key, value) {
                             $("#Vertical").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
-                        if (res.candidate_detail.Department == 15) {
+                        if(res.candidate_detail.Department ==15){
                             $("#bu_tr").removeClass('d-none');
                             $("#zone_tr").removeClass('d-none');
                             $("#region_tr").removeClass('d-none');
                             $("#territory_tr").removeClass('d-none');
-                            $.each(res.bu_list, function(key, value) {
+                            $.each(res.bu_list, function (key, value) {
                                 $("#BU").append('<option value="' + value + '">' + key +
                                     '</option>');
                             });
                             $("#BU").val(res.candidate_detail.BU);
-                            $.each(res.zone_list, function(key, value) {
+                            $.each(res.zone_list, function (key, value) {
                                 $("#Zone").append('<option value="' + value + '">' + key +
                                     '</option>');
                             });
                             $("#Zone").val(res.candidate_detail.Zone);
 
-                            $.each(res.region_list, function(key, value) {
+                            $.each(res.region_list, function (key, value) {
                                 $("#Region").append('<option value="' + value + '">' + key +
                                     '</option>');
                             });
                             $("#Region").val(res.candidate_detail.Region);
 
-                            $.each(res.territory_list, function(key, value) {
+                            $.each(res.territory_list, function (key, value) {
                                 $("#Territory").append('<option value="' + value + '">' + key +
                                     '</option>');
                             });
                             $("#Territory").val(res.candidate_detail.Territory);
                         }
-
+                        
 
                         $('#Vertical').val(res.candidate_detail.VerticalId);
                         $("#RepLineVisibility").val(res.candidate_detail.RepLineVisibility);
@@ -5335,7 +5385,7 @@
                         $("#AdministrativeDepartment").empty();
                         $("#AdministrativeDepartment").append(
                             '<option value="">Select Department</option>');
-                        $.each(res.department_list, function(key, value) {
+                        $.each(res.department_list, function (key, value) {
                             $("#AdministrativeDepartment").append('<option value="' + value +
                                 '">' + key +
                                 '</option>');
@@ -5345,7 +5395,7 @@
                         $("#FunctionalDepartment").empty();
                         $("#FunctionalDepartment").append(
                             '<option value="">Select Department</option>');
-                        $.each(res.department_list, function(key, value) {
+                        $.each(res.department_list, function (key, value) {
                             $("#FunctionalDepartment").append('<option value="' + value + '">' +
                                 key +
                                 '</option>');
@@ -5354,7 +5404,7 @@
                         $("#AdministrativeEmployee").empty();
                         $("#AdministrativeEmployee").append(
                             '<option value="">Select Employee</option>');
-                        $.each(res.employee_list, function(key, value) {
+                        $.each(res.employee_list, function (key, value) {
                             $("#AdministrativeEmployee").append('<option value="' + key + '">' +
                                 value +
                                 '</option>');
@@ -5363,7 +5413,7 @@
                         $("#FunctionalEmployee").empty();
                         $("#FunctionalEmployee").append(
                             '<option value="">Select Employee</option>');
-                        $.each(res.employee_list, function(key, value) {
+                        $.each(res.employee_list, function (key, value) {
                             $("#FunctionalEmployee").append('<option value="' + key + '">' +
                                 value +
                                 '</option>');
@@ -5372,7 +5422,7 @@
                         $("#AftDesignation").empty();
                         $("#AftDesignation").append(
                             '<option value="0">Select Designation</option>');
-                        $.each(res.designation_list, function(key, value) {
+                        $.each(res.designation_list, function (key, value) {
                             $("#AftDesignation").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5380,7 +5430,7 @@
                         $("#AftGrade").empty();
                         $("#AftGrade").append(
                             '<option value="">Select Grade</option>');
-                        $.each(res.grade_list, function(key, value) {
+                        $.each(res.grade_list, function (key, value) {
                             $("#AftGrade").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5388,7 +5438,7 @@
                         $("#Of_PermState").empty();
                         $("#Of_PermState").append(
                             '<option value="">Select State</option>');
-                        $.each(res.state_list, function(key, value) {
+                        $.each(res.state_list, function (key, value) {
                             $("#Of_PermState").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5396,7 +5446,7 @@
                         $("#PermHQ").empty();
                         $("#PermHQ").append(
                             '<option value="">Select HQ</option>');
-                        $.each(res.perm_headquarter_list, function(key, value) {
+                        $.each(res.perm_headquarter_list, function (key, value) {
                             $("#PermHQ").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5404,7 +5454,7 @@
                         $("#TempState").empty();
                         $("#TempState").append(
                             '<option value="">Select State</option>');
-                        $.each(res.state_list, function(key, value) {
+                        $.each(res.state_list, function (key, value) {
                             $("#TempState").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5412,7 +5462,7 @@
                         $("#TempState1").empty();
                         $("#TempState1").append(
                             '<option value="">Select State</option>');
-                        $.each(res.state_list, function(key, value) {
+                        $.each(res.state_list, function (key, value) {
                             $("#TempState1").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5420,7 +5470,7 @@
                         $("#TempHQ").empty();
                         $("#TempHQ").append(
                             '<option value="">Select HQ</option>');
-                        $.each(res.temp_headquarter_list, function(key, value) {
+                        $.each(res.temp_headquarter_list, function (key, value) {
                             $("#TempHQ").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5428,7 +5478,7 @@
                         $("#TempHQ1").empty();
                         $("#TempHQ1").append(
                             '<option value="">Select HQ</option>');
-                        $.each(res.temp1_headquarter_list, function(key, value) {
+                        $.each(res.temp1_headquarter_list, function (key, value) {
                             $("#TempHQ1").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5436,7 +5486,7 @@
                         $("#vehicle_policy").empty();
                         $("#vehicle_policy").append('<option value="">Select Policy</option>');
                         $("#vehicle_policy").append('<option value="NA">NA</option>');
-                        $.each(res.vehicle_policy_list, function(key, value) {
+                        $.each(res.vehicle_policy_list, function (key, value) {
                             $("#vehicle_policy").append('<option value="' + value + '">' + key +
                                 '</option>');
                         });
@@ -5548,7 +5598,7 @@
 
                         if (res.candidate_detail.PreMedicalCheckUp != '') {
                             $("input[name=MedicalCheckup][value=" + res.candidate_detail
-                                .PreMedicalCheckUp +
+                                    .PreMedicalCheckUp +
                                 "]").prop('checked', true);
                         }
 
@@ -5562,21 +5612,21 @@
             });
         });
 
-        $('#OfferLtrModal').on('hidden.bs.modal', function() {
+        $('#OfferLtrModal').on('hidden.bs.modal', function () {
             $('#offerletterbasicform')[0].reset();
         });
 
-        $(document).on('change', '#AdministrativeDepartment', function() {
+        $(document).on('change', '#AdministrativeDepartment', function () {
             var DepartmentId = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getReportingManager') }}?DepartmentId=" + DepartmentId,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#AdministrativeEmployee").empty();
                         $("#AdministrativeEmployee").append(
                             '<option value="">Select Reporting</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#AdministrativeEmployee").append('<option value="' + value +
                                 '">' +
                                 key +
@@ -5590,17 +5640,17 @@
             });
         });
 
-        $(document).on('change', '#FunctionalDepartment', function() {
+        $(document).on('change', '#FunctionalDepartment', function () {
             var DepartmentId = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getReportingManager') }}?DepartmentId=" + DepartmentId,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#FunctionalEmployee").empty();
                         $("#FunctionalEmployee").append(
                             '<option value="">Select Reporting</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#FunctionalEmployee").append('<option value="' + value + '">' +
                                 key +
                                 '</option>');
@@ -5613,17 +5663,17 @@
             });
         });
 
-        $(document).on('change', '#Of_PermState', function() {
+        $(document).on('change', '#Of_PermState', function () {
             var state_id = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getCityVillageByState') }}?state_id=" + state_id,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#PermHQ").empty();
                         $("#PermHQ").append(
                             '<option value="">Select Headquarter</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#PermHQ").append('<option value="' + value + '">' +
                                 key +
                                 '</option>');
@@ -5635,17 +5685,17 @@
                 }
             });
         });
-        $(document).on('change', '#TempState', function() {
+        $(document).on('change', '#TempState', function () {
             var state_id = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getCityVillageByState') }}?state_id=" + state_id,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#TempHQ").empty();
                         $("#TempHQ").append(
                             '<option value="">Select Headquarter</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#TempHQ").append('<option value="' + value + '">' +
                                 key +
                                 '</option>');
@@ -5657,17 +5707,17 @@
                 }
             });
         });
-        $(document).on('change', '#TempState1', function() {
+        $(document).on('change', '#TempState1', function () {
             var state_id = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getCityVillageByState') }}?state_id=" + state_id,
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#TempHQ1").empty();
                         $("#TempHQ1").append(
                             '<option value="">Select Headquarter</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#TempHQ1").append('<option value="' + value + '">' +
                                 key +
                                 '</option>');
@@ -5680,7 +5730,7 @@
             });
         });
 
-        $('#offerletterbasicform').on('submit', function(e) {
+        $('#offerletterbasicform').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5690,14 +5740,14 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $(form).find('span.error-text').text('');
                     // $("#loader").modal('show');
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         //  $("#loader").modal('hide');
-                        $.each(data.error, function(prefix, val) {
+                        $.each(data.error, function (prefix, val) {
                             $(form).find('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
@@ -5710,7 +5760,7 @@
             });
         });
 
-        $('#reviewForm').on('submit', function(e) {
+        $('#reviewForm').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5720,16 +5770,16 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $(form).find('span.error-text').text('');
                     $('#review_modal').modal('hide');
                     $("#loader").modal('show');
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         $("#loader").modal('hide');
                         $('#review_modal').modal('show');
-                        $.each(data.error, function(prefix, val) {
+                        $.each(data.error, function (prefix, val) {
                             $(form).find('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
@@ -5743,7 +5793,7 @@
             });
         });
 
-        $('#ref_chk_form').on('submit', function(e) {
+        $('#ref_chk_form').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -5753,16 +5803,16 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $(form).find('span.error-text').text('');
                     $('#ref_modal').modal('hide');
                     $("#loader").modal('show');
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         $("#loader").modal('hide');
                         $('#ref_modal').modal('show');
-                        $.each(data.error, function(prefix, val) {
+                        $.each(data.error, function (prefix, val) {
                             $(form).find('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
@@ -5776,7 +5826,7 @@
             });
         });
 
-        $(document).on('click', '#offerltrgen', function() {
+        $(document).on('click', '#offerltrgen', function () {
             var JAId = $(this).data('id');
             sendingId = btoa(JAId);
             window.open("{{ route('offer_letter_generate') }}?jaid=" + sendingId, '_blank');
@@ -5851,9 +5901,9 @@
             $.ajax({
                 type: "GET",
                 url: "{{ route('offerLtrHistory') }}?jaid=" + JAId,
-                success: function(res) {
+                success: function (res) {
                     var x = '';
-                    $.each(res.data, function(key, value) {
+                    $.each(res.data, function (key, value) {
                         x += '<tr>';
                         x += '<td>' + value.OfDate + '</td>';
                         x += '<td>' + value.LtrNo + '</td>';
@@ -5879,7 +5929,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('saveJoinDate') }}?JAId=" + JAId + "&JoinDate=" + joinDate,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#joindtenable').show(500);
                         $('#JoinSave').hide(500);
@@ -5906,7 +5956,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('saveEmpCode') }}?JAId=" + JAId + "&EmpCode=" + EmpCode,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#empCodeEnable').show(500);
                         $('#EmpCodeSave').hide(500);
@@ -5962,7 +6012,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('changeOffLtrDate') }}?JAId=" + JAId + "&LtrDate=" + LtrDate,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#off_date_enable').show(500);
                         $('#save_off_date').hide(500);
@@ -5983,7 +6033,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('changeA_Date') }}?JAId=" + JAId + "&A_Date=" + A_Date,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#a_date_enable').show(500);
                         $('#save_a_date').hide(500);
@@ -6004,7 +6054,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('changeAgr_Date') }}?JAId=" + JAId + "&Agr_Date=" + Agr_Date,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#agr_date_enable').show(500);
                         $('#save_agr_date').hide(500);
@@ -6025,7 +6075,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('changeB_Date') }}?JAId=" + JAId + "&B_Date=" + B_Date,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#b_date_enable').show(500);
                         $('#save_b_date').hide(500);
@@ -6046,7 +6096,7 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('changeConf_Date') }}?JAId=" + JAId + "&ConfLtrDate=" + ConfLtrDate,
-                success: function(res) {
+                success: function (res) {
                     if (res.status == 200) {
                         $('#conf_date_enable').show(500);
                         $('#save_conf_date').hide(500);
@@ -6118,10 +6168,10 @@
                     data: {
                         "JAId": JAId
                     },
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('#loader').modal('show');
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -6144,10 +6194,10 @@
                     data: {
                         "JAId": JAId
                     },
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('#loader').modal('show');
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -6170,10 +6220,10 @@
                     data: {
                         "JCId": JCId
                     },
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('#loader').modal('show');
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -6202,11 +6252,11 @@
                 width: 400,
                 allowOutsideClick: false
 
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.value) {
                     $.post(url, {
                         JAId: JAId
-                    }, function(data) {
+                    }, function (data) {
                         if (data.status == 200) {
                             toastr.success(data.msg);
                             window.location.reload();
@@ -6220,15 +6270,13 @@
 
         function viewReview(JAId) {
             var url = '<?= route('viewReview') ?>';
-            $.get(url, {
-                JAId: JAId
-            }, function(data) {
+            $.get(url, {JAId: JAId}, function (data) {
                 if (data.status == 200) {
                     $('#view_review').modal('show');
                     let x = '';
                     let i = 1;
                     let reason = '';
-                    $.each(data.data, function(key, value) {
+                    $.each(data.data, function (key, value) {
                         if (value.RejReason == null) {
                             reason = '-';
                         } else {
@@ -6253,7 +6301,7 @@
 
         for (i = 1; i <= 10; i++) {
 
-            $(document).on('change', '#Read' + i, function() {
+            $(document).on('change', '#Read' + i, function () {
 
                 if ($(this).prop('checked')) {
                     $(this).val('1');
@@ -6262,7 +6310,7 @@
                 }
             });
 
-            $(document).on('change', '#Write' + i, function() {
+            $(document).on('change', '#Write' + i, function () {
                 if ($(this).prop('checked')) {
                     $(this).val('1');
                 } else {
@@ -6271,7 +6319,7 @@
             });
 
 
-            $(document).on('change', '#Speak' + i, function() {
+            $(document).on('change', '#Speak' + i, function () {
                 if ($(this).prop('checked')) {
                     $(this).val('1');
                 } else {
@@ -6282,7 +6330,7 @@
 
         }
 
-        $(document).on('click', '#save_language', function() {
+        $(document).on('click', '#save_language', function () {
             var language_array = [];
             for (i = 1; i <= 10; i++) {
                 var lang = $('#Language' + i).val();
@@ -6301,7 +6349,7 @@
             $.post(url, {
                 language_array: language_array,
                 JCId: $('#JCId').val()
-            }, function(data) {
+            }, function (data) {
                 if (data.status == 200) {
                     toastr.success(data.msg);
                     window.location.reload();
@@ -6332,7 +6380,7 @@
                     "JAId": JAId
                 },
 
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -6357,7 +6405,7 @@
             window.open('{{ route('conf_agreement') }}?jaid=' + JAId, '_blank');
         }
 
-        $(document).on('change', '#GPRS', function() {
+        $(document).on('change', '#GPRS', function () {
             if ($(this).prop('checked')) {
                 $("#GPRS").val('1');
             } else {
@@ -6370,8 +6418,8 @@
         /*
          * This is the plugin
          */
-        (function(a) {
-            a.createModal = function(b) {
+        (function (a) {
+            a.createModal = function (b) {
                 defaults = {
                     title: "",
                     message: "Your Message Goes Here!",
@@ -6396,7 +6444,7 @@
                 html += "</div>";
                 html += "</div>";
                 a("body").prepend(html);
-                a("#myModal").modal('show').on("hidden.bs.modal", function() {
+                a("#myModal").modal('show').on("hidden.bs.modal", function () {
                     a(this).remove()
                 })
             }
@@ -6405,8 +6453,8 @@
         /*
          * Here is how you use it
          */
-        $(function() {
-            $('.view-pdf').on('click', function() {
+        $(function () {
+            $('.view-pdf').on('click', function () {
                 var pdf_link = $(this).attr('href');
 
                 var iframe = '<div class="iframe-container"><iframe src="' + pdf_link + '"></iframe></div>'
@@ -6422,7 +6470,7 @@
     </script>
 
     <script>
-        $(document).on('click', '#RelievingLtrUpload', function() {
+        $(document).on('click', '#RelievingLtrUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('RelievingLtrFileUpload') ?>';
             var RelievingLtr = $('#RelievingLtr')[0].files;
@@ -6436,7 +6484,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -6445,10 +6493,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml)
@@ -6456,7 +6504,7 @@
             });
         });
 
-        $(document).on('click', '#SalarySlipUpload', function() {
+        $(document).on('click', '#SalarySlipUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('SalarySlipFileUpload') ?>';
             var SalarySlip = $('#SalarySlip')[0].files;
@@ -6470,7 +6518,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
                         toastr.success(data.msg);
                         window.location.reload();
@@ -6479,10 +6527,10 @@
                     }
 
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml)
@@ -6490,7 +6538,7 @@
             });
         });
 
-        $(document).on('click', '#AppraisalLtrUpload', function() {
+        $(document).on('click', '#AppraisalLtrUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('AppraisalLtrFileUpload') ?>';
             var AppraisalLtr = $('#AppraisalLtr')[0].files;
@@ -6504,7 +6552,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -6513,10 +6561,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml)
@@ -6524,7 +6572,7 @@
             });
         });
 
-        $(document).on('click', '#VaccinationCertUpload', function() {
+        $(document).on('click', '#VaccinationCertUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('VaccinationCertFileUpload') ?>';
             var VaccinationCert = $('#VaccinationCert')[0].files;
@@ -6538,7 +6586,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -6547,10 +6595,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml)
@@ -6558,7 +6606,7 @@
             });
         });
 
-        $(document).on('click', '#AadhaarUpload', function() {
+        $(document).on('click', '#AadhaarUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('AadhaarUpload') ?>';
             var AadhaarCard = $('#AadhaarCard')[0].files;
@@ -6572,7 +6620,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6583,10 +6631,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6595,7 +6643,7 @@
             });
         });
 
-        $(document).on('click', '#PANCardUpload', function() {
+        $(document).on('click', '#PANCardUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('PanCardUpload') ?>';
             var PANCard = $('#PANCard')[0].files;
@@ -6611,7 +6659,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6622,10 +6670,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6634,7 +6682,7 @@
             });
         });
 
-        $(document).on('click', '#PassportUpload', function() {
+        $(document).on('click', '#PassportUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('PassportUpload') ?>';
             var Passport = $('#Passport')[0].files;
@@ -6650,7 +6698,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 200) {
 
                         toastr.success(data.msg);
@@ -6661,10 +6709,10 @@
                     }
 
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6673,7 +6721,7 @@
             });
         });
 
-        $(document).on('click', '#DLCardUpload', function() {
+        $(document).on('click', '#DLCardUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('DlUpload') ?>';
             var DLCard = $('#DLCard')[0].files;
@@ -6687,7 +6735,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6698,10 +6746,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6710,7 +6758,7 @@
             });
         });
 
-        $(document).on('click', '#PFForm2Upload', function() {
+        $(document).on('click', '#PFForm2Upload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('PF_Form2Upload') ?>';
             var PFForm2 = $('#PFForm2')[0].files;
@@ -6724,7 +6772,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6735,10 +6783,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6747,7 +6795,7 @@
             });
         });
 
-        $(document).on('click', '#PFForm11Upload', function() {
+        $(document).on('click', '#PFForm11Upload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('PF_Form11Upload') ?>';
             var PF_Form11 = $('#PF_Form11')[0].files;
@@ -6761,7 +6809,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6772,10 +6820,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6784,7 +6832,7 @@
             });
         });
 
-        $(document).on('click', '#GratuityUpload', function() {
+        $(document).on('click', '#GratuityUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('GratuityUpload') ?>';
             var GratuityForm = $('#GratuityForm')[0].files;
@@ -6798,7 +6846,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6809,10 +6857,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6821,7 +6869,7 @@
             });
         });
 
-        $(document).on('click', '#ESICFormUpload', function() {
+        $(document).on('click', '#ESICFormUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('ESICUpload') ?>';
             var ESICForm = $('#ESICForm')[0].files;
@@ -6835,7 +6883,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6846,10 +6894,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6858,7 +6906,7 @@
             });
         });
 
-        $(document).on('click', '#ESIC_FamilyUpload', function() {
+        $(document).on('click', '#ESIC_FamilyUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('FamilyUpload') ?>';
             var ESIC_Family = $('#ESIC_Family')[0].files;
@@ -6872,7 +6920,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6883,10 +6931,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6895,7 +6943,7 @@
             });
         });
 
-        $(document).on('click', '#HealthUpload', function() {
+        $(document).on('click', '#HealthUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('HealthUpload') ?>';
             var Health = $('#Health')[0].files;
@@ -6909,7 +6957,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6920,10 +6968,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6932,7 +6980,7 @@
             });
         });
 
-        $(document).on('click', '#EthicalUpload', function() {
+        $(document).on('click', '#EthicalUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('EthicalUpload') ?>';
             var Ethical = $('#Ethical')[0].files;
@@ -6946,7 +6994,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6957,10 +7005,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -6969,7 +7017,7 @@
             });
         });
 
-        $(document).on('click', '#BloodGroupUpload', function() {
+        $(document).on('click', '#BloodGroupUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('BloodGroupUpload') ?>';
             var BloodGroup = $('#BloodGroup')[0].files;
@@ -6983,7 +7031,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -6994,10 +7042,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -7006,7 +7054,7 @@
             });
         });
 
-        $(document).on('click', '#BankPassBookUpload', function() {
+        $(document).on('click', '#BankPassBookUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('BankUpload') ?>';
             var BankPassBook = $('#BankPassBook')[0].files;
@@ -7045,7 +7093,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -7056,10 +7104,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -7068,7 +7116,7 @@
             });
         });
 
-        $(document).on('click', '#TestPaperUpload', function() {
+        $(document).on('click', '#TestPaperUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('TestPaperUpload') ?>';
             var Test_Paper = $('#TestPaper')[0].files;
@@ -7082,7 +7130,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -7093,10 +7141,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -7105,7 +7153,7 @@
             });
         });
 
-        $(document).on('click', '#IntervAssessmentUpload', function() {
+        $(document).on('click', '#IntervAssessmentUpload', function () {
             var JCId = $('#JCId').val();
             var url = '<?= route('IntervAssessmentUpload') ?>';
             var IntervAssessment = $('#IntervAssessment')[0].files;
@@ -7119,7 +7167,7 @@
                 contentType: false,
                 processData: false,
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
 
@@ -7130,10 +7178,10 @@
 
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     var errors = data.responseJSON;
                     var errorsHtml = '';
-                    $.each(errors.errors, function(key, value) {
+                    $.each(errors.errors, function (key, value) {
                         errorsHtml += value[0] + '<br>';
                     });
                     toastr.error(errorsHtml);
@@ -7163,7 +7211,7 @@
             $('#FourWheelRCCancle').show(500);
         }
 
-        $(document).on('click', '#SaveVerification', function() {
+        $(document).on('click', '#SaveVerification', function () {
             var JAId = $('#JAId').val();
             var Verification = $('#Verification').val();
             $.ajax({
@@ -7174,7 +7222,7 @@
                     Verification: Verification
                 },
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -7187,7 +7235,7 @@
             });
         });
 
-        $(document).on('click', '#SaveTwoWheelRC', function() {
+        $(document).on('click', '#SaveTwoWheelRC', function () {
             var JAId = $('#JAId').val();
             var two_wheel_rc = $('#two_wheel_rc').val();
             var two_wheel_flat_rate = '';
@@ -7196,26 +7244,26 @@
                 // if (two_wheel_flat_rate == null || two_wheel_flat_rate == '') {
                 //     toastr.error('Please Enter Flat Rate for Two Wheeler');
                 // } else {
-                $.ajax({
-                    url: '<?= route('TwoWheelRCSave') ?>',
-                    method: 'POST',
-                    data: {
-                        JAId: JAId,
-                        two_wheel_rc: two_wheel_rc,
-                        two_wheel_flat_rate: 0
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.status == 400) {
-                            toastr.error(data.msg);
-                        } else {
-                            toastr.success(data.msg);
-                            window.location.reload();
+                    $.ajax({
+                        url: '<?= route('TwoWheelRCSave') ?>',
+                        method: 'POST',
+                        data: {
+                            JAId: JAId,
+                            two_wheel_rc: two_wheel_rc,
+                            two_wheel_flat_rate: 0
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status == 400) {
+                                toastr.error(data.msg);
+                            } else {
+                                toastr.success(data.msg);
+                                window.location.reload();
 
-                        }
-                    },
+                            }
+                        },
 
-                });
+                    });
                 //}
             } else {
                 $.ajax({
@@ -7227,7 +7275,7 @@
                         two_wheel_flat_rate: ''
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7241,7 +7289,7 @@
             }
         });
 
-        $(document).on('click', '#SaveFourWheelRC', function() {
+        $(document).on('click', '#SaveFourWheelRC', function () {
             var JAId = $('#JAId').val();
             var four_wheel_rc = $('#four_wheel_rc').val();
             var four_wheel_flat_rate = '';
@@ -7250,27 +7298,27 @@
                 // if (four_wheel_flat_rate == null || four_wheel_flat_rate == '') {
                 //     toastr.error('Please Enter Flat Rate for Four Wheeler');
                 // } else {
-                $.ajax({
-                    url: '<?= route('FourWheelRCSave') ?>',
-                    method: 'POST',
-                    data: {
-                        JAId: JAId,
-                        four_wheel_rc: four_wheel_rc,
-                        four_wheel_flat_rate: 0
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.status == 400) {
-                            toastr.error(data.msg);
-                        } else {
-                            toastr.success(data.msg);
-                            window.location.reload();
+                    $.ajax({
+                        url: '<?= route('FourWheelRCSave') ?>',
+                        method: 'POST',
+                        data: {
+                            JAId: JAId,
+                            four_wheel_rc: four_wheel_rc,
+                            four_wheel_flat_rate: 0
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status == 400) {
+                                toastr.error(data.msg);
+                            } else {
+                                toastr.success(data.msg);
+                                window.location.reload();
 
-                        }
-                    },
+                            }
+                        },
 
-                });
-                // }
+                    });
+               // }
             } else {
                 $.ajax({
                     url: '<?= route('FourWheelRCSave') ?>',
@@ -7281,7 +7329,7 @@
                         four_wheel_flat_rate: ''
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7309,7 +7357,7 @@
             $('#ClosureCancle').show(500);
         }
 
-        $(document).on('click', '#SaveJoined', function() {
+        $(document).on('click', '#SaveJoined', function () {
             var JAId = $('#JAId').val();
             var Joined = $('#Joined').val();
             var RemarkHr = '';
@@ -7327,7 +7375,7 @@
                             RemarkHr: RemarkHr
                         },
                         dataType: 'json',
-                        success: function(data) {
+                        success: function (data) {
                             if (data.status == 400) {
                                 toastr.error(data.msg);
                             } else {
@@ -7349,7 +7397,7 @@
                         RemarkHr: ''
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7363,7 +7411,7 @@
             }
         });
 
-        $(document).on('click', '#SaveClosure', function() {
+        $(document).on('click', '#SaveClosure', function () {
             var JAId = $('#JAId').val();
             var Hr_Closure = $('#Hr_Closure').val();
             var RemarkHr = '';
@@ -7381,7 +7429,7 @@
                             RemarkHr: RemarkHr
                         },
                         dataType: 'json',
-                        success: function(data) {
+                        success: function (data) {
                             if (data.status == 400) {
                                 toastr.error(data.msg);
                             } else {
@@ -7403,7 +7451,7 @@
                         RemarkHr: ''
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7424,7 +7472,7 @@
             $('#posCancle').show(500);
         }
 
-        $(document).on('click', '#PositionCodeSave', function() {
+        $(document).on('click', '#PositionCodeSave', function () {
             var JAId = $('#JAId').val();
             var PositionCode = $('#PositionCode').val();
             $.ajax({
@@ -7435,7 +7483,7 @@
                     PositionCode: PositionCode
                 },
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -7448,7 +7496,7 @@
             });
         });
 
-        $(document).on('click', '#ProcessToEss', function() {
+        $(document).on('click', '#ProcessToEss', function () {
             var JAId = $('#JAId').val();
             $.ajax({
                 url: '<?= route('processDataToEss') ?>',
@@ -7457,10 +7505,10 @@
                     JAId: JAId
                 },
                 dataType: 'json',
-                beforeSend: function() {
+                beforeSend: function () {
                     $("#loader").modal('show');
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         $("#loader").modal('hide');
                         toastr.error(data.msg);
@@ -7485,7 +7533,7 @@
                     JCId: JCId,
                 },
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -7497,7 +7545,7 @@
             });
         }
 
-        $(document).on("click", "#open_joining_form", function() {
+        $(document).on("click", "#open_joining_form", function () {
             var JCId = $('#JCId').val();
 
             if (confirm("Are you sure you want to open joining form?")) {
@@ -7508,7 +7556,7 @@
                         JCId: JCId,
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7521,7 +7569,7 @@
             }
         });
 
-        $(document).on("click", "#disable_offer_letter", function() {
+        $(document).on("click", "#disable_offer_letter", function () {
             var JAId = $('#JAId').val();
             if (confirm("Are you sure you want to disable offer letter?")) {
                 $.ajax({
@@ -7531,7 +7579,7 @@
                         JAId: JAId,
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7546,7 +7594,7 @@
 
         });
 
-        $(document).on("click", "#enable_offer_letter", function() {
+        $(document).on("click", "#enable_offer_letter", function () {
             var JAId = $('#JAId').val();
             if (confirm("Are you sure you want to enable offer letter?")) {
                 $.ajax({
@@ -7556,7 +7604,7 @@
                         JAId: JAId,
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 400) {
                             toastr.error(data.msg);
                         } else {
@@ -7571,13 +7619,13 @@
 
         });
 
-
+       
 
         function OLAction(JAId) {
             $("#OlActionModal").modal('show');
         }
 
-        $(document).on('change', '#ol_action', function() {
+        $(document).on('change', '#ol_action', function () {
             if ($(this).val() == 'Accepted') {
                 $("#ol_action_div").removeClass('d-none');
             } else {
@@ -7585,7 +7633,7 @@
             }
         });
 
-        $('#responseform').on('submit', function(e) {
+        $('#responseform').on('submit', function (e) {
             e.preventDefault();
             var form = this;
             $.ajax({
@@ -7595,20 +7643,20 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#loader').show();
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#loader').hide();
                     if (data.status == 400) {
                         toastr.error(data.msg);
-                        setTimeout(function() {
+                        setTimeout(function () {
                                 window.location.reload();
                             },
                             500);
                     } else {
                         $(form)[0].reset();
-                        setTimeout(function() {
+                        setTimeout(function () {
                                 window.location.reload();
                             },
                             500);
@@ -7631,7 +7679,7 @@
             $('#TwoWheel_can').show(500);
         }
 
-        $(document).on('click', '#save_TwoWheel', function() {
+        $(document).on('click', '#save_TwoWheel', function () {
             var JAId = $('#JAId').val();
             var TwoWheel = $('#TwoWheel').val();
             $.ajax({
@@ -7642,7 +7690,7 @@
                     TwoWheel: TwoWheel
                 },
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -7654,7 +7702,7 @@
 
             });
         });
-        $(document).on('click', '#save_FourWheel', function() {
+        $(document).on('click', '#save_FourWheel', function () {
             var JAId = $('#JAId').val();
             var FourWheel = $('#FourWheel').val();
             $.ajax({
@@ -7665,7 +7713,7 @@
                     FourWheel: FourWheel
                 },
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.status == 400) {
                         toastr.error(data.msg);
                     } else {
@@ -7677,20 +7725,20 @@
 
             });
         });
-        $(document).on('change', '#Vertical', function() {
+        $(document).on('change', '#Vertical', function () {
             var Vertical = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getBUByVertical') }}",
                 data: {
-                    vertical_id: Vertical
+                    vertical_id : Vertical
                 },
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#BU").empty();
                         $("#BU").append(
                             '<option value="">Select BU</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#BU").append('<option value="' + value +
                                 '">' +
                                 key +
@@ -7703,20 +7751,20 @@
                 }
             });
         });
-        $(document).on('change', '#BU', function() {
+        $(document).on('change', '#BU', function () {
             var BU = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getZoneByBU') }}",
                 data: {
-                    bu_id: BU
+                    bu_id : BU
                 },
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#Zone").empty();
                         $("#Zone").append(
                             '<option value="">Select Zone</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#Zone").append('<option value="' + value +
                                 '">' +
                                 key +
@@ -7730,20 +7778,20 @@
             });
         });
 
-        $(document).on('change', '#Zone', function() {
+        $(document).on('change', '#Zone', function () {
             var Zone = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getRegionByZone') }}",
                 data: {
-                    zone_id: Zone
+                    zone_id : Zone
                 },
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#Region").empty();
                         $("#Region").append(
                             '<option value="">Select Region</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#Region").append('<option value="' + value +
                                 '">' +
                                 key +
@@ -7756,20 +7804,20 @@
                 }
             });
         });
-        $(document).on('change', '#Region', function() {
+        $(document).on('change', '#Region', function () {
             var Region = $(this).val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('getTerritoryByRegion') }}",
                 data: {
-                    region_id: Region
+                    region_id : Region
                 },
-                success: function(res) {
+                success: function (res) {
                     if (res) {
                         $("#Territory").empty();
                         $("#Territory").append(
                             '<option value="">Select Territory</option>');
-                        $.each(res, function(key, value) {
+                        $.each(res, function (key, value) {
                             $("#Territory").append('<option value="' + value +
                                 '">' +
                                 key +
