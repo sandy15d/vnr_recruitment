@@ -1250,3 +1250,130 @@
         </div>
     </div>
 </div>
+
+@php
+    $years = range(1980, $Year);
+@endphp
+
+<div id="education_info_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Educational Qualification</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <form id="EducationInfoForm" action="{{ route('Candidate_Education_Save') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="Edu_JCId" id="Edu_JCId">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Qualification</th>
+                                        <th style="width: 20%">Course</th>
+                                        <th style="width: 20%">Specialization</th>
+                                        <th>Board/University</th>
+                                        <th>Passing Year</th>
+                                        <th style="width: 10%">Percentage</th>
+                                        <th>Attachment</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="EducationData">
+                                    <tr>
+                                        {{-- Qualification --}}
+                                        <td>
+                                            <select name="Qualification[]"
+                                                class="form-select form-select-sm edureq">
+                                                <option value="">Select</option>
+                                                @foreach (['Below 10th', '10th', '12th', 'Graduation', 'Post_Graduation', 'Doctorate', 'Diploma', 'PG_Diploma', 'Other'] as $qual)
+                                                    <option value="{{ $qual }}">
+                                                        {{ str_replace('_', ' ', $qual) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+
+                                        {{-- Course --}}
+                                        <td>
+                                            <select name="Course[]" class="form-select form-select-sm edureq"
+                                                onchange="getSpecialization(this.value, 1)">
+                                                <option value="">Select</option>
+                                                @foreach ($education_list as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+
+                                        {{-- Specialization --}}
+                                        <td>
+                                            <select name="Specialization[]"
+                                                class="form-select form-select-sm edureq">
+                                                <option value="">Select</option>
+                                                <option value="0">Other</option>
+                                                @foreach ($specialization_list as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+
+                                        {{-- Institute --}}
+                                        <td>
+                                            <select name="Collage[]" class="form-select form-select-sm edureq"
+                                                onchange="getOtherInstitute(1)">
+                                                <option value="">Select</option>
+                                                <option value="637">Other</option>
+                                                @foreach ($institute_list as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input type="text" name="OtherInstitute[]"
+                                                class="form-control form-control-sm mt-1 d-none">
+                                        </td>
+
+                                        {{-- Passing Year --}}
+                                        <td>
+                                            <select name="PassingYear[]" class="form-select form-select-sm edureq">
+                                                <option value="">Select</option>
+                                                @foreach ($years as $year)
+                                                    <option value="{{ $year }}">{{ $year }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+
+                                        {{-- Percentage --}}
+                                        <td>
+                                            <input type="text" name="Percentage[]"
+                                                class="form-control form-control-sm edureq">
+                                        </td>
+
+                                        {{-- Attachment --}}
+                                        <td>
+                                            <input type="file" name="Attachment[]"
+                                                class="form-control form-control-sm">
+                                        </td>
+
+                                        {{-- Action Column (empty for now) --}}
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <input type="button" value="Add Qualification" id="addEducation"
+                            class="btn btn-warning btn-sm">
+
+                        <div class="submit-section text-center mt-3">
+                            <button class="btn btn-primary submit-btn">Save Details</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
