@@ -1596,9 +1596,9 @@
                                 <td style="width:150px;">Zone</td>
                                 <td>
                                     <select name="Zone" id="Zone" class="form-select form-select-sm"
-                                    style="width: 200px;">
-                                    <option value="">Select</option>
-                                </select>
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr id="region_tr" class="d-none">
@@ -1615,9 +1615,9 @@
                                 <td>
 
                                     <select name="Territory" id="Territory" class="form-select form-select-sm"
-                                    style="width: 200px;">
-                                    <option value="">Select</option>
-                                </select>
+                                        style="width: 200px;">
+                                        <option value="">Select</option>
+                                    </select>
                                 </td>
                             </tr>
                             {{-- <tr>
@@ -1675,8 +1675,8 @@
                             <tr>
                                 <td> Communication Allowance</td>
                                 <td>
-                                    <select name="Communication_Allowance" id="Communication_Allowance" class="form-select form-select-sm"
-                                        style="width: 200px" required>
+                                    <select name="Communication_Allowance" id="Communication_Allowance"
+                                        class="form-select form-select-sm" style="width: 200px" required>
                                         <option value="">Select</option>
                                         <option value="N">No</option>
                                         <option value="Y">Yes</option>
@@ -1910,6 +1910,191 @@
                 </div>
             </div>
         </form>
+    </div>
+
+</div>
+
+<div id="other_seed_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Relatives or acquaintances is/are working or associated with any other Seed
+                    Company</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="OtherSeedForm" action="{{ route('Candidate_Other_Seed_Relation_Save') }}"
+                    method="POST">
+                    <input type="hidden" name="OtherSeed_JCId" id="OtherSeed_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Company Name</td>
+                                    <td>Designation</td>
+                                    <td>Location</td>
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="OtherSeed">
+                                <tr>
+                                    <td><input type="text" name="OtherSeedName[]" id="OtherSeedName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedMobile[]" id="OtherSeedMobile1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedEMail[]" id="OtherSeedEMail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedCompany[]" id="OtherSeedCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedDesignation[]"
+                                            id="OtherSeedDesignation1" class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedLocation[]" id="OtherSeedLocation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedRelation[]" id="OtherSeedRelation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeOtherSeed"><i class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addOtherSeed"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="resume_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Resume</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @php
+                    $resume = $Rec->Resume;
+                    $ext = substr($resume, strrpos($resume, '.') + 1);
+                @endphp
+                @if ($ext == 'pdf' || $ext == 'PDF')
+                    <object width="760" height="500"
+                        data="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
+                        id="{{ $Rec->JCId }}"></object>
+                @else
+                    @php
+                        $url = html_entity_decode('https://docs.google.com/viewer?embedded=true&url=');
+                    @endphp
+                    <iframe src="{{ $url }}{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
+                        width="100%" height="500" style="border: none;"></iframe>
+                @endif
+
+                <div class="row">
+                    <div class="col-12" style="float: right">
+                        <a href="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}">Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="language_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Language Proficiency</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <input type="hidden" name="Language_JCId" id="Language_JCId">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" style="vertical-align: middle">
+                        <thead class="text-center">
+                            <tr>
+                                <td>Language</td>
+                                <td>Reading</td>
+                                <td>Writing</td>
+                                <td>Speaking</td>
+                                <td style="width:30px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="LanguageData">
+                            <tr>
+                                <td>
+                                    <input type="text" id="Language1" class="form-control form-control-sm"
+                                        value="Hindi" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Read1" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Write1" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Speak1" value="0">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="Language2" class="form-control form-control-sm"
+                                        value="English" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Read2" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Write2" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Speak2" value="0">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <input type="button" value="Add Language" id="addLanguage" class="btn btn-primary btn-sm">
+                <div class="submit-section">
+                    <button class="btn btn-primary" id="save_language">Submit</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </div>
