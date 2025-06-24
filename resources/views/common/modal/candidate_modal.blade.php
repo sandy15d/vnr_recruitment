@@ -1222,3 +1222,31 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="HistoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter History</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered text-center" style="vertical-align: middle;">
+                    <thead>
+                        <tr>
+                            <th>Date Generate</th>
+                            <th>Offer Letter Ref.No
+                            </th>
+                            <th>Offer Letter</th>
+                            <th>Reason for Change
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="offerHistory">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
