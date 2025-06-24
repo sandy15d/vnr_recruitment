@@ -2098,3 +2098,253 @@
     </div>
 
 </div>
+<div id="pre_org_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Previous Organization Reference</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="PreOrgRefForm" action="{{ route('Candidate_PreOrgRef_Save') }}" method="POST">
+                    <input type="hidden" name="PreOrgRef_JCId" id="PreOrgRef_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Name of Company</td>
+                                    <td>Email Id</td>
+                                    <td>Contact No</td>
+                                    <td>Designation</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="PreOrgRefData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="PreOrgName[]" id="PreOrgName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgCompany[]" id="PreOrgCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgEmail[]" id="PreOrgEmail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgContact[]" id="PreOrgContact1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgDesignation[]" id="PreOrgDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addPreOrgRef"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="vnr_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Acquaintances or relatives working with VNR Group Companies</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="VNRRefForm" action="{{ route('Candidate_VnrRef_Save') }}" method="POST">
+                    <input type="hidden" name="Vnr_JCId" id="Vnr_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>VNR Group <br>Company Name</td>
+                                    <td>Designation</td>
+                                    <td>Location</td>
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="VNRRefData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="VnrRefName[]" id="VnrRefName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefContact[]" id="VnrRefContact1"
+                                            class="form-control form-control-sm">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefEmail[]" id="VnrRefEmail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <select name="VnrRefCompany[]" id="VnrRefCompany1"
+                                            class="form-select form-select-sm" onchange="GetOtherCompany(1);">
+                                            <option value="">Select</option>
+                                            <option value="VNR Seeds Pvt. Ltd.">VNR
+                                                Seeds Pvt. Ltd.
+                                            </option>
+                                            <option value="VNR Nursery Pvt. Ltd.">
+                                                VNR Nursery Pvt. Ltd.
+                                            </option>
+                                            <option value="Other">Other</option>
+                                        </select>
+
+                                        <input type="text" name="OtherCompany[]" id="OtherCompany1"
+                                            class="d-none form-control form-control-sm"
+                                            placeholder="Other Company Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefDesignation[]" id="VnrRefDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefLocation[]" id="VnrRefLocation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefRelWithPerson[]"
+                                            id="VnrRefRelWithPerson1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeVnrRef"><i class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addVnrRef" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="vnr_business_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Acquaintances or relatives associated with VNR as business associates</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="BusinessForm" action="{{ route('Candidate_VnrRef_Business_Save') }}" method="POST">
+                    <input type="hidden" name="Business_JCId" id="Business_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Business relation with <br>VNR</td>
+                                    <td>Location of Business / <br>acquaintances
+                                    </td>
+
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="VNR_Business_AcqData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Name[]"
+                                            id="VnrRefBusiness_Name1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Contact[]"
+                                            id="VnrRefBusiness_Contact1" class="form-control form-control-sm">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Email[]"
+                                            id="VnrRefBusiness_Email1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <select name="VnrRefBusinessRelation[]" id="VnrRefBusinessRelation1"
+                                            class="form-select form-select-sm">
+                                            <option value="">Select</option>
+                                            <option value="Dealer">Dealer</option>
+                                            <option value="Distributor">Distributor
+                                            </option>
+                                            <option value="Retailer">Retailer
+                                            </option>
+                                            <option value="Organizer">Organizer
+                                            </option>
+                                            <option value="Vendor">Vendor</option>
+
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Location[]"
+                                            id="VnrRefBusiness_Location1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_RelWithPerson[]"
+                                            id="VnrRefBusiness_RelWithPerson1" class="form-control form-control-sm">
+                                    </td>
+
+
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeVnrRef_Business"><i
+                                                    class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addVnrRef_Business"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
