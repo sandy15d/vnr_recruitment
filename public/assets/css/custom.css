@@ -1,0 +1,114 @@
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label{
+  font-weight: 500;
+  font-size:13px;
+}
+
+.form-group input.form-control, .form-group select.form-control{
+  font-size: 13px;
+  /* background-color: #eae6e6; */
+}
+.fw-bold-500{
+  font-weight: 500;
+  color: #bc8a19;
+}
+.appli-list tr td{
+  padding-bottom:5px;
+  font-size:12px;
+  line-height: 16px;
+}
+.appli-list tr td{
+  font-weight:500;
+}
+.form-select{
+  font-size:12.3px;
+}
+.table tbody tr td{
+  padding: 3px;
+}
+.table tbody tr td .btn-sm{
+  padding: 2px 3px;
+}
+.breadcrumb-title{
+  font-size: 18px !important;
+}
+.nav-tabs.nav-tabs-bottom > li > a.active, .nav-tabs.nav-tabs-bottom > li > a.active:hover, .nav-tabs.nav-tabs-bottom > li > a.active:focus{
+  background-color: #ddd;
+
+}
+.border-bot{
+  border-bottom: 1px solid #dedcdc;
+  padding-bottom: 10px;
+}
+.sidebar-wrapper .metismenu a{
+  padding: 5px 15px !important;
+}
+
+.ribbon-box.ribbon-fill {
+  overflow: hidden;
+}
+
+.ribbon-box {
+  position: relative;
+}
+
+.shadow-none {
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+}
+
+.ribbon-box.ribbon-fill .ribbon {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  width: 79px;
+  height: 42px;
+  left: -36px;
+  top: -16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+.ribbon-box .ribbon-primary {
+  background: #405189;
+}
+
+.ribbon-box .ribbon {
+  padding: 5px 12px;
+  -webkit-box-shadow: 2px 5px 10px rgba(33,37,41,.15);
+  box-shadow: 2px 5px 10px rgba(33,37,41,.15);
+  color: #fff;
+  font-size: .8125rem;
+  font-weight: 600;
+  position: absolute;
+  left: -1px;
+  top: 5px;
+}
+
+
+.ribbon-box.right.ribbon-fill .ribbon {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  right: -38px;
+  left: auto;
+}
+
+.ribbon-box.right .ribbon-info {
+  background: #299cdb;
+}
+
+
+.ribbon-box.right .ribbon {
+  position: absolute;
+  left: auto;
+  right: 0;
+}
