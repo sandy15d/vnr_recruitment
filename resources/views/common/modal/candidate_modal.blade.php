@@ -636,4 +636,77 @@
     </div>
 </div>
 
-<div id="OlActionModal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+<div id="OlActionModal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">OL action on behalf of Candidate:</h6>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <form action="{{ route('ol_action_on_behalf_candidate') }}" method="POST" id="responseform">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="hidden" name="ol_action_jaid" id="ol_action_jaid"
+                                value="{{ $JAId }}">
+                            <label for="ol_action" class="form-label">Offer Status <span
+                                    class="text-danger">*</span> :</label>
+                            <select name="ol_action" id="ol_action" class="form-select">
+                                <option value="">Select</option>
+                                <option value="Accepted">Accept</option>
+                                <option value="Rejected">Reject</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3 d-none" id="ol_action_div">
+                            <label for="ol_action_date" class="form-label">Joining Date </label>
+                            <input type="date" name="ol_action_date" id="ol_action_date"
+                                class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label for="" class="form-label">Remark <span
+                                    class="text-danger">*</span>:</label>
+                            <textarea name="ol_action_remark" id="ol_action_remark" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Send for Reference Check</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('send_for_ref_chk') }}" method="POST" id="ref_chk_form">
+                    @csrf
+                    <div class="form-group mb-2">
+                        <input type="hidden" name="ReferenceChkJAId" value="{{ $JAId }}">
+                        <label for="RefChkMail">Ref. Person Mail ID <i class="text-danger">*</i></label>
+                        <input type="text" name="RefChkMail" id="RefChkMail"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Send Mail</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
