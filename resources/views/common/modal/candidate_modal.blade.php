@@ -584,565 +584,268 @@
     </div>
 </div>
 
-<div id="suitable_modal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+<div id="education_info_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
     data-bs-keyboard="false">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Suitable For:</h6>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <form action="{{ route('suitable_candidate') }}" method="POST" id="SuitableForm">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <input type="hidden" name="SuitableJCId" id="SuitableJCId"
-                                value="{{ $Rec->JCId }}">
-                            <label for="Irrelevant_Candidate" class="form-label">Irrelevant Candidate <span
-                                    class="text-danger">*</span> :</label>
-                            <select name="Irrelevant_Candidate" id="Irrelevant_Candidate"
-                                class="form-select reqinp_suit">
-                                <option value="">Select</option>
-                                <option value="N">No</option>
-                                <option value="Y">Yes</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 d-none" id="sui_dep_div">
-                            <label class="form-label">Department <span class="text-danger">*</span> :</label>
-                            <select name="suitable_department[]" id="suitable_department" multiple
-                                class="form-select ">
-                                <option></option>
-                                @foreach ($department_list as $key => $value)
-                                    <option value="{{ $key }}">{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <label for="" class="form-label">Remark <span
-                                    class="text-danger">*</span>:</label>
-                            <textarea name="suitable_remark" id="suitable_remark" class="form-control reqinp_suit"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="OlActionModal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">OL action on behalf of Candidate:</h6>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <form action="{{ route('ol_action_on_behalf_candidate') }}" method="POST" id="responseform">
-                @csrf
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <input type="hidden" name="ol_action_jaid" id="ol_action_jaid"
-                                value="{{ $JAId }}">
-                            <label for="ol_action" class="form-label">Offer Status <span class="text-danger">*</span>
-                                :</label>
-                            <select name="ol_action" id="ol_action" class="form-select">
-                                <option value="">Select</option>
-                                <option value="Accepted">Accept</option>
-                                <option value="Rejected">Reject</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3 d-none" id="ol_action_div">
-                            <label for="ol_action_date" class="form-label">Joining Date </label>
-                            <input type="date" name="ol_action_date" id="ol_action_date"
-                                class="form-control form-control-sm">
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <label for="" class="form-label">Remark <span
-                                    class="text-danger">*</span>:</label>
-                            <textarea name="ol_action_remark" id="ol_action_remark" class="form-control"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Send for Reference Check</h6>
+                <h6 class="modal-title">Educational Qualification</h6>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('send_for_ref_chk') }}" method="POST" id="ref_chk_form">
-                    @csrf
-                    <div class="form-group mb-2">
-                        <input type="hidden" name="ReferenceChkJAId" value="{{ $JAId }}">
-                        <label for="RefChkMail">Ref. Person Mail ID <i class="text-danger">*</i></label>
-                        <input type="text" name="RefChkMail" id="RefChkMail"
+                <div class="col-lg-12">
+                    <form id="EducationInfoForm" action="{{ route('Candidate_Education_Save') }}" method="POST">
+                        <input type="hidden" name="Edu_JCId" id="Edu_JCId">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Qualification</th>
+                                        <th style="width: 20%">Course</th>
+                                        <th style="width: 20%">Specialization
+                                        </th>
+                                        <th>Board/University</th>
+                                        <th>Passing Year</th>
+                                        <th style="width: 10%">Percentage</th>
+                                        <th>Attchment</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="EducationData">
+                                    <tr>
+                                        <td style="width: 12%">
+                                            <select name="Qualification[]" id="Qualification1"
+                                                class="form-select form-select-sm edureq">
+                                                <option value="">Select</option>
+                                                <option value="Below 10th">Below 10th
+                                                </option>
+                                                <option value="10th">10th</option>
+                                                <option value="12th">12th</option>
+                                                <option value="Graduation">Graduation
+                                                </option>
+                                                <option value="Post_Graduation">Post
+                                                    Graduation
+                                                </option>
+                                                <option value="Doctorate">Doctorate</option>
+                                                <option value="Diploma">Diploma</option>
+                                                <option value="PG_Diploma">PG Diploma
+                                                </option>
+                                                <option value="Other">Other</option>
+
+                                            </select>
+                                        </td>
+                                        <td style="width: 10%">
+                                            <select name="Course[]" id="Course1"
+                                                class="form-select form-select-sm edureq"
+                                                onchange="getSpecialization(this.value,1)">
+                                                <option value="">Select</option>
+
+                                                @foreach ($education_list as $key => $value)
+                                                    <option value="{{ $key }}">
+                                                        {{ $value }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td style="width: 15%">
+                                            <select name="Specialization[]" id="Specialization1"
+                                                class="form-select form-select-sm edureq">
+                                                <option value="">Select</option>
+                                                <option value="0">Other</option>
+                                                @foreach ($specialization_list as $key => $value)
+                                                    <option value="{{ $key }}">
+                                                        {{ $value }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td style="width: 20%">
+                                            <select name="Collage[]" id="Collage1"
+                                                class="form-select form-select-sm edureq"
+                                                onchange="getOtherInstitute(1);">
+                                                <option value="">Select</option>
+                                                <option value="637">Other</option>
+                                                @foreach ($institute_list as $key => $value)
+                                                    <option value="{{ $key }}">
+                                                        {{ $value }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <input type="text" name="OtherInstitute[]" id="OtherInstitute1"
+                                                class="form-control form-control-sm mt-1 d-none">
+                                        </td>
+                                        <td>
+                                            <select name="PassingYear[]" id="PassingYear1"
+                                                class="form-select form-select-sm edureq">
+                                                <option value="">Select</option>
+                                                @for ($i = 1980; $i <= $Year; $i++)
+                                                    <option value="{{ $i }}">
+                                                        {{ $i }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="Percentage[]" id="Percentage1"
+                                                class="form-control form-control-sm edureq">
+                                        </td>
+                                        <td>
+                                            <input type="file" name="Attachment[]" id="Attachment1"
+                                                class="form-control form-control-sm">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <input type="button" value="Add Qualification" id="addEducation"
+                            class="btn btn-warning btn-sm">
+
+                        <div class="submit-section text-center">
+                            <button class="btn btn-primary submit-btn">Save
+                                Details
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="work_exp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Work Experience</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="WorkExpForm" action="{{ route('Candidate_Experience_Save') }}" method="POST">
+                    <input type="hidden" name="Work_JCId" id="Work_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Company</td>
+                                    <td>Designation</td>
+                                    <td>Gross Monthly Salary</td>
+                                    <td>Anual CTC</td>
+                                    <td>Job Start Date</td>
+                                    <td>Job End Date</td>
+                                    <td>Reason for Leaving</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="WorkExpData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="WorkExpCompany[]" id="WorkExpCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpDesignation[]" id="WorkExpDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpGrossMonthlySalary[]"
+                                            id="WorkExpGrossMonthlySalary1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpAnualCTC[]" id="WorkExpAnualCTC1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="WorkExpJobStartDate[]" id="WorkExpJobStartDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="WorkExpJobEndDate[]" id="WorkExpJobEndDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="WorkExpReasonForLeaving[]"
+                                            id="WorkExpReasonForLeaving1" class="form-control form-control-sm">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Experience" id="addExperience" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="current_emp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Current Employment</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="CurrentEmpForm" action="{{ route('Candidate_CurrentEmployement_Save') }}" method="POST">
+                    <input type="hidden" name="Curr_JCId" id="Curr_JCId">
+                    <div class="form-group">
+                        <label>Name of Company</label>
+                        <input type="text" name="Currcompany_name" id="Currcompany_name"
                             class="form-control form-control-sm">
                     </div>
+
+
+                    <div class="form-group">
+                        <label for="">Designation</label>
+                        <input type="text" name="CurrDesignation" id="CurrDesignation"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date of Joining</label>
+                        <input type="date" name="CurrDateOfJoining" id="CurrDateOfJoining"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Reporting To</label>
+                        <input type="text" name="CurrReportingTo" id="CurrReportingTo"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Reporting Manager Designation</label>
+                        <input type="text" name="CurrRepDesig" id="CurrRepDesig"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Job Responsibility</label>
+                        <textarea name="CurrJobResponsibility" id="CurrJobResponsibility" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Job Change Reason</label>
+                        <textarea name="CurrReason" id="CurrReason" class="form-control form-control-sm"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Notice Period</label>
+                        <input type="text" name="CurrNoticePeriod" id="CurrNoticePeriod"
+                            class="form-control form-control-sm">
+                    </div>
+
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Send Mail</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="document_modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-success">
-                <h6 class="modal-title text-light" id="exampleModalLabel">Document Upload</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered">
-                    <thead class="text-center">
-                        <th>Document Name</th>
-                        <th>Upload Document</th>
-                        <th>View</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Test Paper</td>
-                            <td>
-                                <input type="file" name="TestPaper" id="TestPaper"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="TestPaperUpload">Upload
-                                </button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->Test_Paper != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Test_Paper }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Interview Assessment</td>
-                            <td>
-                                <input type="file" name="IntervAssessment" id="IntervAssessment"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="IntervAssessmentUpload">Upload
-                                </button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->IntervAssessment != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->IntervAssessment }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        @if ($Rec->Professional == 'P')
-                            <tr>
-                                <td style="width: 25%">Offer or appointment letter
-                                    (previous company)
-                                </td>
-                                <td style="width: 60%">
-                                    <input type="file" name="OfferLtr" id="OfferLtr"
-                                        class="form-control form-control-sm d-inline" style="width: 80%"
-                                        accept="application/pdf">
-                                    <button class="btn btn-warning btn-sm d-inline" id="OfferLtrUpload">Upload
-                                    </button>
-                                </td>
-                                <td style="width: 10%; text-align:center">
-                                    @if ($Docs != null && $Docs->OfferLtr != null)
-                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->OfferLtr }}"
-                                            target="_blank" class="btn btn-primary btn-sm">View</a>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>Resignation or Relieving Letter (previous
-                                    company)
-                                </td>
-                                <td>
-                                    <input type="file" name="RelievingLtr" id="RelievingLtr"
-                                        class="form-control form-control-sm d-inline" style="width: 80%"
-                                        accept="application/pdf">
-                                    <button class="btn btn-warning btn-sm d-inline" id="RelievingLtrUpload">Upload
-                                    </button>
-                                </td>
-                                <td style="width: 10%; text-align:center">
-                                    @if ($Docs != null && $Docs->RelievingLtr != null)
-                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->RelievingLtr }}"
-                                            target="_blank" class="btn btn-primary btn-sm">View</a>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Last drawn salary pay slip (previous company)
-                                </td>
-                                <td>
-                                    <input type="file" name="SalarySlip" id="SalarySlip"
-                                        class="form-control form-control-sm d-inline" style="width: 80%"
-                                        accept="application/pdf">
-                                    <button class="btn btn-warning btn-sm d-inline" id="SalarySlipUpload">Upload
-                                    </button>
-                                </td>
-                                <td style="width: 10%; text-align:center">
-                                    @if ($Docs != null && $Docs->SalarySlip != null)
-                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->SalarySlip }}"
-                                            target="_blank" class="btn btn-primary btn-sm">View</a>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>Increment or appraisal letter with revised CTC
-                                    details
-                                </td>
-                                <td>
-                                    <input type="file" name="AppraisalLtr" id="AppraisalLtr"
-                                        class="form-control form-control-sm d-inline" style="width: 80%"
-                                        accept="application/pdf">
-                                    <button class="btn btn-warning btn-sm d-inline" id="AppraisalLtrUpload">Upload
-                                    </button>
-                                </td>
-                                <td style="width: 10%; text-align:center">
-                                    @if ($Docs != null && $Docs->AppraisalLtr != null)
-                                        <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->AppraisalLtr }}"
-                                            target="_blank" class="btn btn-primary btn-sm">View</a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endif
-                        <tr>
-
-                            <td>COVID Vaccine Certificate (Final Certificate)
-                            </td>
-                            <td>
-                                <input type="file" name="VaccinationCert" id="VaccinationCert"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="VaccinationCertUpload">Upload
-                                </button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->VaccinationCert != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->VaccinationCert }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td style="width: 25%">Aadhaar Card</td>
-                            <td style="width: 60%">
-                                <input type="file" name="AadhaarCard" id="AadhaarCard"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="AadhaarUpload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->Aadhar != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Aadhar }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-
-                        <tr>
-
-                            <td>Driving License</td>
-                            <td>
-                                <input type="file" name="DLCard" id="DLCard"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="DLCardUpload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->DL != null)
-                                    <a title="View"
-                                        href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->DL }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>PF Nomination Form 2</td>
-                            <td>
-                                <input type="file" name="PFForm2" id="PFForm2"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="PFForm2Upload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->PF_Form2 != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form2 }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>PF Declaration Form 11
-                            </td>
-                            <td>
-                                <input type="file" name="PF_Form11" id="PF_Form11"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="PFForm11Upload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->PF_Form2 != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->PF_Form11 }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>Gratuity Nomination Form
-                            </td>
-                            <td>
-                                <input type="file" name="GratuityForm" id="GratuityForm"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="GratuityUpload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->Gratutity != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Gratutity }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>ESIC Declaration Form 1
-                            </td>
-                            <td>
-                                <input type="file" name="ESICForm" id="ESICForm"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="ESICFormUpload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->ESIC != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>Family Declaration Form 1(A)
-                            </td>
-                            <td>
-                                <input type="file" name="ESIC_Family" id="ESIC_Family"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="ESIC_FamilyUpload">Upload
-                                </button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->ESIC_Family != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->ESIC_Family }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>Health Declaration Form
-                            </td>
-                            <td>
-                                <input type="file" name="Health" id="Health"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="HealthUpload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->Health != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Health }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Declaration for Compliance to Ethical Financial
-                                Dealings
-                            </td>
-                            <td>
-                                <input type="file" name="Ethical" id="Ethical"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="EthicalUpload">Upload</button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->Ethical != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->Ethical }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-
-                            <td>Blood Group Certificate
-                            </td>
-                            <td>
-                                <input type="file" name="BloodGroup" id="BloodGroup"
-                                    class="form-control form-control-sm d-inline" style="width: 80%"
-                                    accept="application/pdf">
-                                <button class="btn btn-warning btn-sm d-inline" id="BloodGroupUpload">Upload
-                                </button>
-                            </td>
-                            <td style="width: 10%; text-align:center">
-                                @if ($Docs != null && $Docs->BloodGroup != null)
-                                    <a href="{{ URL::to('/') }}/uploads/Documents/{{ $Docs->BloodGroup }}"
-                                        target="_blank" class="btn btn-primary btn-sm">View</a>
-                                @endif
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-@php
-    function checked($answer, $expected)
-    {
-        return $answer === $expected ? 'checked' : '';
-    }
-
-    function showIf($condition)
-    {
-        return $condition ? '' : 'd-none';
-    }
-
-    $AboutAns = $AboutAns ?? null;
-
-    $aim = $AboutAns->AboutAim ?? '';
-    $hobbi = $AboutAns->AboutHobbi ?? '';
-    $fiveYear = $AboutAns->About5Year ?? '';
-    $assets = $AboutAns->AboutAssets ?? '';
-    $improvement = $AboutAns->AboutImprovement ?? '';
-    $strength = $AboutAns->AboutStrength ?? '';
-    $deficiency = $AboutAns->AboutDeficiency ?? '';
-    $criminal = $AboutAns->AboutCriminal ?? '';
-    $criminalChk = $AboutAns->CriminalChk ?? '';
-    $licenseChk = $AboutAns->LicenseChk ?? '';
-    $dlNo = $AboutAns->DLNo ?? '';
-    $lValidity = $AboutAns->LValidity ?? '';
-@endphp
-
-<div class="modal fade" id="about_modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-success">
-                <h6 class="modal-title text-light" id="exampleModalLabel">About Yourself</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('SaveAbout') }}" id="about_form" method="POST">
-                    @csrf
-                    <div class="col-lg-12">
-
-                        @foreach ([
-        'Q1. What is your aim in life?' => ['AboutAim', $aim],
-        'Q2. What are your hobbies and interest?' => ['AboutHobbi', $hobbi],
-        'Q3. Where do you see yourself 5 Years from now?' => ['About5Year', $fiveYear],
-        'Q4. What are your greatest personal assets (qualities, skills, abilities)?' => ['AboutAssets', $assets],
-        'Q5. What are your areas where you think you need to improve yourself?' => ['AboutImprovement', $improvement],
-        'Q6. What are your Strengths?' => ['AboutStrength', $strength],
-        'Q7. Any form of physical disability, illness, or deficiency?' => ['AboutDeficiency', $deficiency],
-    ] as $question => [$field, $value])
-                            <h6>{{ $question }}</h6>
-                            <div class="form-group row mb-2">
-                                <div class="col-md-12">
-                                    <input type="text" name="{{ $field }}" id="{{ $field }}"
-                                        class="form-control form-control-sm reqinp_abt" value="{{ $value }}">
-                                </div>
-                            </div>
-                        @endforeach
-
-                        {{-- Q8: Criminal prosecution --}}
-                        <h6>Q8. Have you been criminally prosecuted? If so, give details separately.</h6>
-                        <div class="text-left">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input crime" type="radio" name="CriminalChk"
-                                    id="YesCriminal" value="Y" data-value="Y" {{ checked($criminalChk, 'Y') }}>
-                                <label class="form-check-label" for="YesCriminal">Yes</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input crime" type="radio" name="CriminalChk"
-                                    id="NoCriminal" value="N" data-value="N" {{ checked($criminalChk, 'N') }}>
-                                <label class="form-check-label" for="NoCriminal">No</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-2 {{ showIf($criminalChk === 'Y') }}" id="crime_div">
-                            <div class="col-md-12">
-                                <input type="text" name="AboutCriminal" id="AboutCriminal"
-                                    class="form-control form-control-sm" value="{{ $criminal }}">
-                            </div>
-                        </div>
-
-                        {{-- Q9: Driving license --}}
-                        <h6>Q9. Do you have a valid driving licence?</h6>
-                        <div class="text-left">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dlchk" type="radio" name="LicenseChk"
-                                    id="YesLicense" value="Y" data-value="Y"
-                                    {{ checked($licenseChk, 'Y') }}>
-                                <label class="form-check-label" for="YesLicense">Yes</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input dlchk" type="radio" name="LicenseChk"
-                                    id="NoLicense" value="N" data-value="N" {{ checked($licenseChk, 'N') }}>
-                                <label class="form-check-label" for="NoLicense">No</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-2 {{ showIf($licenseChk === 'Y') }}" id="dl_div">
-                            <label class="col-form-label col-md-1">License No:</label>
-                            <div class="col-md-2 col-sm-12">
-                                <input type="text" class="form-control form-control-sm" id="DLNo"
-                                    name="DLNo" value="{{ $dlNo }}">
-                            </div>
-                            <label class="col-form-label col-md-1">Validity:</label>
-                            <div class="col-md-2 col-sm-12">
-                                <input type="date" class="form-control form-control-sm" name="LValidity"
-                                    id="LValidity" value="{{ $lValidity }}">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="submit-section text-center">
-                        <button class="btn btn-primary submit-btn">Save Details</button>
+                        <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
                 </form>
             </div>
@@ -1150,108 +853,544 @@
     </div>
 </div>
 
-<div class="modal fade" id="view_review" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+<div id="current_salary_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
     data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-success">
-                <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter Review Status</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered text-center" style="vertical-align: middle;">
-                    <thead>
-                        <tr>
-                            <th>S.No.</th>
-                            <th>Offer Letter Ref.No
-                            </th>
-                            <th>Reviwed By</th>
-                            <th>Status
-                            </th>
-                            <th>Reason for Rejection
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="viewReviewData">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="review_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog " role="document">
+    <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Send Offer Letter for review</h6>
+                <h6 class="modal-title">Present Salary Details</h6>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('send_for_review') }}" method="POST" id="reviewForm">
-                    @csrf
-                    <div class="form-group mb-2">
-                        <input type="hidden" name="ReviewJaid" value="{{ $JAId }}">
-                        <label for="ReviewCompany">Company</label>
-                        <select name="ReviewCompany" id="ReviewCompany" class="form-select form-select-sm"
-                            onchange="getEmployee(this.value)">
-                            <option value="">Select</option>
-                            @foreach ($company_list as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="spinner-border text-primary d-none" role="status" id="EmpLoader"> <span
-                            class="visually-hidden">Loading...</span></div>
+                <form id="CurrentSalaryForm" action="{{ route('Candidate_CurrentSalary_Save') }}" method="POST">
+                    <input type="hidden" name="Sal_JCId" id="Sal_JCId">
                     <div class="form-group">
-                        <label>Select Employee</label>
-                        <select name="review_to[]" id="review_to"
-                            class="form-select form-select-sm multiple-select" multiple>
+                        <label>Salary (Per Month)</label>
+                        <input type="text" name="CurrSalary" id="CurrSalary"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Annual Package (CTC)</label>
+                        <input type="text" name="CurrCTC" id="CurrCTC" class="form-control form-control-sm">
+                    </div>
 
-                        </select>
+                    <div class="form-group">
+                        <label for="">DA @ headquarter</label>
+                        <input type="text" name="CurrDA" id="CurrDA" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">DA Outside Headquarter</label>
+                        <input type="text" name="DAOutHq" id="DAOutHq" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Petrol Allowances</label>
+                        <input type="text" name="PetrolAlw" id="PetrolAlw" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Phone Allowances</label>
+                        <input type="text" name="PhoneAlw" id="PhoneAlw" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hotel Eligibility</label>
+                        <input type="text" name="HotelElg" id="HotelElg" class="form-control form-control-sm">
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="HistoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+<div id="training_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
     data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-success">
-                <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter History</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header">
+                <h6 class="modal-title">Training & Practical Experience</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered text-center" style="vertical-align: middle;">
-                    <thead>
-                        <tr>
-                            <th>Date Generate</th>
-                            <th>Offer Letter Ref.No
-                            </th>
-                            <th>Offer Letter</th>
-                            <th>Reason for Change
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="offerHistory">
-                    </tbody>
-                </table>
+                <form id="TrainingForm" action="{{ route('Candidate_Training_Save') }}" method="POST">
+                    <input type="hidden" name="Training_JCId" id="Training_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Nature of Training</td>
+                                    <td>Organization / Institution</td>
+                                    <td>From Date</td>
+                                    <td>To Date</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="TrainingData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="TrainingNature[]" id="TrainingNature1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="TrainingOrganization[]"
+                                            id="TrainingOrganization1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="TrainingFromDate[]" id="TrainingFromDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td>
+                                        <input type="date" name="TrainingToDate[]" id="TrainingToDate1"
+                                            class="form-control form-control-sm datepicker">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Experience" id="addTraining" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
+<div id="pre_org_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Previous Organization Reference</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="PreOrgRefForm" action="{{ route('Candidate_PreOrgRef_Save') }}" method="POST">
+                    <input type="hidden" name="PreOrgRef_JCId" id="PreOrgRef_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Name of Company</td>
+                                    <td>Email Id</td>
+                                    <td>Contact No</td>
+                                    <td>Designation</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="PreOrgRefData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="PreOrgName[]" id="PreOrgName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgCompany[]" id="PreOrgCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgEmail[]" id="PreOrgEmail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgContact[]" id="PreOrgContact1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="PreOrgDesignation[]" id="PreOrgDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
+                    <input type="button" value="Add Reference" id="addPreOrgRef" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="vnr_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Acquaintances or relatives working with VNR Group Companies</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="VNRRefForm" action="{{ route('Candidate_VnrRef_Save') }}" method="POST">
+                    <input type="hidden" name="Vnr_JCId" id="Vnr_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>VNR Group <br>Company Name</td>
+                                    <td>Designation</td>
+                                    <td>Location</td>
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="VNRRefData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="VnrRefName[]" id="VnrRefName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefContact[]" id="VnrRefContact1"
+                                            class="form-control form-control-sm">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefEmail[]" id="VnrRefEmail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <select name="VnrRefCompany[]" id="VnrRefCompany1"
+                                            class="form-select form-select-sm" onchange="GetOtherCompany(1);">
+                                            <option value="">Select</option>
+                                            <option value="VNR Seeds Pvt. Ltd.">VNR
+                                                Seeds Pvt. Ltd.
+                                            </option>
+                                            <option value="VNR Nursery Pvt. Ltd.">
+                                                VNR Nursery Pvt. Ltd.
+                                            </option>
+                                            <option value="Other">Other</option>
+                                        </select>
+
+                                        <input type="text" name="OtherCompany[]" id="OtherCompany1"
+                                            class="d-none form-control form-control-sm"
+                                            placeholder="Other Company Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefDesignation[]" id="VnrRefDesignation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefLocation[]" id="VnrRefLocation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefRelWithPerson[]"
+                                            id="VnrRefRelWithPerson1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeVnrRef"><i class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addVnrRef" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="vnr_business_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Acquaintances or relatives associated with VNR as business associates</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="BusinessForm" action="{{ route('Candidate_VnrRef_Business_Save') }}" method="POST">
+                    <input type="hidden" name="Business_JCId" id="Business_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Business relation with <br>VNR</td>
+                                    <td>Location of Business / <br>acquaintances
+                                    </td>
+
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="VNR_Business_AcqData">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Name[]"
+                                            id="VnrRefBusiness_Name1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Contact[]"
+                                            id="VnrRefBusiness_Contact1" class="form-control form-control-sm">
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Email[]"
+                                            id="VnrRefBusiness_Email1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <select name="VnrRefBusinessRelation[]" id="VnrRefBusinessRelation1"
+                                            class="form-select form-select-sm">
+                                            <option value="">Select</option>
+                                            <option value="Dealer">Dealer</option>
+                                            <option value="Distributor">Distributor
+                                            </option>
+                                            <option value="Retailer">Retailer
+                                            </option>
+                                            <option value="Organizer">Organizer
+                                            </option>
+                                            <option value="Vendor">Vendor</option>
+
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_Location[]"
+                                            id="VnrRefBusiness_Location1" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="VnrRefBusiness_RelWithPerson[]"
+                                            id="VnrRefBusiness_RelWithPerson1" class="form-control form-control-sm">
+                                    </td>
+
+
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeVnrRef_Business"><i
+                                                    class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addVnrRef_Business"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="other_seed_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Relatives or acquaintances is/are working or associated with any other Seed
+                    Company</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="OtherSeedForm" action="{{ route('Candidate_Other_Seed_Relation_Save') }}"
+                    method="POST">
+                    <input type="hidden" name="OtherSeed_JCId" id="OtherSeed_JCId">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Company Name</td>
+                                    <td>Designation</td>
+                                    <td>Location</td>
+                                    <td>Your Relationship <br>with person mentioned
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="OtherSeed">
+                                <tr>
+                                    <td><input type="text" name="OtherSeedName[]" id="OtherSeedName1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedMobile[]" id="OtherSeedMobile1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedEMail[]" id="OtherSeedEMail1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedCompany[]" id="OtherSeedCompany1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedDesignation[]"
+                                            id="OtherSeedDesignation1" class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedLocation[]" id="OtherSeedLocation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td><input type="text" name="OtherSeedRelation[]" id="OtherSeedRelation1"
+                                            class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
+                                                id="removeOtherSeed"><i class="bx bxs-trash text-danger"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input type="button" value="Add Reference" id="addOtherSeed"
+                        class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="resume_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Resume</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @php
+                    $resume = $Rec->Resume;
+                    $ext = substr($resume, strrpos($resume, '.') + 1);
+                @endphp
+                @if ($ext == 'pdf' || $ext == 'PDF')
+                    <object width="760" height="500"
+                        data="{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}"
+                        id="{{ $Rec->JCId }}"></object>
+                @else
+                    @php
+                        $url = html_entity_decode('https://docs.google.com/viewer?embedded=true&url=');
+                    @endphp
+                    <iframe src="{{ $url }}{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}"
+                        width="100%" height="500" style="border: none;"></iframe>
+                @endif
+
+                <div class="row">
+                    <div class="col-12" style="float: right">
+                        <a href="{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}" download target="_blank">Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="language_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Language Proficiency</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <input type="hidden" name="Language_JCId" id="Language_JCId">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" style="vertical-align: middle">
+                        <thead class="text-center">
+                            <tr>
+                                <td>Language</td>
+                                <td>Reading</td>
+                                <td>Writing</td>
+                                <td>Speaking</td>
+                                <td style="width:30px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="LanguageData">
+                            <tr>
+                                <td>
+                                    <input type="text" id="Language1" class="form-control form-control-sm"
+                                        value="Hindi" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Read1" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Write1" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Speak1" value="0">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="Language2" class="form-control form-control-sm"
+                                        value="English" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Read2" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Write2" value="0">
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="Speak2" value="0">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <input type="button" value="Add Language" id="addLanguage" class="btn btn-primary btn-sm">
+                <div class="submit-section">
+                    <button class="btn btn-primary" id="save_language">Submit</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="OfferLtrModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
     data-bs-keyboard="false">
@@ -1908,699 +2047,741 @@
             </div>
         </form>
     </div>
-
 </div>
 
-<div id="other_seed_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+<div class="modal fade" id="HistoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
     data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter History</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered text-center" style="vertical-align: middle;">
+                    <thead>
+                        <tr>
+                            <th>Date Generate</th>
+                            <th>Offer Letter Ref.No
+                            </th>
+                            <th>Offer Letter</th>
+                            <th>Reason for Change
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="offerHistory">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="review_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Relatives or acquaintances is/are working or associated with any other Seed
-                    Company</h6>
+                <h6 class="modal-title">Send Offer Letter for review</h6>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="OtherSeedForm" action="{{ route('Candidate_Other_Seed_Relation_Save') }}"
-                    method="POST">
-                    <input type="hidden" name="OtherSeed_JCId" id="OtherSeed_JCId">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Mobile No</td>
-                                    <td>Email</td>
-                                    <td>Company Name</td>
-                                    <td>Designation</td>
-                                    <td>Location</td>
-                                    <td>Your Relationship <br>with person mentioned
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="OtherSeed">
-                                <tr>
-                                    <td><input type="text" name="OtherSeedName[]" id="OtherSeedName1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td><input type="text" name="OtherSeedMobile[]" id="OtherSeedMobile1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td><input type="text" name="OtherSeedEMail[]" id="OtherSeedEMail1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td><input type="text" name="OtherSeedCompany[]" id="OtherSeedCompany1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td><input type="text" name="OtherSeedDesignation[]"
-                                            id="OtherSeedDesignation1" class="form-control form-control-sm">
-                                    </td>
-                                    <td><input type="text" name="OtherSeedLocation[]" id="OtherSeedLocation1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td><input type="text" name="OtherSeedRelation[]" id="OtherSeedRelation1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
-                                                id="removeOtherSeed"><i class="bx bxs-trash text-danger"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <form action="{{ route('send_for_review') }}" method="POST" id="reviewForm">
+                    @csrf
+                    <div class="form-group mb-2">
+                        <input type="hidden" name="ReviewJaid" value="{{ $JAId }}">
+                        <label for="ReviewCompany">Company</label>
+                        <select name="ReviewCompany" id="ReviewCompany" class="form-select form-select-sm"
+                            onchange="getEmployee(this.value)">
+                            <option value="">Select</option>
+                            @foreach ($company_list as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                    <div class="spinner-border text-primary d-none" role="status" id="EmpLoader"> <span
+                            class="visually-hidden">Loading...</span></div>
+                    <div class="form-group">
+                        <label>Select Employee</label>
+                        <select name="review_to[]" id="review_to"
+                            class="form-select form-select-sm multiple-select" multiple>
 
-                    <input type="button" value="Add Reference" id="addOtherSeed"
-                        class="btn btn-primary btn-sm">
+                        </select>
+                    </div>
                     <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="view_review" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">Offer Letter Review Status</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered text-center" style="vertical-align: middle;">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Offer Letter Ref.No
+                            </th>
+                            <th>Reviwed By</th>
+                            <th>Status
+                            </th>
+                            <th>Reason for Rejection
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="viewReviewData">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="about_modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">About Yourself </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('SaveAbout') }}" id="about_form" method="POST">
+                    <div class="col-lg-12">
+                        <h6>Q1. What is your aim in life? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+                                <input type="text" name="AboutAim" id="AboutAim"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->AboutAim ?? '' }}">
+                            </div>
+                        </div>
+                        <h6>Q2. What are you hobbies and interest? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+
+                                <input type="text" name="AboutHobbi" id="AboutHobbi"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->AboutHobbi ?? '' }}">
+                            </div>
+                        </div>
+                        <h6>Q3. Where do you see yourself 5 Years from now? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+
+                                <input type="text" name="About5Year" id="About5Year"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->About5Year ?? '' }}">
+                            </div>
+                        </div>
+                        <h6>Q4. What are your greatest personal assets (qualities,
+                            skills,
+                            abilities) which make you successful
+                            in the jobs you take up? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+
+                                <input type="text" name="AboutAssets" id="AboutAssets"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->AboutAssets ?? '' }}">
+                            </div>
+                        </div>
+                        <h6>Q5. What are your areas where you think you need to improve
+                            yourself? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+
+                                <input type="text" name="AboutImprovement" id="AboutImprovement"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->AboutImprovement ?? '' }}">
+                            </div>
+                        </div>
+                        <h6>Q6. What are your Strengths? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+
+                                <input type="text" name="AboutStrength" id="AboutStrength"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->AboutStrength ?? '' }}">
+                            </div>
+                        </div>
+
+
+                        <h6>Q7. In the past or at present, have/are you suffered
+                            /suffering
+                            from, any form of physical disability
+                            or any minor or major illness or deficiency? </h6>
+                        <div class="form-group row mb-2">
+                            <div class="col-md-12">
+
+                                <input type="text" name="AboutDeficiency" id="AboutDeficiency"
+                                    class="form-control form-control-sm reqinp_abt"
+                                    value="{{ $AboutAns->AboutDeficiency ?? '' }}">
+                            </div>
+                        </div>
+                        <h6>Q8. Have you Been criminally prosecuted? if so, give details
+                            separately. </h6>
+                        <div style="text-align: left">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input crime" type="radio" name="CriminalChk"
+                                    id="YesCriminal" value="Y" data-value="Y"
+                                    @php
+if ($AboutAns != null) {
+                                                                                                                                    if ($AboutAns->CriminalChk == 'Y') {
+                                                                                                                                        echo 'checked';
+                                                                                                                                    }
+                                                                                                                                } @endphp>
+                                <label class="form-check-label" for="YesCriminal">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input crime" type="radio" name="CriminalChk"
+                                    id="NoCriminal" value="N" data-value="N"
+                                    @php
+if ($AboutAns != null) {
+                                                                                                                                    if ($AboutAns->CriminalChk == 'N') {
+                                                                                                                                        echo 'checked';
+                                                                                                                                    }
+                                                                                                                                } @endphp>
+                                <label class="form-check-label" for="NoCriminal">
+                                    No</label>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2
+
+                                    @php
+if($AboutAns != null){
+                                            if($AboutAns->CriminalChk == 'Y'){
+                                                echo '';
+                                            }else{
+                                                echo 'd-none';
+                                            }
+                                        } @endphp "
+                            id="crime_div">
+                            <div class="col-md-12">
+                                <input type="text" name="AboutCriminal" id="AboutCriminal"
+                                    class="form-control form-control-sm"
+                                    value="{{ $AboutAns->AboutCriminal ?? '' }}">
+                            </div>
+                        </div>
+
+                        <h6>Q9. Do You have a valid driving licence? </h6>
+                        <div style="text-align: left">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input dlchk" type="radio" name="LicenseChk"
+                                    id="YesLicense" value="Y" data-value="Y"
+                                    @php
+if ($AboutAns != null) {
+                                                                                                                                    if ($AboutAns->LicenseChk == 'Y') {
+                                                                                                                                        echo 'checked';
+                                                                                                                                    }
+                                                                                                                                } @endphp>
+                                <label class="form-check-label" for="YesLicense">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input dlchk" type="radio" name="LicenseChk"
+                                    id="NoLicense" value="N" data-value="N"
+                                    @php
+if ($AboutAns != null) {
+                                                                                                                                    if ($AboutAns->LicenseChk == 'N') {
+                                                                                                                                        echo 'checked';
+                                                                                                                                    }
+                                                                                                                                } @endphp>
+                                <label class="form-check-label" for="NoLicense">
+                                    No</label>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2">
+                            <div class="form-group row
+
+                                    @php
+if($AboutAns != null){
+                                            if($AboutAns->LicenseChk == 'Y'){
+                                                echo '';
+                                            }else{
+                                                echo 'd-none';
+                                            }
+                                        } @endphp "
+                                id="dl_div">
+                                <label class="col-form-label col-md-1">License
+                                    No:</label>
+                                <div class="col-md-2 col-sm-12">
+                                    <input type="text" class="form-control form-control-sm" id="DLNo"
+                                        name="DLNo" value="{{ $AboutAns->DLNo ?? '' }}">
+                                </div>
+                                <label class="col-form-label col-md-1">Validity:</label>
+                                <div class="col-md-2 col-sm-12">
+                                    <input type="date" class="form-control form-control-sm" name="LValidity"
+                                        id="LValidity" value="{{ $AboutAns->LValidity ?? '' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section text-center">
+                        <button class="btn btn-primary submit-btn">Save Details
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 </div>
 
-<div id="resume_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+<div class="modal fade" id="document_modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
     data-bs-keyboard="false">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h6 class="modal-title text-light" id="exampleModalLabel">Document Upload</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <th>Document Name</th>
+                        <th>Upload Document</th>
+                        <th>View</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test Paper</td>
+                            <td>
+                                <input type="file" name="TestPaper" id="TestPaper"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="TestPaperUpload">Upload
+                                </button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->Test_Paper != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Test_Paper) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Interview Assessment</td>
+                            <td>
+                                <input type="file" name="IntervAssessment" id="IntervAssessment"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="IntervAssessmentUpload">Upload
+                                </button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->IntervAssessment != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->IntervAssessment) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        @if ($Rec->Professional == 'P')
+                            <tr>
+                                <td style="width: 25%">Offer or appointment letter
+                                    (previous company)
+                                </td>
+                                <td style="width: 60%">
+                                    <input type="file" name="OfferLtr" id="OfferLtr"
+                                        class="form-control form-control-sm d-inline" style="width: 80%"
+                                        accept="application/pdf">
+                                    <button class="btn btn-warning btn-sm d-inline" id="OfferLtrUpload">Upload
+                                    </button>
+                                </td>
+                                <td style="width: 10%; text-align:center">
+                                    @if ($Docs != null && $Docs->OfferLtr != null)
+                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
+                                            target="_blank" class="btn btn-primary btn-sm">View</a>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>Resignation or Relieving Letter (previous
+                                    company)
+                                </td>
+                                <td>
+                                    <input type="file" name="RelievingLtr" id="RelievingLtr"
+                                        class="form-control form-control-sm d-inline" style="width: 80%"
+                                        accept="application/pdf">
+                                    <button class="btn btn-warning btn-sm d-inline" id="RelievingLtrUpload">Upload
+                                    </button>
+                                </td>
+                                <td style="width: 10%; text-align:center">
+                                    @if ($Docs != null && $Docs->RelievingLtr != null)
+                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->RelievingLtr) }}"
+                                            target="_blank" class="btn btn-primary btn-sm">View</a>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Last drawn salary pay slip (previous company)
+                                </td>
+                                <td>
+                                    <input type="file" name="SalarySlip" id="SalarySlip"
+                                        class="form-control form-control-sm d-inline" style="width: 80%"
+                                        accept="application/pdf">
+                                    <button class="btn btn-warning btn-sm d-inline" id="SalarySlipUpload">Upload
+                                    </button>
+                                </td>
+                                <td style="width: 10%; text-align:center">
+                                    @if ($Docs != null && $Docs->SalarySlip != null)
+                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->SalarySlip) }}"
+                                            target="_blank" class="btn btn-primary btn-sm">View</a>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>Increment or appraisal letter with revised CTC
+                                    details
+                                </td>
+                                <td>
+                                    <input type="file" name="AppraisalLtr" id="AppraisalLtr"
+                                        class="form-control form-control-sm d-inline" style="width: 80%"
+                                        accept="application/pdf">
+                                    <button class="btn btn-warning btn-sm d-inline" id="AppraisalLtrUpload">Upload
+                                    </button>
+                                </td>
+                                <td style="width: 10%; text-align:center">
+                                    @if ($Docs != null && $Docs->AppraisalLtr != null)
+                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->AppraisalLtr) }}"
+                                            target="_blank" class="btn btn-primary btn-sm">View</a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endif
+                        <tr>
+
+                            <td>COVID Vaccine Certificate (Final Certificate)
+                            </td>
+                            <td>
+                                <input type="file" name="VaccinationCert" id="VaccinationCert"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="VaccinationCertUpload">Upload
+                                </button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->VaccinationCert != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->VaccinationCert) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td style="width: 25%">Aadhaar Card</td>
+                            <td style="width: 60%">
+                                <input type="file" name="AadhaarCard" id="AadhaarCard"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="AadhaarUpload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->Aadhar != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Aadhar) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td>Driving License</td>
+                            <td>
+                                <input type="file" name="DLCard" id="DLCard"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="DLCardUpload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->DL != null)
+                                    <a title="View"
+                                        href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->DL) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>PF Nomination Form 2</td>
+                            <td>
+                                <input type="file" name="PFForm2" id="PFForm2"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="PFForm2Upload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->PF_Form2 != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form2) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>PF Declaration Form 11
+                            </td>
+                            <td>
+                                <input type="file" name="PF_Form11" id="PF_Form11"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="PFForm11Upload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->PF_Form2 != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form11) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Gratuity Nomination Form
+                            </td>
+                            <td>
+                                <input type="file" name="GratuityForm" id="GratuityForm"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="GratuityUpload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->Gratutity != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Gratutity) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>ESIC Declaration Form 1
+                            </td>
+                            <td>
+                                <input type="file" name="ESICForm" id="ESICForm"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="ESICFormUpload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->ESIC != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Family Declaration Form 1(A)
+                            </td>
+                            <td>
+                                <input type="file" name="ESIC_Family" id="ESIC_Family"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="ESIC_FamilyUpload">Upload
+                                </button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->ESIC_Family != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC_Family) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Health Declaration Form
+                            </td>
+                            <td>
+                                <input type="file" name="Health" id="Health"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="HealthUpload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->Health != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Health) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Declaration for Compliance to Ethical Financial
+                                Dealings
+                            </td>
+                            <td>
+                                <input type="file" name="Ethical" id="Ethical"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="EthicalUpload">Upload</button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->Ethical != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Ethical) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Blood Group Certificate
+                            </td>
+                            <td>
+                                <input type="file" name="BloodGroup" id="BloodGroup"
+                                    class="form-control form-control-sm d-inline" style="width: 80%"
+                                    accept="application/pdf">
+                                <button class="btn btn-warning btn-sm d-inline" id="BloodGroupUpload">Upload
+                                </button>
+                            </td>
+                            <td style="width: 10%; text-align:center">
+                                @if ($Docs != null && $Docs->BloodGroup != null)
+                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BloodGroup) }}"
+                                        target="_blank" class="btn btn-primary btn-sm">View</a>
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Resume</h6>
+                <h6 class="modal-title">Send for Reference Check</h6>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                @php
-                    $resume = $Rec->Resume;
-                    $ext = substr($resume, strrpos($resume, '.') + 1);
-                @endphp
-                @if ($ext == 'pdf' || $ext == 'PDF')
-                    <object width="760" height="500"
-                        data="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
-                        id="{{ $Rec->JCId }}"></object>
-                @else
-                    @php
-                        $url = html_entity_decode('https://docs.google.com/viewer?embedded=true&url=');
-                    @endphp
-                    <iframe src="{{ $url }}{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}"
-                        width="100%" height="500" style="border: none;"></iframe>
-                @endif
+                <form action="{{ route('send_for_ref_chk') }}" method="POST" id="ref_chk_form">
+                    @csrf
+                    <div class="form-group mb-2">
+                        <input type="hidden" name="ReferenceChkJAId" value="{{ $JAId }}">
+                        <label for="RefChkMail">Ref. Person Mail ID <i class="text-danger">*</i></label>
+                        <input type="text" name="RefChkMail" id="RefChkMail"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Send Mail</button>
+                    </div>
 
-                <div class="row">
-                    <div class="col-12" style="float: right">
-                        <a href="{{ URL::to('/') }}/uploads/Resume/{{ $Rec->Resume }}">Download</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="suitable_modal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Suitable For:</h6>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <form action="{{ route('suitable_candidate') }}" method="POST" id="SuitableForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <input type="hidden" name="SuitableJCId" id="SuitableJCId"
+                                value="{{ $Rec->JCId }}">
+                            <label for="Irrelevant_Candidate" class="form-label">Irrelevant Candidate <span
+                                    class="text-danger">*</span> :</label>
+                            <select name="Irrelevant_Candidate" id="Irrelevant_Candidate"
+                                class="form-select reqinp_suit">
+                                <option value="">Select</option>
+                                <option value="N">No</option>
+                                <option value="Y">Yes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 d-none" id="sui_dep_div">
+                            <label class="form-label">Department <span class="text-danger">*</span> :</label>
+                            <select name="suitable_department[]" id="suitable_department" multiple
+                                class="form-select ">
+                                <option></option>
+                                @foreach ($department_list as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label for="" class="form-label">Remark <span
+                                    class="text-danger">*</span>:</label>
+                            <textarea name="suitable_remark" id="suitable_remark" class="form-control reqinp_suit"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="language_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Language Proficiency</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <input type="hidden" name="Language_JCId" id="Language_JCId">
-                <div class="table-responsive">
-                    <table class="table table-bordered text-center" style="vertical-align: middle">
-                        <thead class="text-center">
-                            <tr>
-                                <td>Language</td>
-                                <td>Reading</td>
-                                <td>Writing</td>
-                                <td>Speaking</td>
-                                <td style="width:30px;"></td>
-                            </tr>
-                        </thead>
-                        <tbody id="LanguageData">
-                            <tr>
-                                <td>
-                                    <input type="text" id="Language1" class="form-control form-control-sm"
-                                        value="Hindi" readonly>
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="Read1" value="0">
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="Write1" value="0">
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="Speak1" value="0">
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="text" id="Language2" class="form-control form-control-sm"
-                                        value="English" readonly>
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="Read2" value="0">
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="Write2" value="0">
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="Speak2" value="0">
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-                <input type="button" value="Add Language" id="addLanguage" class="btn btn-primary btn-sm">
-                <div class="submit-section">
-                    <button class="btn btn-primary" id="save_language">Submit</button>
+<div id="OlActionModal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">OL action on behalf of Candidate:</h6>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <form action="{{ route('ol_action_on_behalf_candidate') }}" method="POST" id="responseform">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="hidden" name="ol_action_jaid" id="ol_action_jaid"
+                                value="{{ $JAId }}">
+                            <label for="ol_action" class="form-label">Offer Status <span
+                                    class="text-danger">*</span> :</label>
+                            <select name="ol_action" id="ol_action" class="form-select">
+                                <option value="">Select</option>
+                                <option value="Accepted">Accept</option>
+                                <option value="Rejected">Reject</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3 d-none" id="ol_action_div">
+                            <label for="ol_action_date" class="form-label">Joining Date </label>
+                            <input type="date" name="ol_action_date" id="ol_action_date"
+                                class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label for="" class="form-label">Remark <span
+                                    class="text-danger">*</span>:</label>
+                            <textarea name="ol_action_remark" id="ol_action_remark" class="form-control"></textarea>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
-
-</div>
-<div id="pre_org_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Previous Organization Reference</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="PreOrgRefForm" action="{{ route('Candidate_PreOrgRef_Save') }}" method="POST">
-                    <input type="hidden" name="PreOrgRef_JCId" id="PreOrgRef_JCId">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Name of Company</td>
-                                    <td>Email Id</td>
-                                    <td>Contact No</td>
-                                    <td>Designation</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="PreOrgRefData">
-                                <tr>
-                                    <td>
-                                        <input type="text" name="PreOrgName[]" id="PreOrgName1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="PreOrgCompany[]" id="PreOrgCompany1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="PreOrgEmail[]" id="PreOrgEmail1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="PreOrgContact[]" id="PreOrgContact1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="PreOrgDesignation[]" id="PreOrgDesignation1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <input type="button" value="Add Reference" id="addPreOrgRef"
-                        class="btn btn-primary btn-sm">
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="vnr_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Acquaintances or relatives working with VNR Group Companies</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="VNRRefForm" action="{{ route('Candidate_VnrRef_Save') }}" method="POST">
-                    <input type="hidden" name="Vnr_JCId" id="Vnr_JCId">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Mobile No</td>
-                                    <td>Email</td>
-                                    <td>VNR Group <br>Company Name</td>
-                                    <td>Designation</td>
-                                    <td>Location</td>
-                                    <td>Your Relationship <br>with person mentioned
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="VNRRefData">
-                                <tr>
-                                    <td>
-                                        <input type="text" name="VnrRefName[]" id="VnrRefName1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="VnrRefContact[]" id="VnrRefContact1"
-                                            class="form-control form-control-sm">
-                                    </td>
-
-                                    <td>
-                                        <input type="text" name="VnrRefEmail[]" id="VnrRefEmail1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <select name="VnrRefCompany[]" id="VnrRefCompany1"
-                                            class="form-select form-select-sm" onchange="GetOtherCompany(1);">
-                                            <option value="">Select</option>
-                                            <option value="VNR Seeds Pvt. Ltd.">VNR
-                                                Seeds Pvt. Ltd.
-                                            </option>
-                                            <option value="VNR Nursery Pvt. Ltd.">
-                                                VNR Nursery Pvt. Ltd.
-                                            </option>
-                                            <option value="Other">Other</option>
-                                        </select>
-
-                                        <input type="text" name="OtherCompany[]" id="OtherCompany1"
-                                            class="d-none form-control form-control-sm"
-                                            placeholder="Other Company Name">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="VnrRefDesignation[]" id="VnrRefDesignation1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="VnrRefLocation[]" id="VnrRefLocation1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="VnrRefRelWithPerson[]"
-                                            id="VnrRefRelWithPerson1" class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
-                                                id="removeVnrRef"><i class="bx bxs-trash text-danger"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <input type="button" value="Add Reference" id="addVnrRef" class="btn btn-primary btn-sm">
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="vnr_business_ref_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Acquaintances or relatives associated with VNR as business associates</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="BusinessForm" action="{{ route('Candidate_VnrRef_Business_Save') }}" method="POST">
-                    <input type="hidden" name="Business_JCId" id="Business_JCId">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Mobile No</td>
-                                    <td>Email</td>
-                                    <td>Business relation with <br>VNR</td>
-                                    <td>Location of Business / <br>acquaintances
-                                    </td>
-
-                                    <td>Your Relationship <br>with person mentioned
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="VNR_Business_AcqData">
-                                <tr>
-                                    <td>
-                                        <input type="text" name="VnrRefBusiness_Name[]"
-                                            id="VnrRefBusiness_Name1" class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="VnrRefBusiness_Contact[]"
-                                            id="VnrRefBusiness_Contact1" class="form-control form-control-sm">
-                                    </td>
-
-                                    <td>
-                                        <input type="text" name="VnrRefBusiness_Email[]"
-                                            id="VnrRefBusiness_Email1" class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <select name="VnrRefBusinessRelation[]" id="VnrRefBusinessRelation1"
-                                            class="form-select form-select-sm">
-                                            <option value="">Select</option>
-                                            <option value="Dealer">Dealer</option>
-                                            <option value="Distributor">Distributor
-                                            </option>
-                                            <option value="Retailer">Retailer
-                                            </option>
-                                            <option value="Organizer">Organizer
-                                            </option>
-                                            <option value="Vendor">Vendor</option>
-
-                                        </select>
-                                    </td>
-
-                                    <td>
-                                        <input type="text" name="VnrRefBusiness_Location[]"
-                                            id="VnrRefBusiness_Location1" class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="VnrRefBusiness_RelWithPerson[]"
-                                            id="VnrRefBusiness_RelWithPerson1" class="form-control form-control-sm">
-                                    </td>
-
-
-                                    <td>
-                                        <div class="d-flex order-actions"><a href="javascript:;" class="ms-3"
-                                                id="removeVnrRef_Business"><i
-                                                    class="bx bxs-trash text-danger"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <input type="button" value="Add Reference" id="addVnrRef_Business"
-                        class="btn btn-primary btn-sm">
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="work_exp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Work Experience</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="WorkExpForm" action="{{ route('Candidate_Experience_Save') }}" method="POST">
-                    <input type="hidden" name="Work_JCId" id="Work_JCId">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <td>Company</td>
-                                    <td>Designation</td>
-                                    <td>Gross Monthly Salary</td>
-                                    <td>Anual CTC</td>
-                                    <td>Job Start Date</td>
-                                    <td>Job End Date</td>
-                                    <td>Reason for Leaving</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="WorkExpData">
-                                <tr>
-                                    <td>
-                                        <input type="text" name="WorkExpCompany[]" id="WorkExpCompany1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="WorkExpDesignation[]" id="WorkExpDesignation1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="WorkExpGrossMonthlySalary[]"
-                                            id="WorkExpGrossMonthlySalary1" class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="WorkExpAnualCTC[]" id="WorkExpAnualCTC1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="date" name="WorkExpJobStartDate[]"
-                                            id="WorkExpJobStartDate1"
-                                            class="form-control form-control-sm datepicker">
-                                    </td>
-                                    <td>
-                                        <input type="date" name="WorkExpJobEndDate[]" id="WorkExpJobEndDate1"
-                                            class="form-control form-control-sm datepicker">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="WorkExpReasonForLeaving[]"
-                                            id="WorkExpReasonForLeaving1" class="form-control form-control-sm">
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <input type="button" value="Add Experience" id="addExperience"
-                        class="btn btn-primary btn-sm">
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="current_emp_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Current Employment</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="CurrentEmpForm" action="{{ route('Candidate_CurrentEmployement_Save') }}"
-                    method="POST">
-                    <input type="hidden" name="Curr_JCId" id="Curr_JCId">
-                    <div class="form-group">
-                        <label>Name of Company</label>
-                        <input type="text" name="Currcompany_name" id="Currcompany_name"
-                            class="form-control form-control-sm">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Designation</label>
-                        <input type="text" name="CurrDesignation" id="CurrDesignation"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Date of Joining</label>
-                        <input type="date" name="CurrDateOfJoining" id="CurrDateOfJoining"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Reporting To</label>
-                        <input type="text" name="CurrReportingTo" id="CurrReportingTo"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Reporting Manager Designation</label>
-                        <input type="text" name="CurrRepDesig" id="CurrRepDesig"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Job Responsibility</label>
-                        <textarea name="CurrJobResponsibility" id="CurrJobResponsibility" class="form-control form-control-sm"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Job Change Reason</label>
-                        <textarea name="CurrReason" id="CurrReason" class="form-control form-control-sm"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Notice Period</label>
-                        <input type="text" name="CurrNoticePeriod" id="CurrNoticePeriod"
-                            class="form-control form-control-sm">
-                    </div>
-
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="current_salary_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Present Salary Details</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="CurrentSalaryForm" action="{{ route('Candidate_CurrentSalary_Save') }}" method="POST">
-                    <input type="hidden" name="Sal_JCId" id="Sal_JCId">
-                    <div class="form-group">
-                        <label>Salary (Per Month)</label>
-                        <input type="text" name="CurrSalary" id="CurrSalary"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Annual Package (CTC)</label>
-                        <input type="text" name="CurrCTC" id="CurrCTC"
-                            class="form-control form-control-sm">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">DA @ headquarter</label>
-                        <input type="text" name="CurrDA" id="CurrDA"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">DA Outside Headquarter</label>
-                        <input type="text" name="DAOutHq" id="DAOutHq"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Petrol Allowances</label>
-                        <input type="text" name="PetrolAlw" id="PetrolAlw"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Phone Allowances</label>
-                        <input type="text" name="PhoneAlw" id="PhoneAlw"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Hotel Eligibility</label>
-                        <input type="text" name="HotelElg" id="HotelElg"
-                            class="form-control form-control-sm">
-                    </div>
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div id="training_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Training & Practical Experience</h6>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="TrainingForm" action="{{ route('Candidate_Training_Save') }}" method="POST">
-                    <input type="hidden" name="Training_JCId" id="Training_JCId">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <td>Nature of Training</td>
-                                    <td>Organization / Institution</td>
-                                    <td>From Date</td>
-                                    <td>To Date</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody id="TrainingData">
-                                <tr>
-                                    <td>
-                                        <input type="text" name="TrainingNature[]" id="TrainingNature1"
-                                            class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="TrainingOrganization[]"
-                                            id="TrainingOrganization1" class="form-control form-control-sm">
-                                    </td>
-                                    <td>
-                                        <input type="date" name="TrainingFromDate[]" id="TrainingFromDate1"
-                                            class="form-control form-control-sm datepicker">
-                                    </td>
-                                    <td>
-                                        <input type="date" name="TrainingToDate[]" id="TrainingToDate1"
-                                            class="form-control form-control-sm datepicker">
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <input type="button" value="Add Experience" id="addTraining"
-                        class="btn btn-primary btn-sm">
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 </div>
