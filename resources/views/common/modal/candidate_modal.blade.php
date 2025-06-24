@@ -233,3 +233,202 @@
         </div>
     </div>
 </div>
+
+<div id="emergency_contact_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Emergency Contact</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="EmergencyContactForm" action="{{ route('Candidate_EmergencyContact_Save') }}"
+                    method="POST">
+                    <input type="hidden" name="Emr_JCId" id="Emr_JCId">
+                    <p class="mb-1 fw-bold">Primary Emergency Contact ---------------------------</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PrimaryName">Name</label>
+                                <input type="text" name="PrimaryName" id="PrimaryName"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PrimaryRelation">Relationship</label>
+                                <input type="text" name="PrimaryRelation" id="PrimaryRelation"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PrimaryPhone">Phone No</label>
+                                <input type="text" name="PrimaryPhone" id="PrimaryPhone"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-1 fw-bold mt-2">Secondary Emergency Contact <small class="text-danger"> (optional)
+                        </small></p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SecondaryName">Name</label>
+                                <input type="text" name="SecondaryName" id="SecondaryName"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SecondaryRelation">Relationship</label>
+                                <input type="text" name="SecondaryRelation" id="SecondaryRelation"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SecondaryPhone">Phone No</label>
+                                <input type="text" name="SecondaryPhone" id="SecondaryPhone"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bank_info_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Bank Information & Other</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="BankInfoForm" action="{{ route('Candidate_BankInfo_Save') }}" method="POST">
+                    <input type="hidden" name="Bank_JCId" id="Bank_JCId">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="BankName">Bank Name</label>
+                                <input type="text" name="BankName" id="BankName"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="BranchName">Branch</label>
+                                <input type="text" name="BranchName" id="BranchName"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="IFSCCode">IFSC Code</label>
+                                <input type="text" name="IFSCCode" id="IFSCCode"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="AccountNumber">Account Number</label>
+                                <input type="text" name="AccountNumber" id="AccountNumber"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PAN">PAN Number</label>
+                                <input type="text" name="PAN" id="PAN"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="UAN">UAN Number</label>
+                                <input type="text" name="UAN" id="UAN"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PFNumber">PF Number</label>
+                                <input type="text" name="PFNumber" id="PFNumber"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ESICNumber">ESIC Number</label>
+                                <input type="text" name="ESICNumber" id="ESICNumber"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Passport">Passport</label>
+                                <input type="text" name="Passport" id="Passport"
+                                    class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="family_info_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Family Information</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="FamilyInfoForm" action="{{ route('Candidate_Family_Save') }}" method="POST">
+                    <input type="hidden" name="Family_JCId" id="Family_JCId">
+                    <table class="table table-bordered">
+                        <thead class="text-center">
+                            <tr>
+                                <td style="width: 20%">Relation</td>
+                                <td style="width: 20%">Name</td>
+                                <td style="width:10%;">DOB</td>
+                                <td style="width: 20%">Qualification</td>
+                                <td style="width: 20%">Occupation</td>
+                                <td style="width: 10%">Delete</td>
+                            </tr>
+                        </thead>
+                        <tbody id="FamilyData">
+
+                        </tbody>
+                    </table>
+                    <input type="button" value="Add Member" id="addMember" class="btn btn-primary btn-sm">
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
