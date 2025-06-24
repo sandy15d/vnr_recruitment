@@ -1,5 +1,6 @@
 
-    use Illuminate\Support\Carbon;
+  @php
+  use Illuminate\Support\Carbon;
 
     $sendingId = request()->query('jaid');
     $JAId = base64_decode($sendingId);
@@ -177,6 +178,4 @@
     </div>
 
     <div class="overlay email-toggle-btn-mobile"></div>
-
-    @include('common.modal.candidate_modal')
 @endsection
