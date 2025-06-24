@@ -583,3 +583,57 @@
         </div>
     </div>
 </div>
+
+<div id="suitable_modal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Suitable For:</h6>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <form action="{{ route('suitable_candidate') }}" method="POST" id="SuitableForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <input type="hidden" name="SuitableJCId" id="SuitableJCId"
+                                value="{{ $Rec->JCId }}">
+                            <label for="Irrelevant_Candidate" class="form-label">Irrelevant Candidate <span
+                                    class="text-danger">*</span> :</label>
+                            <select name="Irrelevant_Candidate" id="Irrelevant_Candidate"
+                                class="form-select reqinp_suit">
+                                <option value="">Select</option>
+                                <option value="N">No</option>
+                                <option value="Y">Yes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 d-none" id="sui_dep_div">
+                            <label class="form-label">Department <span class="text-danger">*</span> :</label>
+                            <select name="suitable_department[]" id="suitable_department" multiple
+                                class="form-select ">
+                                <option></option>
+                                @foreach ($department_list as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label for="" class="form-label">Remark <span
+                                    class="text-danger">*</span>:</label>
+                            <textarea name="suitable_remark" id="suitable_remark" class="form-control reqinp_suit"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="OlActionModal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
