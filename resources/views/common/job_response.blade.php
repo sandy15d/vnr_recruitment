@@ -657,7 +657,7 @@ async function buildCandidateCards(response) {
             : '';
         
         const imageSrc = candidate.CandidateImage 
-            ? Storage::disk('s3')->url(`Recruitment/Picture/${candidate.CandidateImage}`) 
+            ? "{{ Storage::disk('s3')->url('Recruitment/Picture/') }}" + candidate.CandidateImage
             : $('#path').val() + '/assets/images/user1.png';
 
         // Check for duplicates
