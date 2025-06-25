@@ -601,165 +601,223 @@
         getCandidate(JPId, page_no, Gender, Source, State, City, HR_Screening_Status);
     });
 
-    async function getCandidate(JPId, page_no, Gender, Source, State, City, HR_Screening_Status) {
-        $.ajax({
+async function getCandidate(JPId, pageNo, gender, source, state, city, hrScreeningStatus) {
+    try {
+        // Make AJAX request using fetch for better Promise support
+        const response = await $.ajax({
             type: "POST",
             url: "{{ route('getJobResponseCandidateByJPId') }}",
-            async: false,
             data: {
-                JPId: JPId,
-                page: page_no,
-                Gender: Gender,
-                Source: Source,
-                State: State,
-                City: City,
-                HR_Screening_Status: HR_Screening_Status
-            }, 
-            success: async function(response) {
-                var x = '';
-                var s_no = (parseInt(response.data.current_page - 1) * parseInt(response.data.per_page) + 1);
-                for (const value of response.data.data) {
-                    var jaid = btoa(value.JAId);
-                    var bg_color = '';
-                    if (value.Status == 'Rejected' || value.BlackList == 1) {
-                        bg_color = '#fe36501f';
-                    } else if (value.FwdTechScr == 'Yes') {
-                        bg_color = '#dbffdacc';
-                    }
-
-                    var isChecked = (value.Status == 'Selected' && value.FwdTechScr == 'No' && value.BlackList == 0);
-                    var checkbox = isChecked ? '<input type="checkbox" name="selectCand" class="japchks" onclick="checkAllorNot()" value="' + value.JAId + '"> ' : '';
-
-                    var ribbon = (value.ProfileViewed == 'Y') ? '<div class="ribbon ribbon-primary"><i class="lni lni-checkmark" style="transform: rotate(308deg) !important;"></i> </div>' : '';
-
-                    var jobTitle = (value.DesigId != null) ? value.Title : '<id class="fa fa-pencil-square-o text-primary" style="cursor:pointer" id="AddToJobPost" data-id="' + value.JAId + '"></id>';
-
-                    var experience = (value.Professional == 'F') ? 'Fresher' : (value.JobStartDate != null ? diff_year_month_day(value.JobStartDate, (value.JobEndDate == null ? $('#ToDate').val() : value.JobEndDate)) : 'Experienced');
-
-                    var verifiedIcon = (value.Verified == 'Y') ? '<i class="fadeIn animated bx bx-badge-check text-success"></i>' : '';
-
-                    var hrScreeningStatus = ''; // Add logic here if required
-
-                    var blacklistCandidate = ''; // Add logic here if required
-
-                    var imageSrc = (value.CandidateImage == null || value.CandidateImage == '') ? $('#path').val() + '/assets/images/user1.png' : Storage::disk('s3')->url('Recruitment/Picture/' . value.CandidateImage);
-
-                    var detailsLink = "{{ route('candidate_detail') }}?jaid=" + jaid;
-                    var FName = value.FName;
-                    var Phone = value.Phone;
-                    var Email = value.Email;
-                    var DOB = value.DOB;
-                    var FatherName = value.FatherName;
-
-                    var dup = await CheckDuplicate(Phone, Email); // Wait for the duplicate check
-
-                    var card = '<div class="card mb-3 ribbon-box border ribbon-fill shadow-none right" style="background-color:' + bg_color + '">' +
-                        '<div class="card-body" style="padding: 5px;">' +
-                        ribbon +
-                        '<div class="row  p-2 py-2">' +
-                        '<div style="width: 80%;float: left;">' +
-                        '<table class="jatbl table borderless appli-list" style="margin-bottom: 0px !important;">' +
-                        '<tbody>' +
-                        '<tr>' +
-                        '<td colspan="3">' +
-                        '<label>' + checkbox +
-                        '<span style="color: #275A72;font-weight: bold;padding-bottom: 10px;">' +
-                        value.FName + ' ' + (value.MName == null ? '' : value.MName) + ' ' + value.LName +
-                        '(Ref.No ' + value.ReferenceNo + ')</span>';
-
-                    if (dup > 1) {
-                        var duplicateLink = '{{ route("get_duplicate_record") }}?Fname=' + FName + '&Phone=' + Phone + '&Email=' + Email + '&DOB=' + DOB + '&FatherName=' + FatherName;
-                        card += '<span class="badge badge-danger"><a href="' + duplicateLink + '" class="text-white" target="_blank">Duplicate</a></span>';
-                    }
-
-                    card += '</label>' +
-                        '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td class="fw-bold-500" style="text-align: left"><b>Applied For</b></td>' +
-                        '<td colspan="3">: ' + jobTitle + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td class="fw-bold-500">Experience</td>' +
-                        '<td>: ' + experience + '</td>' +
-                        '<td class="fw-bold-500">Contact No.</td>' +
-                        '<td>: ' + value.Phone + verifiedIcon + '</td>' +
-                        '</tr>' +
-                        '<tr class="">' +
-                        '<td class="fw-bold-500">Current Company</td>' +
-                        '<td>: ' + (value.PresentCompany == null ? '' : value.PresentCompany) + '</td>' +
-                        '<td class="fw-bold-500">Email ID</td>' +
-                        '<td>: ' + value.Email + verifiedIcon + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td class="fw-bold-500">Current Designation</td>' +
-                        '<td>: ' + (value.Designation == null ? '' : value.Designation) + '</td>' +
-                        '<td class="fw-bold-500">Education</td>' +
-                        '<td>: ' + (value.Education == null ? '' : value.EducationCode) + (value.Specialization == null ? '' : ' - ' + value.Specialization) + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td class="fw-bold-500">Current Location</td>' +
-                        '<td>: ' + value.City + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td class="fw-bold-500">Applied on date:</td>' +
-                        '<td>: ' + value.ApplyDate + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td class="fw-bold-500"> Source </td>' +
-                        '<td>: ' + value.ResumeSource + '</td>' +
-                        '<td class="text-danger fw-bold" style="text-align: center" colspan="2">' + blacklistCandidate + '</td>' +
-                        '</tr>';
-
-                    if (value.BlackListRemark != null) {
-                        card += '<tr><td colspan="4" class="text-danger fw-bold">' + value.BlackListRemark + '</td></tr>';
-                    }
-
-                    if (value.UnBlockRemark != null) {
-                        card += '<tr><td colspan="4" class="text-success fw-bold">' + value.UnBlockRemark + '</td></tr>';
-                    }
-                    if (value.hr_screening_status != null) { 
-                        card += '<tr><td class="fw-bold-500">HR Screening Status</td><td class="fw-bold">' + value.hr_screening_status + '</td></tr>';
-                        card += '<tr><td class="fw-bold-500">HR Screening Remark</td><td class="fw-bold">' + value.hr_screening_remark + '</td></tr>';
-                    }
-                    card += '</tbody>' +
-                        '</table>' +
-                        '</div>' +
-                        '<div class="" style=" width: 20%;float: left;">' +
-                        '<center>' +
-                        '<img src="' + imageSrc + '" style="width: 130px; height: 130px;" class="img-fluid rounded" />' +
-                        '</center>' +
-                        '<center>' +
-                        '<small>' +
-                        '<span class="text-primary m-1 " style="cursor: pointer; font-size:14px;">' +
-                        '<a href="' + detailsLink + '" target="_blank">View Details</a>' +
-                        '</span>' +
-                        '</small>' +
-                        '</center>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
-
-                    if (value.manual_entry_by_name != null) {
-                        card += '<div class="card-footer border-0 p-1 bg-light-warning text-dark">' +
-                            '<div class="row " style="float: right;margin-right: 20px;">' +
-                            'Manual Entry By:' + value.manual_entry_by_name +
-                            '</div>' +
-                            '</div>';
-
-                    }
-
-                    card += '</div>';
-
-                    x += card;
-                }
-
-                $('#CandidateDiv').html(x);
-                $('#pagination').html(response.page_link);
+                JPId,
+                page: pageNo,
+                gender,
+                source,
+                state,
+                city,
+                hr_screening_status: hrScreeningStatus
             }
         });
+
+        // Build candidate cards
+        const cards = await buildCandidateCards(response);
+        
+        // Update DOM
+        $('#CandidateDiv').html(cards);
+        $('#pagination').html(response.page_link);
+
+    } catch (error) {
+        console.error('Error fetching candidates:', error);
+        $('#CandidateDiv').html('<div class="alert alert-danger">Error loading candidates</div>');
+    }
+}
+
+async function buildCandidateCards(response) {
+    let html = '';
+    const startSNo = (response.data.current_page - 1) * response.data.per_page + 1;
+
+    for (const [index, candidate] of response.data.data.entries()) {
+        const jaid = btoa(candidate.JAId);
+        
+        // Determine background color
+        const bgColor = getBackgroundColor(candidate);
+
+        // Build card components
+        const checkbox = buildCheckbox(candidate);
+        const ribbon = candidate.ProfileViewed === 'Y' 
+            ? '<div class="ribbon ribbon-primary"><i class="lni lni-checkmark" style="transform: rotate(308deg) !important;"></i></div>' 
+            : '';
+        
+        const jobTitle = candidate.DesigId 
+            ? candidate.Title 
+            : `<i class="fa fa-pencil-square-o text-primary" style="cursor:pointer" id="AddToJobPost" data-id="${candidate.JAId}"></i>`;
+        
+        const experience = getExperience(candidate);
+        const verifiedIcon = candidate.Verified === 'Y' 
+            ? '<i class="fadeIn animated bx bx-badge-check text-success"></i>' 
+            : '';
+        
+        const imageSrc = candidate.CandidateImage 
+            ? Storage::disk('s3')->url(`Recruitment/Picture/${candidate.CandidateImage}`) 
+            : $('#path').val() + '/assets/images/user1.png';
+
+        // Check for duplicates
+        const duplicateCount = await CheckDuplicate(candidate.Phone, candidate.Email);
+        
+        // Build candidate card
+        html += `
+            <div class="card mb-3 ribbon-box border ribbon-fill shadow-none right" style="background-color: ${bgColor}">
+                ${ribbon}
+                <div class="card-body" style="padding: 5px;">
+                    <div class="row p-2 py-2">
+                        <div style="width: 80%; float: left;">
+                            <table class="jatbl table borderless appli-list" style="margin-bottom: 0px !important;">
+                                <tbody>
+                                    ${buildCandidateInfo(candidate, checkbox, duplicateCount, jobTitle, experience, verifiedIcon)}
+                                    ${buildAdditionalInfo(candidate)}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 20%; float: left;">
+                            <center>
+                                <img src="${imageSrc}" style="width: 130px; height: 130px;" class="img-fluid rounded" />
+                                <small>
+                                    <span class="text-primary m-1" style="cursor: pointer; font-size:14px;">
+                                        <a href="{{ route('candidate_detail') }}?jaid=${jaid}" target="_blank">View Details</a>
+                                    </span>
+                                </small>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                ${buildManualEntryFooter(candidate)}
+            </div>
+        `;
     }
 
+    return html;
+}
+
+function getBackgroundColor(candidate) {
+    if (candidate.Status === 'Rejected' || candidate.BlackList === 1) {
+        return '#fe36501f';
+    }
+    if (candidate.FwdTechScr === 'Yes') {
+        return '#dbffdacc';
+    }
+    return '';
+}
+
+function buildCheckbox(candidate) {
+    if (candidate.Status === 'Selected' && candidate.FwdTechScr === 'No' && candidate.BlackList === 0) {
+        return `<input type="checkbox" name="selectCand" class="japchks" onclick="checkAllorNot()" value="${candidate.JAId}">`;
+    }
+    return '';
+}
+
+function getExperience(candidate) {
+    if (candidate.Professional === 'F') {
+        return 'Fresher';
+    }
+    if (candidate.JobStartDate) {
+        const endDate = candidate.JobEndDate || $('#ToDate').val();
+        return diff_year_month_day(candidate.JobStartDate, endDate);
+    }
+    return 'Experienced';
+}
+
+function buildCandidateInfo(candidate, checkbox, duplicateCount, jobTitle, experience, verifiedIcon) {
+    let html = `
+        <tr>
+            <td colspan="3">
+                <label>
+                    ${checkbox}
+                    <span style="color: #275A72; font-weight: bold; padding-bottom: 10px;">
+                        ${candidate.FName} ${candidate.MName || ''} ${candidate.LName}
+                        (Ref.No ${candidate.ReferenceNo})
+                    </span>
+                    ${duplicateCount > 1 ? buildDuplicateBadge(candidate) : ''}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500" style="text-align: left"><b>Applied For</b></td>
+            <td colspan="3">: ${jobTitle}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500">Experience</td>
+            <td>: ${experience}</td>
+            <td class="fw-bold-500">Contact No.</td>
+            <td>: ${candidate.Phone} ${verifiedIcon}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500">Current Company</td>
+            <td>: ${candidate.PresentCompany || ''}</td>
+            <td class="fw-bold-500">Email ID</td>
+            <td>: ${candidate.Email} ${verifiedIcon}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500">Current Designation</td>
+            <td>: ${candidate.Designation || ''}</td>
+            <td class="fw-bold-500">Education</td>
+            <td>: ${candidate.EducationCode || ''}${candidate.Specialization ? ` - ${candidate.Specialization}` : ''}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500">Current Location</td>
+            <td>: ${candidate.City}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500">Applied on date:</td>
+            <td>: ${candidate.ApplyDate}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold-500">Source</td>
+            <td>: ${candidate.ResumeSource}</td>
+            <td class="text-danger fw-bold" style="text-align: center" colspan="2"></td>
+        </tr>
+    `;
+    return html;
+}
+
+function buildDuplicateBadge(candidate) {
+    const duplicateLink = `{{ route("get_duplicate_record") }}?Fname=${candidate.FName}&Phone=${candidate.Phone}&Email=${candidate.Email}&DOB=${candidate.DOB}&FatherName=${candidate.FatherName}`;
+    return `<span class="badge badge-danger"><a href="${duplicateLink}" class="text-white" target="_blank">Duplicate</a></span>`;
+}
+
+function buildAdditionalInfo(candidate) {
+    let html = '';
+    if (candidate.BlackListRemark) {
+        html += `<tr><td colspan="4" class="text-danger fw-bold">${candidate.BlackListRemark}</td></tr>`;
+    }
+    if (candidate.UnBlockRemark) {
+        html += `<tr><td colspan="4" class="text-success fw-bold">${candidate.UnBlockRemark}</td></tr>`;
+    }
+    if (candidate.hr_screening_status) {
+        html += `
+            <tr>
+                <td class="fw-bold-500">HR Screening Status</td>
+                <td class="fw-bold">${candidate.hr_screening_status}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold-500">HR Screening Remark</td>
+                <td class="fw-bold">${candidate.hr_screening_remark}</td>
+            </tr>
+        `;
+    }
+    return html;
+}
+
+function buildManualEntryFooter(candidate) {
+    if (candidate.manual_entry_by_name) {
+        return `
+            <div class="card-footer border-0 p-1 bg-light-warning text-dark">
+                <div class="row" style="float: right; margin-right: 20px;">
+                    Manual Entry By: ${candidate.manual_entry_by_name}
+                </div>
+            </div>
+        `;
+    }
+    return '';
+}
 
     let i = 1;
     $(document).on('click', '.page_click', function(e) {
