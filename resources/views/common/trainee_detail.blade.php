@@ -24,7 +24,7 @@ $Rec = DB::table('jobcandidates')
                                     @if ($Rec->CandidateImage == null)
                                         <img src="{{ URL::to('/') }}/assets/images/user1.png" />
                                     @else
-                                        <img src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $Rec->CandidateImage) }}" />
+                                        <img src="{{ url('file-view/Picture/' . $Rec->CandidateImage) }}" />
                                     @endif
                                 </div>
                             </div>

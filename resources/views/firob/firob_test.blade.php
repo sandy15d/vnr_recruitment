@@ -84,7 +84,7 @@
                                                         class="fa fa-user fa-4x"></i></td>
                                             @else
                                                 <td style="border: 2px solid #f09a3e; "><img
-                                                        src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $chk->CandidateImage) }}"
+                                                        src="{{ url('file-view/Picture/' . $chk->CandidateImage) }}"
                                                         style="width: 80px;" height="80px;"/></td>
 
                                             @endif

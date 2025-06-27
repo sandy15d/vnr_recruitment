@@ -176,7 +176,7 @@
                                         <img src="{{ URL::to('/') }}/assets/images/user1.png" />
                                     @else
                                         <img
-                                            src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $Rec->CandidateImage) }}" />
+                                            src="{{ url('file-view/Picture/' . $Rec->CandidateImage) }}" />
                                     @endif
                                 </div>
                             </div>
@@ -1645,7 +1645,7 @@
                                                 <td>Test Papers</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Test_Paper != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Test_Paper) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Test_Paper) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1655,7 +1655,7 @@
                                                 <td>Interview Assessment Sheet</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->IntervAssessment != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->IntervAssessment) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->IntervAssessment) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1813,7 +1813,7 @@
                                                 <td>PF Form 2</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->PF_Form2 != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form2) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->PF_Form2) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1821,7 +1821,7 @@
                                                 <td>PF Form 11</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->PF_Form11 != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form11) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->PF_Form11) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1832,7 +1832,7 @@
                                                 <td>Gratutity Form</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Gratutity != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Gratutity) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Gratutity) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1840,7 +1840,7 @@
                                                 <td>ESIC</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->ESIC != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->ESIC) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1850,7 +1850,7 @@
                                                 <td>ESIC_Family</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->ESIC_Family != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC_Family) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->ESIC_Family) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1858,7 +1858,7 @@
                                                 <td>PF- E nomination Form</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->PFeNomination != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PFeNomination) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->PFeNomination) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1868,7 +1868,7 @@
                                                 <td>Form 16(From Pervious Employer)</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Form16 != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Form16) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Form16) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1876,7 +1876,7 @@
                                                 <td>EPFO Joint Request</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Epfo_Joint != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Epfo_Joint) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Epfo_Joint) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1908,7 +1908,7 @@
                                                 <td>Offer or Appointment letter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->OfferLtr != null)
-                                                        {{-- <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
+                                                        {{-- <a href="{{ url('file-view/Documents/' . $Docs->OfferLtr) }}"
                                                             class="view-pdf">View</a> --}}
                                                             <a href="{{ url('file-view/Documents/' . $Docs->OfferLtr) }}" class="view-pdf">View</a>
 
@@ -1920,7 +1920,7 @@
                                                 <td>Relieving Letter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->RelievingLtr != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->RelievingLtr) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->RelievingLtr) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1930,7 +1930,7 @@
                                                 <td>Pay/Salary slip</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->SalarySlip != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->SalarySlip) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->SalarySlip) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1940,7 +1940,7 @@
                                                 <td>Appraisal or last increment letter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->AppraisalLtr != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->AppraisalLtr) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->AppraisalLtr) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1951,7 +1951,7 @@
                                                 <td>Resignation Acceptance by Recent Employer</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Resignation_Accept != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Resignation_Accept) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Resignation_Accept) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -1980,7 +1980,7 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->Qualification }}</td>
                                                         <td>
-                                                            <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $item->File_Attachment) }}"
+                                                            <a href="{{ url('file-view/Documents/' . $item->File_Attachment) }}"
                                                                 download>View</a>
                                                         </td>
                                                     </tr>
@@ -2011,7 +2011,7 @@
                                                 <td>Aadhaar Card</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Aadhar != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Aadhar) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Aadhar) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2021,7 +2021,7 @@
                                                 <td>PAN Card</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->PanCard != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PanCard) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->PanCard) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2031,7 +2031,7 @@
                                                 <td>Driving Licence</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->DL != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->DL) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->DL) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2041,7 +2041,7 @@
                                                 <td>Passport</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Passport != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Passport) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Passport) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2051,7 +2051,7 @@
                                                 <td>Bank Passbook/Document</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->BankDoc != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BankDoc) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->BankDoc) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2079,7 +2079,7 @@
                                                 <td>Blood Group Certificate</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->BloodGroup != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BloodGroup) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->BloodGroup) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2089,7 +2089,7 @@
                                                 <td>Health Declaration Form</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Health != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Health) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Health) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2099,7 +2099,7 @@
                                                 <td>Vaccination Certificate</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->VaccinationCert != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->VaccinationCert) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->VaccinationCert) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2109,7 +2109,7 @@
                                                 <td>Declaration for Compliance to Ethical Financial Dealings</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Ethical != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Ethical) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Ethical) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2119,7 +2119,7 @@
                                                 <td>Investment Declaration</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Invst_Decl != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Invst_Decl) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Invst_Decl) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2129,7 +2129,7 @@
                                                 <td>Self Declaration for Resignation</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->Resignation != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Resignation) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $Docs->Resignation) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2159,7 +2159,7 @@
                                                 <td>Invoice</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->invoice != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->invoice) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->invoice) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2169,7 +2169,7 @@
                                                 <td>RC</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->rc_file != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->rc_file) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->rc_file) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2179,7 +2179,7 @@
                                                 <td>Vehicle Image</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->vehicle_image != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->vehicle_image) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->vehicle_image) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2190,7 +2190,7 @@
                                                 <td>Insurance</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->insurance != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->insurance) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->insurance) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2200,7 +2200,7 @@
                                                 <td>Current Odo Meter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->odo_meter != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->odo_meter) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->odo_meter) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2228,7 +2228,7 @@
                                                 <td>Invoice</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_invoice != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->four_invoice) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_invoice) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2238,7 +2238,7 @@
                                                 <td>RC</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_rc_file != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->four_rc_file) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_rc_file) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2248,7 +2248,7 @@
                                                 <td>Vehicle Image</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_vehicle_image != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->four_vehicle_image) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_vehicle_image) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2259,7 +2259,7 @@
                                                 <td>Insurance</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_insurance != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->four_insurance) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_insurance) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2269,7 +2269,7 @@
                                                 <td>Current Odo Meter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_odo_meter != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->four_odo_meter) }}"
+                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_odo_meter) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>

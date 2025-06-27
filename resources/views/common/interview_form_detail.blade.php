@@ -224,7 +224,7 @@
             @if ($Rec->CandidateImage == null)
                 <img src="{{ URL::to('/') }}/assets/images/user1.png" width="100" height="140" />
             @else
-                <img src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $Rec->CandidateImage) }}" width="100"
+                <img src="{{ url('file-view/Picture/' . $Rec->CandidateImage) }}" width="100"
                     height="140" />
             @endif
         </div>

@@ -687,7 +687,7 @@ $query = DB::table('jobcandidates')
                                                         <span id="preview">
                                                             <center>
                                                                 @if ($query->CandidateImage != null)
-                                                                    <img src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $query->CandidateImage) }}"
+                                                                    <img src="{{ url('file-view/Picture/' . $query->CandidateImage) }}"
                                                                         style="width: 150px; height: 150px;"
                                                                         id="img1" />
                                                                 @else

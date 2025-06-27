@@ -384,7 +384,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                                    value="{{ $Rec->CandidateImage }}">
                                                                             @if ($Rec->CandidateImage != null)
                                                                                 <img
-                                                                                    src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $Rec->CandidateImage) }}"
+                                                                                    src="{{ url('file-view/Picture/' . $Rec->CandidateImage) }}"
                                                                                     style="width: 150px; height: 150px;"
                                                                                     id="img1"/>
                                                                             @else

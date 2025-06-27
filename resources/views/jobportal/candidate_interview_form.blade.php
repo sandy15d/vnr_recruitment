@@ -412,7 +412,7 @@ $institute_list = DB::table("master_institute")->join('states','states.StateId',
                                                                                    id="old_image"
                                                                                    value="{{ $Rec->CandidateImage }}">
                                                                             @if ($Rec->CandidateImage != null)
-                                                                                <img src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $Rec->CandidateImage) }}"
+                                                                                <img src="{{ url('file-view/Picture/' . $Rec->CandidateImage) }}"
                                                                                      style="width: 150px; height: 150px;"
                                                                                      id="img1"/>
                                                                             @else
