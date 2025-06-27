@@ -1908,8 +1908,10 @@
                                                 <td>Offer or Appointment letter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($Docs != null && $Docs->OfferLtr != null)
-                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
-                                                            class="view-pdf">View</a>
+                                                        {{-- <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
+                                                            class="view-pdf">View</a> --}}
+                                                            <a href="{{ url('file-view/' . $Docs->OfferLtr) }}" class="view-pdf">View</a>
+
                                                     @endif
                                                 </td>
                                             </tr>

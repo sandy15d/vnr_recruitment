@@ -54,6 +54,7 @@ use App\Http\Controllers\TestModule\ExamController;
 use App\Http\Controllers\Admin\MinimumWageController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\S3FileUploadController;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -775,3 +776,20 @@ Route::post('mapCoreJobPost', [TestController::class, 'mapCoreJobPost'])->name('
 Route::get('sync_data', [TestController::class, 'sync_data'])->name('sync_data');
 Route::get('/s3-upload', [S3FileUploadController::class, 'index'])->name('s3.index');
 Route::post('/s3-upload', [S3FileUploadController::class, 'upload'])->name('s3.upload');
+
+Route::get('/file-view/{path}', function ($path) {
+    $path = str_replace('..', '', $path); // basic security
+    $s3 = Storage::disk('s3');
+
+    if (!$s3->exists("Recruitment/Documents/{$path}")) {
+        abort(404);
+    }
+
+    $file = $s3->get("Recruitment/Documents/{$path}");
+    $mime = $s3->mimeType("Recruitment/Documents/{$path}");
+
+    return Response::make($file, 200, [
+        'Content-Type' => $mime,
+        'Content-Disposition' => 'inline; filename="' . $path . '"'
+    ]);
+})->where('path', '.*');

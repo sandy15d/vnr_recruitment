@@ -662,12 +662,12 @@ $query = DB::table('jobcandidates')
 
 
                                                                 @if ($query->Resume != null)
-                                                                    @php
-                                                                        if ($query->Resume) {
-                                                                            $resumeUrl = Storage::disk('s3')->url('Recruitment/Resume/' . $query->Resume);
-                                                                            echo "<a class='link-primary' style='font-size:14px;' href='$resumeUrl' target='_blank'>Resume</a>  <small class='text-secondary'>  Click to view uploaded resume.</small>";
-                                                                        }
-                                                                    @endphp
+                                                                        @php
+                                                                            if ($query->Resume) {
+                                                                                $resumeUrl = Storage::disk('s3')->url('Recruitment/Resume/' . $query->Resume);
+                                                                                echo "<a class='link-primary' style='font-size:14px;' href='$resumeUrl' target='_blank'>Resume</a>  <small class='text-secondary'>  Click to view uploaded resume.</small>";
+                                                                            }
+                                                                        @endphp
                                                                 @else
                                                                     <input type="file" name="Resume" id="Resume"
                                                                         class="form-control form-control-sm"
