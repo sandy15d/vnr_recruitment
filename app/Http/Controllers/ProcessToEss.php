@@ -47,7 +47,7 @@ class ProcessToEss extends Controller
             $vnr_ref = DB::table('jf_reference')->where('JCId', $JCId)->where('from', 'VNR')->get();
             $vehicle_information_query = DB::table('vehicle_information')->where('JCId', $JCId)->first();
 
-            $SendCTC = $connection->table('employee_ctc')->insert(['EmpCode' => $EmpCode, 'CompanyId' => $CompanyId, 'basic' => $ctc_query->basic, 'hra' => $ctc_query->hra, 'bonus' => $ctc_query->bonus, 'special_alw' => $ctc_query->special_alw, 'grsM_salary' => $ctc_query->grsM_salary, 'emplyPF' => $ctc_query->emplyPF, 'emplyESIC' => $ctc_query->emplyESIC, 'netMonth' => $ctc_query->netMonth, 'lta' => $ctc_query->lta, 'childedu' => $ctc_query->childedu, 'anualgrs' => $ctc_query->anualgrs, 'gratuity' => $ctc_query->gratuity, 'emplyerPF' => $ctc_query->emplyerPF, 'emplyerESIC' => $ctc_query->emplyerESIC, 'medical' => $ctc_query->medical, 'total_ctc' => $ctc_query->total_ctc, 'fixed_ctc' => $ctc_query->fixed_ctc, 'performance_pay' => $ctc_query->performance_pay, 'total_gross_ctc' => $ctc_query->total_gross_ctc, 'car_allowance_amount' => $ctc_query->car_allowance_amount, 'communication_allowance_amount' => $ctc_query->communication_allowance_amount, 'total_gross_ctc' => $ctc_query->total_gross_ctc]);
+             $connection->table('employee_ctc')->insert(['EmpCode' => $EmpCode, 'CompanyId' => $CompanyId, 'basic' => $ctc_query->basic, 'hra' => $ctc_query->hra, 'bonus' => $ctc_query->bonus, 'special_alw' => $ctc_query->special_alw, 'grsM_salary' => $ctc_query->grsM_salary, 'emplyPF' => $ctc_query->emplyPF, 'emplyESIC' => $ctc_query->emplyESIC, 'netMonth' => $ctc_query->netMonth, 'lta' => $ctc_query->lta, 'childedu' => $ctc_query->childedu, 'anualgrs' => $ctc_query->anualgrs, 'gratuity' => $ctc_query->gratuity, 'emplyerPF' => $ctc_query->emplyerPF, 'emplyerESIC' => $ctc_query->emplyerESIC, 'medical' => $ctc_query->medical, 'total_ctc' => $ctc_query->total_ctc, 'fixed_ctc' => $ctc_query->fixed_ctc, 'performance_pay' => $ctc_query->performance_pay, 'total_gross_ctc' => $ctc_query->total_gross_ctc, 'car_allowance_amount' => $ctc_query->car_allowance_amount, 'communication_allowance_amount' => $ctc_query->communication_allowance_amount, 'total_gross_ctc' => $ctc_query->total_gross_ctc]);
 
             $edu_array = [];
             foreach ($education_query as $key => $value) {
@@ -63,9 +63,9 @@ class ProcessToEss extends Controller
                 $edu_array[] = $temp;
             }
 
-            $SendEducation = $connection->table('employee_education')->insert($edu_array);
+             $connection->table('employee_education')->insert($edu_array);
 
-            $SendContact = $connection->table('employee_address')->insert(['EmpCode' => $EmpCode, 'CompanyId' => $CompanyId, 'pre_address' => $address_query->pre_address, 'pre_state' => getStateName($address_query->pre_state), 'pre_dist' => getDistrictName($address_query->pre_dist), 'pre_city' => $address_query->pre_city, 'pre_pin' => $address_query->pre_pin, 'perm_address' => $address_query->perm_address, 'perm_state' => getStateName($address_query->perm_state), 'perm_dist' => getDistrictName($address_query->perm_dist), 'perm_city' => $address_query->perm_city, 'perm_pin' => $address_query->perm_pin,]);
+           $connection->table('employee_address')->insert(['EmpCode' => $EmpCode, 'CompanyId' => $CompanyId, 'pre_address' => $address_query->pre_address, 'pre_state' => getStateName($address_query->pre_state), 'pre_dist' => getDistrictName($address_query->pre_dist), 'pre_city' => $address_query->pre_city, 'pre_pin' => $address_query->pre_pin, 'perm_address' => $address_query->perm_address, 'perm_state' => getStateName($address_query->perm_state), 'perm_dist' => getDistrictName($address_query->perm_dist), 'perm_city' => $address_query->perm_city, 'perm_pin' => $address_query->perm_pin,]);
 
 
             // Prepare the data array with initial values
@@ -132,7 +132,7 @@ class ProcessToEss extends Controller
 
 
             // Insert the data into the database
-            $SendElg = $connection->table('employee_elg')->insert($data);
+             $connection->table('employee_elg')->insert($data);
 
 
             $family_array = [];
@@ -147,7 +147,7 @@ class ProcessToEss extends Controller
                 $temp['Occupation'] = $value->occupation ?? '';
                 $family_array[] = $temp;
             }
-            $SendFamily = $connection->table('employee_family')->insert($family_array);
+            $connection->table('employee_family')->insert($family_array);
 
             $language_array = [];
             foreach ($lang_query as $key => $value) {
@@ -161,10 +161,10 @@ class ProcessToEss extends Controller
                 $language_array[] = $temp;
             }
 
-            $SendLanguage = $connection->table('employee_language')->insert($language_array);
+            $connection->table('employee_language')->insert($language_array);
 
 
-            $SendPF = $connection->table('employee_pf')->insert(['EmpCode' => $EmpCode, 'CompanyId' => $CompanyId, 'UAN' => $pf_esic_query->UAN ?? '', 'pf_acc_no' => $pf_esic_query->PFNumber ?? '', 'esic_no' => $pf_esic_query->ESICNumber ?? '', 'bank_name' => $pf_esic_query->BankName ?? '', 'branch_name' => $pf_esic_query->BranchName ?? '', 'acc_number' => $pf_esic_query->AccountNumber ?? '', 'ifsc_code' => $pf_esic_query->IFSCCode ?? '', 'pan' => $pf_esic_query->PAN ?? '', 'passport' => $pf_esic_query->Passport ?? '',]);
+           $connection->table('employee_pf')->insert(['EmpCode' => $EmpCode, 'CompanyId' => $CompanyId, 'UAN' => $pf_esic_query->UAN ?? '', 'pf_acc_no' => $pf_esic_query->PFNumber ?? '', 'esic_no' => $pf_esic_query->ESICNumber ?? '', 'bank_name' => $pf_esic_query->BankName ?? '', 'branch_name' => $pf_esic_query->BranchName ?? '', 'acc_number' => $pf_esic_query->AccountNumber ?? '', 'ifsc_code' => $pf_esic_query->IFSCCode ?? '', 'pan' => $pf_esic_query->PAN ?? '', 'passport' => $pf_esic_query->Passport ?? '',]);
 
             if ($jobcandidate->Professional == 'P') {
                 $work_array = [];
@@ -204,7 +204,7 @@ class ProcessToEss extends Controller
                     $temp['email'] = $value->email;
                     $pre_ref_array[] = $temp;
                 }
-                $SendPreRef = $connection->table('employee_preref')->insert($pre_ref_array);
+                $connection->table('employee_preref')->insert($pre_ref_array);
             }
 
             if ($training_query->count() > 0) {
@@ -246,7 +246,7 @@ class ProcessToEss extends Controller
 
             if ($vehicle_information_query != null) {
                 if ($vehicle_information_query->model_name != null || $vehicle_information_query->model_name != '') {
-                    $SendVehicle = $connection->table('employee_vehicle')->insert([
+                    $connection->table('employee_vehicle')->insert([
                         'EmpCode' => $EmpCode,
                         'CompanyId' => $CompanyId,
                         'brand' => $vehicle_information_query->brand,
@@ -258,14 +258,14 @@ class ProcessToEss extends Controller
                         'registration_no' => $vehicle_information_query->registration_no,
                         'registration_date' => $vehicle_information_query->registration_date,
                         'bill_no' => $vehicle_information_query->bill_no,
-                        'invoice' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->invoice,
+                        'invoice' => $vehicle_information_query->invoice,
                         'fuel_type' => $vehicle_information_query->fuel_type,
                         'ownership' => $vehicle_information_query->ownership,
-                        'vehicle_image' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->vehicle_image,
-                        'rc_file' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->rc_file,
-                        'insurance' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->insurance,
+                        'vehicle_image' => $vehicle_information_query->vehicle_image,
+                        'rc_file' => $vehicle_information_query->rc_file,
+                        'insurance' => $vehicle_information_query->insurance,
                         'current_odo_meter' => $vehicle_information_query->current_odo_meter,
-                        'odo_meter' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->odo_meter,
+                        'odo_meter' => $vehicle_information_query->odo_meter,
 
                         'four_brand' => $vehicle_information_query->four_brand,
                         'four_model_no' => $vehicle_information_query->four_model_no,
@@ -276,14 +276,14 @@ class ProcessToEss extends Controller
                         'four_registration_no' => $vehicle_information_query->four_registration_no,
                         'four_registration_date' => $vehicle_information_query->four_registration_date,
                         'four_bill_no' => $vehicle_information_query->four_bill_no,
-                        'four_invoice' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->four_invoice,
+                        'four_invoice' => $vehicle_information_query->four_invoice,
                         'four_fuel_type' => $vehicle_information_query->four_fuel_type,
                         'four_ownership' => $vehicle_information_query->four_ownership,
-                        'four_vehicle_image' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->four_vehicle_image,
-                        'four_rc_file' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->four_rc_file,
-                        'four_insurance' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->four_insurance,
+                        'four_vehicle_image' => $vehicle_information_query->four_vehicle_image,
+                        'four_rc_file' => $vehicle_information_query->four_rc_file,
+                        'four_insurance' => $vehicle_information_query->four_insurance,
                         'four_current_odo_meter' => $vehicle_information_query->four_current_odo_meter,
-                        'four_odo_meter' => 'https://hrrec.vnress.in/uploads/vehicle_upload/' . $vehicle_information_query->four_odo_meter,
+                        'four_odo_meter' => $vehicle_information_query->four_odo_meter,
                         'remark' => $vehicle_information_query->remark
                     ]);
                 }
@@ -300,7 +300,7 @@ class ProcessToEss extends Controller
             } elseif ($jobcandidate->ServiceCondition == 'nopnot') {
                 $ConfirmationDate = $jobcandidate->JoinOnDt;
             }
-            $SendGeneral = $connection->table('employee_general')->insert([
+           $connection->table('employee_general')->insert([
                 'EmpCode' => $EmpCode,
                 'CandidateId' => $JCId,
                 'DataMove' => 'N',
@@ -371,85 +371,12 @@ class ProcessToEss extends Controller
                 'CreatedBy' => Auth::user()->id,
                 'CreatedDate' => now(),
                 'YearId' => '0',
-                'Candidate_Image' => "https://hrrec.vnress.in/uploads/Picture/".$jobcandidate->CandidateImage,
+               
 
 
             ]);
-
-
-            $postData = array();
-
-            $employee_address = $connection->table('employee_address')->where('EmpCode', $EmpCode)->get();
-            $employee_address = json_decode(json_encode($employee_address), true);
-            $postData['employee_address'] = $employee_address;
-
-            $employee_ctc = $connection->table('employee_ctc')->where('EmpCode', $EmpCode)->get();
-            $employee_ctc = json_decode(json_encode($employee_ctc), true);
-            $postData['employee_ctc'] = $employee_ctc;
-
-            $employee_education = $connection->table('employee_education')->where('EmpCode', $EmpCode)->get();
-            $employee_education = json_decode(json_encode($employee_education), true);
-            $postData['employee_education'] = $employee_education;
-
-            $employee_elg = $connection->table('employee_elg')->where('EmpCode', $EmpCode)->get();
-            $employee_elg = json_decode(json_encode($employee_elg), true);
-            $postData['employee_elg'] = $employee_elg;
-
-            $employee_family = $connection->table('employee_family')->where('EmpCode', $EmpCode)->get();
-            $employee_family = json_decode(json_encode($employee_family), true);
-            $postData['employee_family'] = $employee_family;
-
-            $employee_general = $connection->table('employee_general')->where('EmpCode', $EmpCode)->get();
-            $employee_general = json_decode(json_encode($employee_general), true);
-            $postData['employee_general'] = $employee_general;
-
-            $employee_language = $connection->table('employee_language')->where('EmpCode', $EmpCode)->get();
-            $employee_language = json_decode(json_encode($employee_language), true);
-            $postData['employee_language'] = $employee_language;
-
-            $employee_pf = $connection->table('employee_pf')->where('EmpCode', $EmpCode)->get();
-            $employee_pf = json_decode(json_encode($employee_pf), true);
-            $postData['employee_pf'] = $employee_pf;
-
-            $employee_preref = $connection->table('employee_preref')->where('EmpCode', $EmpCode)->get();
-            $employee_preref = json_decode(json_encode($employee_preref), true);
-            $postData['employee_preref'] = $employee_preref;
-
-            $employee_training = $connection->table('employee_training')->where('EmpCode', $EmpCode)->get();
-            $employee_training = json_decode(json_encode($employee_training), true);
-            $postData['employee_training'] = $employee_training;
-
-            $employee_vnrref = $connection->table('employee_vnrref')->where('EmpCode', $EmpCode)->get();
-            $employee_vnrref = json_decode(json_encode($employee_vnrref), true);
-            $postData['employee_vnrref'] = $employee_vnrref;
-
-            $employee_workexp = $connection->table('employee_workexp')->where('EmpCode', $EmpCode)->get();
-            $employee_workexp = json_decode(json_encode($employee_workexp), true);
-            $postData['employee_workexp'] = $employee_workexp;
-
-            $employee_vehicle = $connection->table('employee_vehicle')->where('EmpCode', $EmpCode)->get();
-            $employee_vehicle = json_decode(json_encode($employee_vehicle), true);
-            $postData['employee_vehicle'] = $employee_vehicle;
-
-
-            $json_response = json_encode($postData);
-            $url = 'https://vnrseeds.co.in/api/recruitmentToEss/get_data_from_rec.php';
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $json_response);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            curl_close($ch);
-            $rdata = json_decode($result);
-            $Status = $rdata->Status;
-            if ($Status == 200) {
-                DB::commit();
-                $query = DB::table('candjoining')->where('JAId', $JAId)->update(['ForwardToESS' => 'Yes']);
-                return response()->json(['status' => 200, 'msg' => 'Data Send to ESS Successfully..!!']);
-            } else {
-                DB::rollBack();
-                return response()->json(['status' => 400, 'msg' => 'Something went wrong..!!']);
-            }
+            DB::commit();
+            return response()->json(array('status'=>200,'message'=>'Employee Created Successfully'));
         }
     }
 }
