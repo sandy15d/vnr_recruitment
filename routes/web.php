@@ -778,18 +778,20 @@ Route::get('/s3-upload', [S3FileUploadController::class, 'index'])->name('s3.ind
 Route::post('/s3-upload', [S3FileUploadController::class, 'upload'])->name('s3.upload');
 
 Route::get('/file-view/{path}', function ($path) {
-    $path = str_replace('..', '', $path); // basic security
+    $cleanPath = str_replace('..', '', $path); // Prevent directory traversal
+
+    $s3Path = "Recruitment/{$cleanPath}";
     $s3 = Storage::disk('s3');
 
-    if (!$s3->exists("Recruitment/Documents/{$path}")) {
-        abort(404);
+    if (!$s3->exists($s3Path)) {
+        abort(404, 'File not found.');
     }
 
-    $file = $s3->get("Recruitment/Documents/{$path}");
-    $mime = $s3->mimeType("Recruitment/Documents/{$path}");
+    $file = $s3->get($s3Path);
+    $mime = $s3->mimeType($s3Path);
 
     return Response::make($file, 200, [
         'Content-Type' => $mime,
-        'Content-Disposition' => 'inline; filename="' . $path . '"'
+        'Content-Disposition' => 'inline; filename="' . basename($s3Path) . '"'
     ]);
 })->where('path', '.*');

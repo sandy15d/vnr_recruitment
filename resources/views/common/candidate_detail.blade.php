@@ -1910,7 +1910,7 @@
                                                     @if ($Docs != null && $Docs->OfferLtr != null)
                                                         {{-- <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
                                                             class="view-pdf">View</a> --}}
-                                                            <a href="{{ url('file-view/' . $Docs->OfferLtr) }}" class="view-pdf">View</a>
+                                                            <a href="{{ url('file-view/Documents' . $Docs->OfferLtr) }}" class="view-pdf">View</a>
 
                                                     @endif
                                                 </td>
