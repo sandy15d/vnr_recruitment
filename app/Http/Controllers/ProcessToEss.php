@@ -376,6 +376,7 @@ class ProcessToEss extends Controller
 
             ]);
             DB::commit();
+             $query = DB::table('candjoining')->where('JAId', $JAId)->update(['ForwardToESS' => 'Yes']);
             return response()->json(array('status'=>200,'message'=>'Employee Created Successfully'));
         }
     }
