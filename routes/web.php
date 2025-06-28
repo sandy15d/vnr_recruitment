@@ -778,12 +778,12 @@ Route::get('/s3-upload', [S3FileUploadController::class, 'index'])->name('s3.ind
 Route::post('/s3-upload', [S3FileUploadController::class, 'upload'])->name('s3.upload');
 
 Route::get('/file-view/{path}', function ($path) {
-    $cleanPath = str_replace('..', '', $path); // Prevent directory traversal
-
+    $cleanPath = str_replace('..', '', urldecode($path)); // Prevent traversal and decode URL
     $s3Path = "Recruitment/{$cleanPath}";
     $s3 = Storage::disk('s3');
 
     if (!$s3->exists($s3Path)) {
+       \Log::warning("File not found on S3: {$s3Path}");
         abort(404, 'File not found.');
     }
 
