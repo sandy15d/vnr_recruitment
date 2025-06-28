@@ -374,7 +374,7 @@
                                             @else
                                                 <a href="#" class="pop">
                                                     <img
-                                                        src="{{ url('file-view/Picture/' . $row->CandidateImage) }}"
+                                                        src="{{ Storage::disk('s3')->url('Recruitment/Picture/' . $row->CandidateImage) }}"
                                                         style="width: 100px; height: 100px;"
                                                         class="img-fluid rounded"/>
                                                 </a>
