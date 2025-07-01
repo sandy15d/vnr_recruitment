@@ -374,7 +374,7 @@
                                             @else
                                                 <a href="#" class="pop">
                                                     <img
-                                                        src="{{ url('file-view/Picture/' . $Rec->CandidateImage) }}"
+                                                        src="{{ url('file-view/Picture/' . $Row->CandidateImage) }}"
                                                         style="width: 100px; height: 100px;"
                                                         class="img-fluid rounded"/>
                                                 </a>

@@ -3777,7 +3777,6 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                              </td>
                                                          </tr>--}}
                                                         <tr>
-
                                                             <td>PF Declaration Form 11 (<a
                                                                     href='https://hrrec.vnress.in/assets/documents/pf_form11.pdf'
                                                                     target='_blank'>Download</a>)
