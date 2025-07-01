@@ -3140,7 +3140,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->invoice !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->invoice) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->invoice) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3190,7 +3190,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->vehicle_image !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->vehicle_image) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->vehicle_image) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3207,7 +3207,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->rc_file !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->rc_file) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->rc_file) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3223,7 +3223,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->insurance !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->insurance) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->insurance) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3250,7 +3250,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->odo_meter !='')
                                                            
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $vehicle_info->odo_meter) }}"
+                                                                <a href="{{ url('file-view/Documents/' . $vehicle_info->odo_meter) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3388,7 +3388,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->four_invoice !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_invoice) }}"
+                                                                <a href="{{ url('file-view/Documents/' . $vehicle_info->four_invoice) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3447,7 +3447,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->four_vehicle_image !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_vehicle_image) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_vehicle_image) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3464,7 +3464,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->four_rc_file !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_rc_file) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_rc_file) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3481,7 +3481,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->four_insurance !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_insurance) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_insurance) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3511,7 +3511,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                    class="form-control form-control-sm req_inp"
                                                                    accept=".jpg,.jpeg,.png,.pdf">
                                                             @if($vehicle_info != null && $vehicle_info->four_odo_meter !='')
-                                                                <a href="{{ Storage::disk('s3')->url('Recruitment/vehicle_upload/' . $vehicle_info->four_odo_meter) }}"
+                                                                <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_odo_meter) }}"
                                                                    target="_blank" style="font-size:16px;"><i
                                                                         class="fa fa-file"></i></a>
                                                             @endif
@@ -3587,7 +3587,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->BankDoc != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BankDoc) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->BankDoc) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3625,7 +3625,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->PanCard != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PanCard) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->PanCard) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3648,7 +3648,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Passport != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Passport) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Passport) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3672,7 +3672,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Aadhar != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Aadhar) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Aadhar) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3712,7 +3712,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->BloodGroup != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->BloodGroup) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->BloodGroup) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3748,7 +3748,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->DL != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->DL) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->DL) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3793,7 +3793,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->PF_Form11 != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PF_Form11) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->PF_Form11) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3816,7 +3816,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Gratutity != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Gratutity) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Gratutity) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3842,7 +3842,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->ESIC != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->ESIC) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -3867,7 +3867,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->ESIC_Family != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->ESIC_Family) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->ESIC_Family) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -3890,7 +3890,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Health != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Health) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Health) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3913,7 +3913,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Ethical != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Ethical) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Ethical) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3936,7 +3936,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Invst_Decl != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Invst_Decl) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Invst_Decl) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3957,7 +3957,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->Form16 != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Form16) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->Form16) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -3979,7 +3979,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->VaccinationCert != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->VaccinationCert) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->VaccinationCert) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -4003,7 +4003,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->PFeNomination != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->PFeNomination) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->PFeNomination) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif
@@ -4029,7 +4029,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                     </td>
                                                                     <td style="width: 10%; text-align:center">
                                                                         @if ($Docs != null && $Docs->Epfo_Joint != null)
-                                                                            <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Epfo_Joint) }}"
+                                                                            <a href="{{ url('file-view/Documents/' . $Docs->Epfo_Joint) }}"
                                                                                target="_blank"
                                                                                class="btn btn-primary btn-sm">View</a>
                                                                         @endif
@@ -4054,7 +4054,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->Resignation != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Resignation) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->Resignation) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -4076,7 +4076,7 @@ $vehicle_info = DB::table('vehicle_information')->where('JCId',$Rec->JCId)->firs
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->Resignation_Accept != null)
                                                                     
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->Resignation_Accept) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->Resignation_Accept) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif

@@ -2600,7 +2600,7 @@ $institute_list = DB::table("master_institute")->join('states','states.StateId',
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->OfferLtr != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->OfferLtr) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->OfferLtr) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -2622,7 +2622,7 @@ $institute_list = DB::table("master_institute")->join('states','states.StateId',
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->RelievingLtr != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->RelievingLtr) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->RelievingLtr) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -2643,7 +2643,7 @@ $institute_list = DB::table("master_institute")->join('states','states.StateId',
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->SalarySlip != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->SalarySlip) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->SalarySlip) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -2665,7 +2665,7 @@ $institute_list = DB::table("master_institute")->join('states','states.StateId',
                                                                 </td>
                                                                 <td style="width: 10%; text-align:center">
                                                                     @if ($Docs != null && $Docs->AppraisalLtr != null)
-                                                                        <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->AppraisalLtr) }}"
+                                                                        <a href="{{ url('file-view/Documents/' . $Docs->AppraisalLtr) }}"
                                                                            target="_blank"
                                                                            class="btn btn-primary btn-sm">View</a>
                                                                     @endif
@@ -2687,7 +2687,7 @@ $institute_list = DB::table("master_institute")->join('states','states.StateId',
                                                             </td>
                                                             <td style="width: 10%; text-align:center">
                                                                 @if ($Docs != null && $Docs->VaccinationCert != null)
-                                                                    <a href="{{ Storage::disk('s3')->url('Recruitment/Documents/' . $Docs->VaccinationCert) }}"
+                                                                    <a href="{{ url('file-view/Documents/' . $Docs->VaccinationCert) }}"
                                                                        target="_blank"
                                                                        class="btn btn-primary btn-sm">View</a>
                                                                 @endif

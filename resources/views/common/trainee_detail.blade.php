@@ -198,19 +198,19 @@ $Rec = DB::table('jobcandidates')
                         $ext = substr($resume, strrpos($resume, '.') + 1);
                     @endphp
                     @if ($ext == 'pdf' || $ext == 'PDF')
-                        <object width="760" height="500" data="{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}"
+                        <object width="760" height="500" data="{{ url('file-view/Resume/' . $Rec->Resume) }}"
                             id="{{ $Rec->JCId }}"></object>
                     @else
                         @php
                             $url = html_entity_decode('https://docs.google.com/viewer?embedded=true&url=');
                         @endphp
-                        <iframe src="{{ $url }}{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}"
+                        <iframe src="{{ $url }}{{ url('file-view/Resume/' . $Rec->Resume) }}"
                             width="100%" height="500" style="border: none;"></iframe>
                     @endif
 
                     <div class="row">
                         <div class="col-12" style="float: right">
-                            <a href="{{ Storage::disk('s3')->url('Recruitment/Resume/' . $Rec->Resume) }}" target="_blank">Download</a>
+                            <a href="{{ url('file-view/Resume/' . $Rec->Resume) }}" target="_blank">Download</a>
                         </div>
                     </div>
                 </div>
