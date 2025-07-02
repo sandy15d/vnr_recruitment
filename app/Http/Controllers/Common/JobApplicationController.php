@@ -2155,7 +2155,7 @@ class JobApplicationController extends Controller
             Storage::disk('s3')->delete('Recruitment/Documents/' . $filename);
         }
 
-        $request->GratutityForm->storeAs('Recruitment/Documents', $filename, 's3');
+        $request->GratuityForm->storeAs('Recruitment/Documents', $filename, 's3');
         $chk = DB::table('jf_docs')->where('JCId', $JCId)->first();
         if ($chk == null) {
             $query = DB::table('jf_docs')->insert(
