@@ -1,0 +1,1195 @@
+@extends('layouts.master')
+@section('title', 'MRF Allocated')
+@section('PageContent')
+    <style>
+        .table>:not(caption)>*>* {
+            padding: 2px 1px;
+        }
+
+    </style>
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3 download_label">Campus Hiring - Allocated MRF Details</div>
+        </div>
+        <!--end breadcrumb-->
+        <hr />
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-1">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-primary btn-sm" id="openMrf" data-status='Open'>Open MRF <span
+                                class="badge bg-warning text-dark" style="font-size: 10px;">{{ $OpenMRF }}</span>
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm pull-right" data-status='Close' id="closedMrf">Closed
+                            MRF <span class="badge bg-warning text-dark"
+                                style="font-size: 10px;">{{ $CloseMRF }}</span></button>
+                    </div>
+
+                    <div class="col-2">
+                        <select name="Fill_Company" id="Fill_Company" class="form-select form-select-sm"
+                            onchange="GetAllocatedMrf(); GetDepartment();">
+                            <option value="">Select Company</option>
+                            @foreach ($company_list as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-2">
+
+                        <select name="Fill_Department" id="Fill_Department" class="form-select form-select-sm"
+                            onchange="GetAllocatedMrf();">
+                            <option value="">Select Department</option>
+
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select name="Year" id="Year" class="form-select form-select-sm" onchange="GetAllocatedMrf();">
+                            <option value="">Select Year</option>
+                            @for ($i = 2021; $i <= date('Y'); $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select name="Month" id="Month" class="form-select form-select-sm" onchange="GetAllocatedMrf();">
+                            <option value="">Select Month</option>
+                            @foreach ($months as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-1">
+                        <button type="reset" class="btn btn-danger btn-sm" id="reset"><i
+                                class="bx bx-refresh"></i></button>
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <table class="table  table-condensed align-middle table-bordered"
+                        id="MRFTable" style="width: 100%">
+                        <thead class="text-center bg-success text-light">
+                            <tr class="text-center">
+                                <td></td>
+                                <td class="th-sm">S.No.</td>
+                                <td>Collage</td>
+                                <td>JobCode</td>
+                                <td>Department</td>
+                                <td>Designation</td>
+                                <td>Position</td>
+                                <td>Location</td>
+                                <td>Job Posting</td>
+                                <td>Details</td>
+                                <td>Link</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="createpostmodal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+        data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info bg-gradient">
+                    <h5 class="modal-title text-white">Create Job Post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('createJobPost_Campus') }}" method="POST" id="createJobPostForm">
+                    @csrf
+                    <div class="modal-body">
+                        <table class="table borderless" style="width: 100%">
+                            <tbody>
+                                <tr>
+                                    <th style="width:250px;">Designation<font class="text-danger">*
+                                        </font>
+                                    </th>
+                                    <td>
+                                        <input type="hidden" name="MRFId" id="MRFId">
+                                        <input type="text" name="Designation" id="Designation"
+                                            class="form-control form-control-sm" readonly>
+                                        <span class="text-danger error-text Designation_error"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Job Code <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <input type="text" name="JobCode" id="JobCode" class="form-control form-control-sm"
+                                            readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Pay Package <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <input type="text" name="PayPackage" id="PayPackage"
+                                            class="form-control form-control-sm" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Location & Man Power <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody id="MulLocation">
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Desired Eductaion
+                                    </th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody id="MulEducation">
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Job Description</th>
+                                    <td>
+                                        <textarea name="JobInfo" id="JobInfo" class="JobInfo"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mandatory Requirements</th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody id="MulKP">
+                                            </tbody>
+                                        </table>
+                                        <button type="button" name="addKP" id="addKP"
+                                            class="btn btn-warning btn-sm mb-2 mt-2"><i class="bx bx-plus"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Last Date for Online Registration</th>
+                                    <td>
+                                        <input type="date" name="LastDate" id="LastDate"
+                                            class="form-control form-control-sm" required>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="CreateJobPost">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editMRFModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+        data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info bg-gradient">
+                    <h5 class="modal-title text-white">MRF Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('updateMRF') }}" method="POST" id="update_mrf_form">
+                    @csrf
+                    <div class="modal-body">
+                        <table class="table borderless">
+                            <tbody>
+                                <tr>
+                                    <input type="hidden" name="MRFId" id="MRFId">
+                                    <input type="hidden" name="MRF_Type" id="MRF_Type">
+                                    <th style="width:250px;">Reason for Creating New Position<font class="text-danger">*
+                                        </font>
+                                    </th>
+                                    <td>
+                                        <textarea class="form-control" rows="1" name="Reason" id="Reason" tabindex="1"
+                                            autofocus></textarea>
+                                        <span class="text-danger error-text Reason_error"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Company<font class="text-danger">*</font>
+                                    </th>
+                                    <td><select id="Company" name="Company" class="form-control form-select form-select-sm">
+                                            <option value="" selected disabled>Select Company</option>
+                                            @foreach ($company_list as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger error-text Company_error"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Department<font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <div class="spinner-border text-primary d-none" role="status" id="DeptLoader"> <span
+                                                class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <select id="Department" name="Department" id="Department"
+                                            class="form-control form-select form-select-sm">
+                                            <option value="" selected disabled>Select Department</option>
+                                            @foreach ($department_list as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger error-text Department_error"></span>
+                                    </td>
+                                </tr>
+                                <tr id="deisgnation_tr" class="d-none">
+                                    <th>Designation<font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <div class="spinner-border text-primary d-none" role="status" id="DesigLoader">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <select id="editDesignation" name="editDesignation"
+                                            class="form-control form-select form-select-sm">
+                                            <option value="" selected disabled>Select Designation</option>
+                                            @foreach ($designation_list as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger error-text Designation_error"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Location & Man Power <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody id="editMulLocation">
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr id="ctc_tr">
+                                    <th>Desired CTC (in Rs.) <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tr>
+                                                <td><input type="text" name="MinCTC" id="MinCTC"
+                                                        class="form-control form-control-sm" placeholder="Min"></td>
+                                                <td><input type="text" name="MaxCTC" id="MaxCTC"
+                                                        class="form-control form-control-sm" placeholder="Max"> </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr id="stipend_tr">
+                                    <th>Desired Stipend (in Rs. Per Month) <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <input type="text" name="Stipend" id="Stipend" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr id="other_benifit_tr">
+                                    <th>Other Benefits</th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input " type="checkbox"
+                                                                id="two_wheeler_check">
+                                                            <label class="form-check-label" for="two_wheeler_check">2
+                                                                Wheeler reimbursement Rs.
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline d-none"
+                                                            id="two_wheeler_div">
+                                                            <input type="text" name="two_wheeler" id="two_wheeler"
+                                                                style="border-radius: .2rem; border:1px solid #ced4da; padding:.25rem">
+                                                            per
+                                                            km
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check form-check-inline" style="width: 200px;">
+                                                            <input class="form-check-input " type="checkbox" id="da_check">
+                                                            <label class="form-check-label" for="da_check">DA
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline d-none" id="da_div">
+                                                            <input type="text" name="da" id="da"
+                                                                style="border-radius: .2rem; border:1px solid #ced4da; padding:.25rem">
+                                                            Rs. per
+                                                            Day
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <th>Desired Eductaion
+                                    </th>
+                                    <td>
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody id="editMulEducation">
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Desired University/College</th>
+                                    <td>
+                                        <select name="University[]" id="University"
+                                            class="form-control form-select form-select-sm multiple-select"
+                                            multiple="multiple">
+
+                                            @foreach ($institute_list as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="work_exp_tr">
+                                    <th>Work Experience <font class="text-danger">*</font>
+                                    </th>
+                                    <td>
+                                        <input type="text" name="WorkExp" id="WorkExp" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Job Description</th>
+                                    <td>
+                                        <textarea name="editJobInfo" id="editJobInfo" class="form-control"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Mandatory Requirement</th>
+                                    <td>
+
+                                        <table class="table borderless" style="margin-bottom: 0px;">
+                                            <tbody id="editMulKP">
+                                            </tbody>
+                                        </table>
+                                        <button type="button" name="editadd" id="editaddKP"
+                                            class="btn btn-warning btn-sm mb-2 mt-2"><i
+                                                class="bx bx-plus"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Any Other Remark</th>
+                                    <td>
+                                        <textarea name="Remark" id="Remark" class="form-control"></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="UpdateMRF">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('script_section')
+    <script>
+        CKEDITOR.replace('JobInfo');
+        CKEDITOR.replace('editJobInfo');
+
+        var MrfStatus = 'Open';
+        $('#MRFTable').DataTable({
+            processing: true,
+            serverSide: true,
+            info: true,
+            searching: false,
+            //    dom: 'Bfrtip',
+            lengthChange: false,
+            ordering: false,
+            buttons: [
+
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="fa fa-files-o"></i>',
+                    titleAttr: 'Copy',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Excel',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+
+                    }
+                },
+
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: 'CSV',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
+                    titleAttr: 'PDF',
+                    title: $('.download_label').html(),
+                    exportOptions: {
+                        columns: ':visible'
+
+                    }
+                },
+
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Print',
+                    title: $('.download_label').html(),
+                    customize: function(win) {
+                        $(win.document.body)
+                            .css('font-size', '10pt');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    },
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                {
+                    extend: 'colvis',
+                    text: '<i class="fa fa-columns"></i>',
+                    titleAttr: 'Columns',
+                    title: $('.download_label').html(),
+                    postfixButtons: ['colvisRestore']
+                },
+            ],
+            ajax: {
+                url: "{{ route('getAllCampusAllocatedMrf') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: function(d) {
+                    d.Company = $('#Fill_Company').val();
+                    d.Department = $('#Fill_Department').val();
+                    d.Year = $('#Year').val();
+                    d.Month = $('#Month').val();
+                    d.MrfStatus = MrfStatus;
+                },
+                type: 'POST',
+                dataType: "JSON",
+            },
+            columns: [
+
+                {
+                    data: 'chk',
+                    name: 'chk'
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    'className' : 'text-center'
+                },
+                {
+                    data: 'Collage',
+                    name: 'Collage'
+                },
+                {
+                    data: 'JobCode',
+                    name: 'JobCode'
+                },
+                {
+                    data: 'department_name',
+                    name: 'department_name',
+                    'className' : 'text-center'
+                },
+                {
+                    data: 'designation_name',
+                    name: 'designation_name'
+                },
+                {
+                    data: 'Positions',
+                    name: 'Positions',
+                    'className' : 'text-center'
+                },
+                {
+                    data: 'LocationIds',
+                    name: 'LocationIds'
+                },
+
+                {
+                    data: 'JobPost',
+                    name: 'JobPost'
+                },
+
+
+                {
+                    data: 'details',
+                    name: 'details',
+                    'className' : 'text-center'
+                },
+                {
+                    data: 'Link',
+                    name: 'Link'
+                }
+            ],
+
+        });
+
+        function GetAllocatedMrf() {
+            $('#MRFTable').DataTable().draw(true);
+            //$('#MRFTable').DataTable().ajax.reload(null, false);
+        }
+
+
+        $(document).on('click', '#openMrf', function() {
+            MrfStatus = 'Open';
+            $('#openMrf').removeClass('btn-outline-primary');
+            $('#closedMrf').removeClass('btn-primary');
+            $('#closedMrf').addClass('btn-outline-primary');
+            $('#openMrf').addClass('btn-primary');
+            GetAllocatedMrf();
+        });
+
+        $(document).on('click', '#closedMrf', function() {
+
+            MrfStatus = 'Close';
+            $('#closedMrf').removeClass('btn-outline-primary');
+            $('#openMrf').removeClass('btn-primary');
+            $('#openMrf').addClass('btn-outline-primary');
+            $('#closedMrf').addClass('btn-primary');
+            GetAllocatedMrf();
+        });
+
+
+
+
+        $(document).on('click', '.select_all', function() {
+            if ($(this).prop("checked") == true) {
+                $(this).closest("tr").addClass("bg-secondary bg-gradient text-light");
+            } else {
+                $(this).closest("tr").removeClass("bg-secondary bg-gradient text-light");
+            }
+        });
+
+        $(document).on('click', '#reset', function() {
+            window.location.reload();
+        });
+
+
+        function getDetailForJobPost(MRFId) {
+            var MRFId = MRFId;
+            $.post('<?= route('getDetailForJobPost') ?>', {
+                MRFId: MRFId
+            }, function(data) {
+
+                $('#MRFId').val(data.MRFDetails.MRFId);
+                $('#Designation').val(data.Designation);
+                $('#JobCode').val(data.MRFDetails.JobCode);
+                $("#PayPackage").val('Rs. ' +data.MRFDetails.MaxCTC + ' CTC Per Annum');
+                CKEDITOR.instances['JobInfo'].setData(data.MRFDetails.Info);
+
+                KPCount = (data.KPDetails).length;
+                var KPValue = data.KPDetails.toString().split(",");
+                for (i = 1; i <= KPCount; i++) {
+                    mulKP(i);
+                    $('#KeyPosition' + i).val(KPValue[i - 1]);
+                }
+                LocCount = (data.LocationDetails).length;
+                for (j = 1; j <= LocCount; j++) {
+                    mulLocation(j);
+                    $('#State' + j).val(data.LocationDetails[j - 1].state);
+                    $('#City' + j).val(data.LocationDetails[j - 1].city);
+                    $('#ManPower' + j).val(data.LocationDetails[j - 1].nop);
+
+                }
+
+                EduCount = (data.EducationDetails).length;
+
+                for (a = 1; a <= EduCount; a++) {
+                    mulEducation(a);
+                    $('#Education' + a).val(data.EducationDetails[a - 1].e);
+                    $("#Specialization" + a).val(data.EducationDetails[a - 1].s);
+                }
+
+            }, 'json');
+        }
+
+        $('#createJobPostForm').on('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            $.ajax({
+                url: $(form).attr('action'),
+                method: $(form).attr('method'),
+                data: new FormData(form),
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend: function() {
+                    $(form).find('span.error-text').text('');
+                    $("#loader").modal('show');
+                },
+
+                success: function(data) {
+                    if (data.status == 400) {
+                        $.each(data.error, function(prefix, val) {
+                            $(form).find('span.' + prefix + '_error').text(val[0]);
+                        });
+                    } else {
+                        $(form)[0].reset();
+                        $('#loader').modal('hide');
+                        $('#createpostmodal').modal('hide');
+                        $('#MRFTable').DataTable().ajax.reload(null, false);
+                        toastr.success(data.msg);
+                    }
+                }
+            });
+        });
+
+        function editmrf(id) {
+            $('#postStatus' + id).prop("disabled", false);
+        }
+
+
+        $(document).on('click', '#viewMRF', function() {
+            var MRFId = $(this).data('id');
+            $.post('<?= route('getMRFDetails') ?>', {
+                MRFId: MRFId
+            }, function(data) {
+                if (data.MRFDetails.status != 'New') {
+                    $('#edit_mrf_btn').addClass('d-none');
+                }
+                $('#editMRFModal').find('input[name="MRFId"]').val(data.MRFDetails.MRFId);
+                $('#MRF_Type').val(data.MRFDetails.Type);
+                $('#Reason').val(data.MRFDetails.Reason);
+                $('#Company').val(data.MRFDetails.CompanyId);
+                $('#Department').val(data.MRFDetails.DepartmentId);
+                $('#editDesignation').val(data.MRFDetails.DesigId);
+                $('#MinCTC').val(data.MRFDetails.MinCTC);
+                $('#MaxCTC').val(data.MRFDetails.MaxCTC);
+                $('#MaxCTC').val(data.MRFDetails.MaxCTC);
+                $('#Stipend').val(data.MRFDetails.Stipend);
+                CKEDITOR.instances['editJobInfo'].setData(data.MRFDetails.Info);
+                $('#Remark').val(data.MRFDetails.Remarks);
+                $('#WorkExp').val(data.MRFDetails.WorkExp);
+                var UniversityValue = data.UniversityDetails;
+                var selectedOptions = UniversityValue.toString().split(",");
+
+                $('#University').select2({
+                    multiple: true,
+                });
+                $('#University').val(selectedOptions).trigger('change');
+
+                editKPCount = (data.KPDetails).length;
+                var editKPValue = data.KPDetails.toString().split(",");
+                for (i = 1; i <= editKPCount; i++) {
+                    editmulKP(i);
+                    $('#editKeyPosition' + i).val(editKPValue[i - 1]);
+                }
+
+
+                editLocCount = (data.LocationDetails).length;
+                for (j = 1; j <= editLocCount; j++) {
+                    editmulLocation(j);
+                    $('#editState' + j).val(data.LocationDetails[j - 1].State);
+                    $('#editCity' + j).val(data.LocationDetails[j - 1].City);
+                    $('#editManPower' + j).val(data.LocationDetails[j - 1].Nop);
+
+                }
+
+                editEduCount = (data.EducationDetails).length;
+
+                for (a = 1; a <= editEduCount; a++) {
+                    mulEducation(a);
+                    $('#editEducation' + a).val(data.EducationDetails[a - 1].e);
+                    $("#editSpecialization" + a).val(data.EducationDetails[a - 1].s);
+                }
+
+                var form = document.getElementById("update_mrf_form");
+                var elements = form.elements;
+                for (var i = 0, len = elements.length; i < len; ++i) {
+                    elements[i].disabled = true;
+                }
+                CKEDITOR.instances['editJobInfo'].setReadOnly(true);
+
+                if (data.MRFDetails.Type == 'SIP' || data.MRFDetails.Type == 'SIP_HrManual') {
+                    $('#deisgnation_tr').addClass('d-none');
+                    $('#work_exp_tr').addClass('d-none');
+                    $('#stipend_tr').removeClass('d-none');
+                    $('#ctc_tr').addClass('d-none');
+                    $('#other_benifit_tr').removeClass('d-none');
+                    if (data.MRFDetails.TwoWheeler != null) {
+                        $('#two_wheeler_check').prop('checked', true);
+                        $("#two_wheeler_div").removeClass("d-none");
+                        $('#two_wheeler').val(data.MRFDetails.TwoWheeler);
+                    }
+                    if (data.MRFDetails.DA != null) {
+                        $('#da_check').prop('checked', true);
+                        $("#da_div").removeClass("d-none");
+                        $('#da').val(data.MRFDetails.DA);
+                    }
+                } else {
+                    $('#deisgnation_tr').removeClass('d-none');
+                    $('#work_exp_tr').removeClass('d-none');
+                    $('#stipend_tr').addClass('d-none');
+                    $('#ctc_tr').removeClass('d-none');
+                    $('#other_benifit_tr').addClass('d-none');
+                }
+
+                $('.modal-footer').addClass('d-none');
+                $('#editMRFModal').modal('show');
+            }, 'json');
+        });
+
+
+        var KPCount = 1;
+        var editKPCount = 1;
+        var editLocCount = 1;
+        var StateList = '';
+        var CityList = '';
+        var EducationList = '';
+        var SpecializationList = '';
+        var EduCount = 1;
+        var editEduCount = 1;
+        var LocCount = 1;
+        var editLocCount = 1;
+
+        mulKP();
+        editmulKP();
+        getState();
+        getCity();
+        getAllSP();
+        getEducation();
+        mulLocation(LocCount);
+        mulEducation(EduCount);
+        editmulLocation(editLocCount);
+        editmulEducation(editEduCount);
+
+        function GetDepartment() {
+            var CompanyId = $('#Fill_Company').val();
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getDepartment') }}?CompanyId=" + CompanyId,
+                beforeSend: function() {
+
+                },
+                success: function(res) {
+
+                    if (res) {
+                        $("#Fill_Department").empty();
+                        $("#Fill_Department").append(
+                            '<option value="" selected disabled >Select Department</option>');
+                        $.each(res, function(key, value) {
+                            $("#Fill_Department").append('<option value="' + value + '">' + key +
+                                '</option>');
+                        });
+                    } else {
+                        $("#Fill_Department").empty();
+                    }
+                }
+            });
+        }
+
+        function getState() {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getState') }}",
+                async: false,
+                success: function(res) {
+                    if (res) {
+                        $.each(res, function(key, value) {
+                            StateList = StateList + '<option value="' + value + '">' + key +
+                                '</option>';
+                        });
+                    }
+                }
+            });
+        }
+
+        function getCity() {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getAllDistrict') }}",
+                async: false,
+                success: function(res) {
+                    if (res) {
+                        $.each(res, function(key, value) {
+                            CityList = CityList + '<option value="' + value + '">' + key +
+                                '</option>';
+                        });
+                    }
+                }
+            });
+        }
+
+        function getEducation() {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getEducation') }}",
+                async: false,
+                success: function(res) {
+                    if (res) {
+                        $.each(res, function(key, value) {
+                            EducationList = EducationList + '<option value="' + value + '">' + key +
+                                '</option>';
+                        });
+                    }
+                }
+            });
+        }
+
+        function getAllSP() {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getAllSP') }}",
+                async: false,
+                success: function(res) {
+                    if (res) {
+                        $.each(res, function(key, value) {
+                            SpecializationList = SpecializationList + '<option value="' + key + '">' +
+                                value +
+                                '</option>';
+                        });
+                    }
+                }
+            });
+        }
+
+        function getSpecialization(EducationId, No) {
+            var EducationId = EducationId;
+            var No = No;
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getSpecialization') }}?EducationId=" + EducationId,
+                async: false,
+                beforeSend: function() {
+                    $('#SpeLoader' + No).removeClass('d-none');
+                    $('#Specialization' + No).addClass('d-none');
+                },
+
+                success: function(res) {
+
+                    if (res) {
+                        $('#SpeLoader' + No).addClass('d-none');
+                        $('#Specialization' + No).removeClass('d-none');
+                        $("#Specialization" + No).empty();
+                        $("#Specialization" + No).append(
+                            '<option value="" selected disabled >Select Specialization</option>');
+
+                        $.each(res, function(key, value) {
+                            $("#Specialization" + No).append('<option value="' + value + '">' + key +
+                                '</option>');
+                        });
+                        $("#Specialization" + No).append('<option value="0">Other</option>');
+
+
+                    } else {
+                        $("#Specialization" + No).empty();
+                    }
+                }
+            });
+        }
+
+        function getLocation(StateId, No) {
+            var StateId = StateId;
+            var No = No;
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getDistrict') }}?StateId=" + StateId,
+                async: false,
+                beforeSend: function() {
+                    $('#LocLoader' + No).removeClass('d-none');
+                    $('#City' + No).addClass('d-none');
+                },
+
+                success: function(res) {
+
+                    if (res) {
+                        $('#LocLoader' + No).addClass('d-none');
+                        $('#City' + No).removeClass('d-none');
+                        $("#City" + No).empty();
+                        $("#City" + No).append(
+                            '<option value="0" selected>Select City</option>');
+
+                        $.each(res, function(key, value) {
+                            $("#City" + No).append('<option value="' + value + '">' + key +
+                                '</option>');
+                        });
+
+                    } else {
+                        $("#City" + No).empty();
+                    }
+                }
+            });
+        }
+
+
+        function mulKP(n) {
+            x = '<tr>';
+            x += '<td >' +
+                '<input type="text" class="form-control form-control-sm" id="KeyPosition' + n + '" name="KeyPosition[]">' +
+                '</td>';
+
+            if (n > 1) {
+                x +=
+                    '<td><button type="button" name="remove" id="" class="btn btn-danger btn-sm  removeKP"><i class="bx bx-x"></td></tr>';
+                $('#MulKP').append(x);
+            } else {
+                x +=
+                    '';
+                $('#MulKP').html(x);
+            }
+        }
+
+        $(document).on('click', '#addKP', function() {
+            KPCount++;
+            mulKP(KPCount);
+        });
+
+        $(document).on('click', '.removeKP', function() {
+            KPCount--;
+            $(this).closest("tr").remove();
+        });
+
+        function mulLocation(number) {
+            x = '<tr>';
+            x += '<td >' +
+                ' <select  name="State[]" id="State' +
+                number +
+                '" class="form-control form-select form-select-sm" onchange="getLocation(this.value,' + number + ')">' +
+                '  <option value="" selected disabled>Select State</option>' + StateList +
+                '</select>' +
+                ' <span class="text-danger error-text State' + number + '_error"></span>' +
+                '</td>';
+            x += '<td>' +
+                '<div class="spinner-border text-primary d-none" role="status" id="LocLoader' + number +
+                '"> <span class="visually-hidden">Loading...</span></div>' +
+                '       <select  id="City' + number + '" name="City[]" class="form-control form-select form-select-sm">' +
+                '    <option value="0" selected>Select City</option>' + CityList +
+                '</select>' +
+                '<span class="text-danger error-text City' + number + '_error"></span>' +
+                '</td>';
+            x += '<td>' +
+                '  <input type="text" name="ManPower[]" id="ManPower' + number +
+                '" class="form-control form-control-sm" style="width:130px" placeholder="No. of Manpower">' +
+                '<span class="text-danger error-text ManPower' + number + '_error"></span>' +
+                '</td>';
+            if (number > 1) {
+                x +=
+                    '<td><button type="button" name="remove" id="" class="btn btn-danger btn-sm  removeLocation">Remove</td></tr>';
+                $('#MulLocation').append(x);
+            } else {
+                x +=
+                    '<td><button type="button" name="add" id="addLocation" class="btn btn-warning btn-sm ">Add</button></td></tr>';
+                $('#MulLocation').html(x);
+            }
+        }
+
+        $(document).on('click', '#addLocation', function() {
+            LocCount++;
+            mulLocation(LocCount);
+        });
+
+        $(document).on('click', '.removeLocation', function() {
+            LocCount--;
+            $(this).closest("tr").remove();
+        });
+
+        function editmulLocation(number) {
+            x = '<tr>';
+            x += '<td >' +
+                ' <select  name="editState[]" id="editState' +
+                number +
+                '" class="form-control form-select form-select-sm" onchange="getLocation(this.value,' + number + ')">' +
+                '  <option value="" selected disabled>Select State</option>' + StateList +
+                '</select>' +
+                ' <span class="text-danger error-text State' + number + '_error"></span>' +
+                '</td>';
+            x += '<td>' +
+                '<div class="spinner-border text-primary d-none" role="status" id="LocLoader' + number +
+                '"> <span class="visually-hidden">Loading...</span></div>' +
+                '       <select  id="editCity' + number +
+                '" name="editCity[]" class="form-control form-select form-select-sm">' +
+                '    <option value="0" selected>Select City</option>' + CityList +
+                '</select>' +
+                '<span class="text-danger error-text City' + number + '_error"></span>' +
+                '</td>';
+            x += '<td>' +
+                '  <input type="text" name="editManPower[]" id="editManPower' + number +
+                '" class="form-control form-control-sm" style="width:130px" placeholder="No. of Manpower">' +
+                '<span class="text-danger error-text ManPower' + number + '_error"></span>' +
+                '</td>';
+            if (number > 1) {
+                x +=
+                    '<td><button type="button" name="remove" id="" class="btn btn-danger btn-sm  editremoveLocation">Remove</td></tr>';
+                $('#editMulLocation').append(x);
+            } else {
+                x +=
+                    '<td><button type="button" name="add" id="editaddLocation" class="btn btn-warning btn-sm ">Add</button></td></tr>';
+                $('#editMulLocation').html(x);
+            }
+        }
+
+        $(document).on('click', '#editaddLocation', function() {
+            editLocCount++;
+            editmulLocation(LocCount);
+        });
+
+        $(document).on('click', '.editremoveLocation', function() {
+            editLocCount--;
+            $(this).closest("tr").remove();
+        });
+
+
+        function editmulEducation(num) {
+            x = '<tr>';
+            x += '<td >' +
+                ' <select  name="editEducation[]" id="editEducation' +
+                num +
+                '" class="form-control form-select form-select-sm" onchange="getSpecialization(this.value,' + num + ')">' +
+                '  <option value="" selected disabled>Select Education</option>' + EducationList +
+                '</select>' +
+                ' <span class="text-danger error-text Education' + num + '_error"></span>' +
+                '</td>';
+            x += '<td>' +
+                '<div class="spinner-border text-primary d-none" role="status" id="SpeLoader' + num +
+                '"> <span class="visually-hidden">Loading...</span></div>' +
+                '       <select  id="editSpecialization' + num +
+                '" name="editSpecialization[]" class="form-control form-select form-select-sm">' +
+
+                '    <option value="0" >Other</option>' + SpecializationList +
+                '</select>' +
+                '<span class="text-danger error-text Specialization' + num + '_error"></span>' +
+                '</td>';
+
+
+            if (num > 1) {
+                x +=
+                    '<td><button type="button" name="editremove" id="" class="btn btn-danger btn-sm  editremoveEducation">Remove</td></tr>';
+                $('#editMulEducation').append(x);
+            } else {
+                x +=
+                    '<td><button type="button" name="add" id="editaddEducation" class="btn btn-warning btn-sm ">Add</button></td></tr>';
+                $('#editMulEducation').html(x);
+            }
+        }
+
+        $(document).on('click', '#addEducation', function() {
+            editEduCount++;
+            editmulEducation(editEduCount);
+        });
+
+        $(document).on('click', '.editremoveEducation', function() {
+            editEduCount--;
+            $(this).closest("tr").remove();
+        });
+
+        function mulEducation(num) {
+            x = '<tr>';
+            x += '<td >' +
+                ' <select  name="Education[]" id="Education' +
+                num +
+                '" class="form-control form-select form-select-sm" onchange="getSpecialization(this.value,' + num + ')">' +
+                '  <option value="" selected disabled>Select Education</option>' + EducationList +
+                '</select>' +
+                ' <span class="text-danger error-text Education' + num + '_error"></span>' +
+                '</td>';
+            x += '<td>' +
+                '<div class="spinner-border text-primary d-none" role="status" id="SpeLoader' + num +
+                '"> <span class="visually-hidden">Loading...</span></div>' +
+                '       <select  id="Specialization' + num +
+                '" name="Specialization[]" class="form-control form-select form-select-sm">' +
+
+                '    <option value="0" >Other</option>' + SpecializationList +
+                '</select>' +
+                '<span class="text-danger error-text Specialization' + num + '_error"></span>' +
+                '</td>';
+
+
+            if (num > 1) {
+                x +=
+                    '<td><button type="button" name="remove" id="" class="btn btn-danger btn-sm  removeEducation">Remove</td></tr>';
+                $('#MulEducation').append(x);
+            } else {
+                x +=
+                    '<td><button type="button" name="add" id="addEducation" class="btn btn-warning btn-sm ">Add</button></td></tr>';
+                $('#MulEducation').html(x);
+            }
+        }
+
+        $(document).on('click', '#addEducation', function() {
+            EduCount++;
+            mulEducation(EduCount);
+        });
+
+        $(document).on('click', '.removeEducation', function() {
+            EduCount--;
+            $(this).closest("tr").remove();
+        });
+
+
+
+        function editmulKP(n) {
+            x = '<tr>';
+            x += '<td >' +
+                '<input type="text" class="form-control form-control-sm" id="editKeyPosition' + n +
+                '" name="editKeyPosition[]">' +
+                '</td>';
+            if (n > 1) {
+                x +=
+                    '<td><button type="button" name="remove" id="" class="btn btn-danger btn-sm  editremoveKP"><i class="bx bx-x"></td></tr>';
+                $('#editMulKP').append(x);
+            } else {
+                x +=
+                    '';
+                $('#editMulKP').html(x);
+            }
+        }
+        $(document).on('click', '#editaddKP', function() {
+            editKPCount++;
+            editmulKP(editKPCount);
+        });
+
+        $(document).on('click', '.editremoveKP', function() {
+            editKPCount--;
+            $(this).closest("tr").remove();
+        });
+
+        function copylink(id) {
+            var copyText = document.getElementById("link" + id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999)
+            document.execCommand("copy");
+            alert("Copied Link: " + copyText.value);
+        }
+    </script>
+@endsection

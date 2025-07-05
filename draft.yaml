@@ -1,0 +1,48 @@
+models:
+  CaseStudyQuestion:
+    question: longtext
+    softDeletes
+    timestamps
+    relationships:
+      hasMany: CaseStudyAnswer
+
+  CaseStudyAnswer:
+    answer: longtext
+    softDeletes
+    timestamps
+    relationships:
+      belongsTo: CaseStudyQuestion
+
+controllers:
+  CaseStudyQuestionController:
+   index:
+     query: all
+     render: case_study.questions
+   store:
+     validate: question
+     save: question
+     redirect: case_study.question
+   update:
+     validate: question
+     save: question
+     redirect: case_study.question
+   destroy:
+     destroy: question
+     redirect: case_study.question
+
+  CaseStudyAnswerController:
+   index:
+     query: all
+     render: case_study.answers
+   store:
+     validate: answer
+     save: answer
+     redirect: case_study.answer
+   update:
+     validate: answer
+     save: answer
+     redirect: case_study.answer
+   destroy:
+     destroy: answer
+     redirect: case_study.answer
+

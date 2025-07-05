@@ -1,0 +1,22 @@
+created:
+    - app/Http/Controllers/CaseStudyQuestionController.php
+    - app/Http/Controllers/CaseStudyAnswerController.php
+    - database/factories/CaseStudyQuestionFactory.php
+    - database/factories/CaseStudyAnswerFactory.php
+    - database/migrations/2024_02_29_133255_create_case_study_questions_table.php
+    - database/migrations/2024_02_29_133256_create_case_study_answers_table.php
+    - app/Models/CaseStudyQuestion.php
+    - app/Models/CaseStudyAnswer.php
+    - tests/Feature/Http/Controllers/CaseStudyQuestionControllerTest.php
+    - tests/Feature/Http/Controllers/CaseStudyAnswerControllerTest.php
+    - app/Http/Requests/CaseStudyQuestionStoreRequest.php
+    - app/Http/Requests/CaseStudyQuestionUpdateRequest.php
+    - app/Http/Requests/CaseStudyAnswerStoreRequest.php
+    - app/Http/Requests/CaseStudyAnswerUpdateRequest.php
+    - resources/views/case_study/questions.blade.php
+    - resources/views/case_study/answers.blade.php
+updated:
+    - routes/web.php
+models:
+    CaseStudyQuestion: { question: longtext, softdeletes: softDeletes, timestamps: timestamps, relationships: { hasMany: CaseStudyAnswer } }
+    CaseStudyAnswer: { answer: longtext, softdeletes: softDeletes, timestamps: timestamps, relationships: { belongsTo: CaseStudyQuestion } }
