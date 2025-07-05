@@ -65,9 +65,15 @@
                                     <td>
                                         {{ date('d-m-Y', strtotime($value->ReSentForScreen)) }}
                                     </td>
-                                    <td class="text-center"><a href="javascript:void(0);" data-bs-toggle="modal"
+                                    <td class="text-center">
+                                        
+                                                        <a href="{{ url('file-view/Resume/' . $value->Resume) }}"
+                                                            class="view-pdf">View</a>
+                                                  
+                                        
+                                        {{-- <a href="javascript:void(0);" data-bs-toggle="modal"
                                             data-bs-target="#resume_modal" class="btn btn-primary btn-sm"
-                                            onclick="show_resume({{ $value->JCId }})">View</a></td>
+                                            onclick="show_resume({{ $value->JCId }})">View</a> --}}</td>
 
                                     <td class="text-center">
                                         <select name="screen_status" id="screen_status{{ $value->JAId }}"
@@ -133,7 +139,37 @@
                 }
             });
         }
+        (function(a) {
+            a.createModal = function(b) {
+                defaults = {
+                    title: "",
+                    message: "Your Message Goes Here!",
+                    closeButton: true,
+                    scrollable: false
+                };
+                var b = a.extend({}, defaults, b);
+                var c = (b.scrollable === true) ? 'style="max-height: 420px;overflow-y: auto;"' : "";
+                html =
+                    '<div class="modal fade custom-modal" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false">';
+                html += '<div class="modal-dialog">';
+                html += '<div class="modal-content">';
+                html +=
+                    '<div class="modal-header"><button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>';
+                html += '<div class="modal-body" ' + c + ">";
+                html += b.message;
+                html += "</div>";
+                html += '<div class="modal-footer">';
 
+                html += "</div>";
+                html += "</div>";
+                html += "</div>";
+                html += "</div>";
+                a("body").prepend(html);
+                a("#myModal").modal('show').on("hidden.bs.modal", function() {
+                    a(this).remove()
+                })
+            }
+        })(jQuery);
         function edit_scr_status(JAId) {
             $('#screen_status' + JAId).prop('disabled', false);
         }
@@ -179,5 +215,19 @@
                 }
             });
         }
+                $(function() {
+            $('.view-pdf').on('click', function() {
+                var pdf_link = $(this).attr('href');
+
+                var iframe = '<div class="iframe-container"><iframe src="' + pdf_link + '"></iframe></div>'
+                $.createModal({
+                    title: 'My Title',
+                    message: iframe,
+                    closeButton: true,
+                    scrollable: false
+                });
+                return false;
+            });
+        })
     </script>
 @endsection

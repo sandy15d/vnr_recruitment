@@ -782,10 +782,10 @@ Route::get('/file-view/{path}', function ($path) {
     $s3Path = "Recruitment/{$cleanPath}";
     $s3 = Storage::disk('s3');
 
-    if (!$s3->exists($s3Path)) {
+   /*  if (!$s3->exists($s3Path)) {
        \Log::warning("File not found on S3: {$s3Path}");
         abort(404, 'File not found.');
-    }
+    } */
 
     $file = $s3->get($s3Path);
     $mime = $s3->mimeType($s3Path);
