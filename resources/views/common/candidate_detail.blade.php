@@ -2179,7 +2179,7 @@
                                                 <td>Vehicle Image</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->vehicle_image != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->vehicle_image) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->vehicle_image) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2190,7 +2190,7 @@
                                                 <td>Insurance</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->insurance != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->insurance) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->insurance) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2200,7 +2200,7 @@
                                                 <td>Current Odo Meter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->odo_meter != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->odo_meter) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->odo_meter) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2228,7 +2228,7 @@
                                                 <td>Invoice</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_invoice != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_invoice) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_invoice) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2238,7 +2238,7 @@
                                                 <td>RC</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_rc_file != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_rc_file) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_rc_file) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2248,7 +2248,7 @@
                                                 <td>Vehicle Image</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_vehicle_image != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_vehicle_image) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_vehicle_image) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2259,7 +2259,7 @@
                                                 <td>Insurance</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_insurance != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_insurance) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_insurance) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2269,7 +2269,7 @@
                                                 <td>Current Odo Meter</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->four_odo_meter != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->four_odo_meter) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->four_odo_meter) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2282,7 +2282,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="tab-pane fade" id="cand_history">
                 <div class="row">
                     <div class="col-lg-5">
