@@ -157,7 +157,6 @@
                 html += b.message;
                 html += "</div>";
                 html += '<div class="modal-footer">';
-
                 html += "</div>";
                 html += "</div>";
                 html += "</div>";
