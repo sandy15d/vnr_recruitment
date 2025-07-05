@@ -149,7 +149,7 @@
                 var b = a.extend({}, defaults, b);
                 html =
                     '<div class="modal fade custom-modal" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false">';
-                html += '<div class="modal-dialog">';
+                html += '<div class="modal-dialog modal-lg">';
                 html += '<div class="modal-content">';
                 html +=
                     '<div class="modal-header"><button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>';
