@@ -147,7 +147,6 @@
                     scrollable: false
                 };
                 var b = a.extend({}, defaults, b);
-
                 html =
                     '<div class="modal fade custom-modal" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false">';
                 html += '<div class="modal-dialog">';
