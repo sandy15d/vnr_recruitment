@@ -2159,7 +2159,7 @@
                                                 <td>Invoice</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->invoice != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->invoice) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->invoice) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
@@ -2169,7 +2169,7 @@
                                                 <td>RC</td>
                                                 <td style="width: 10%; text-align:center">
                                                     @if ($vehicle_info != null && $vehicle_info->rc_file != null)
-                                                        <a href="{{ url('file-view/Documents/' . $vehicle_info->rc_file) }}"
+                                                        <a href="{{ url('file-view/vehicle_upload/' . $vehicle_info->rc_file) }}"
                                                             class="view-pdf">View</a>
                                                     @endif
                                                 </td>
