@@ -27,6 +27,24 @@
 @extends('layouts.master')
 @section('title', 'Pending for Technical Screeening')
 @section('PageContent')
+    <style>
+        .iframe-container {
+            padding-bottom: 60%;
+            padding-top: 30px;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .iframe-container iframe,
+        .iframe-container object,
+        .iframe-container embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -38,66 +56,66 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-condensed table-bordered" style="width: 100%">
                         <thead class="bg-primary text-light text-center">
-                            <tr>
-                                <td class="td-sm">S.No</td>
-                                <td>Candidate Name</td>
-                                <td>Applied for Post</td>
-                                <td>HR Screening Remark</td>
-                                <td>Resume Sent Date</td>
-                                <td>Resume</td>
-                                <td>Action</td>
-                            </tr>
+                        <tr>
+                            <td class="td-sm">S.No</td>
+                            <td>Candidate Name</td>
+                            <td>Applied for Post</td>
+                            <td>HR Screening Remark</td>
+                            <td>Resume Sent Date</td>
+                            <td>Resume</td>
+                            <td>Action</td>
+                        </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $i = 1;
-                            @endphp
-                            @foreach ($query as $item => $value)
-                                <tr>
-                                    <td class="text-center">{{ $i }}</td>
-                                    <td>{{ $value->NameTitle }} {{ $value->FName }} {{ $value->MName }} {{ $value->LName }}
-                                    </td>
-                                    <td class="text-center">{{ $value->Title }}</td>
-                                    <td style="width:50%">
-                                        <p style="white-space: normal">{{ $value->RejectRemark }}</p>
-                                    </td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($value->ReSentForScreen)) }}
-                                    </td>
-                                    <td class="text-center">
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($query as $item => $value)
+                            <tr>
+                                <td class="text-center">{{ $i }}</td>
+                                <td>{{ $value->NameTitle }} {{ $value->FName }} {{ $value->MName }} {{ $value->LName }}
+                                </td>
+                                <td class="text-center">{{ $value->Title }}</td>
+                                <td style="width:50%">
+                                    <p style="white-space: normal">{{ $value->RejectRemark }}</p>
+                                </td>
+                                <td>
+                                    {{ date('d-m-Y', strtotime($value->ReSentForScreen)) }}
+                                </td>
+                                <td class="text-center">
 
-                                                        <a href="{{ url('file-view/Resume/' . $value->Resume) }}"
-                                                            class="view-pdf">View</a>
+                                    <a href="{{ url('file-view/Resume/' . $value->Resume) }}"
+                                       class="view-pdf">View</a>
 
 
-                                        {{-- <a href="javascript:void(0);" data-bs-toggle="modal"
-                                            data-bs-target="#resume_modal" class="btn btn-primary btn-sm"
-                                            onclick="show_resume({{ $value->JCId }})">View</a> --}}</td>
+                                    {{-- <a href="javascript:void(0);" data-bs-toggle="modal"
+                                        data-bs-target="#resume_modal" class="btn btn-primary btn-sm"
+                                        onclick="show_resume({{ $value->JCId }})">View</a> --}}</td>
 
-                                    <td class="text-center">
-                                        <select name="screen_status" id="screen_status{{ $value->JAId }}"
+                                <td class="text-center">
+                                    <select name="screen_status" id="screen_status{{ $value->JAId }}"
                                             class="form-control form-select form-select-sm  d-inline" disabled
                                             onchange="chng_scr_status({{ $value->JAId }},this.value)"
                                             style="width: 100px; ">
-                                            <option value="">Select</option>
-                                            <option value="Shortlist"
+                                        <option value="">Select</option>
+                                        <option value="Shortlist"
                                                 <?= $value->ScreenStatus == 'Shortlist' ? 'selected' : '' ?>>
-                                                Shortlist
-                                            </option>
-                                            <option value="Reject"
+                                            Shortlist
+                                        </option>
+                                        <option value="Reject"
                                                 <?= $value->ScreenStatus == 'Reject' ? 'selected' : '' ?>>Reject
-                                            </option>
-                                        </select>
-                                        <i class="fa fa-pencil-square-o text-success d-inline" aria-hidden="true"
-                                            id="edit{{ $value->JAId }}"
-                                            onclick="edit_scr_status({{ $value->JAId }},this.value)"
-                                            style="font-size: 16px;cursor: pointer;"></i>
-                                    </td>
-                                </tr>
-                                @php
-                                    $i++;
-                                @endphp
-                            @endforeach
+                                        </option>
+                                    </select>
+                                    <i class="fa fa-pencil-square-o text-success d-inline" aria-hidden="true"
+                                       id="edit{{ $value->JAId }}"
+                                       onclick="edit_scr_status({{ $value->JAId }},this.value)"
+                                       style="font-size: 16px;cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                            @php
+                                $i++;
+                            @endphp
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -106,7 +124,7 @@
     </div>
 
     <div id="resume_modal" class="modal custom-modal fade" role="dialog" data-bs-backdrop="static"
-        data-bs-keyboard="false">
+         data-bs-keyboard="false">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -133,13 +151,14 @@
                     "_token": "{{ csrf_token() }}",
                     "JCId": id
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#resume_div').html(data);
                 }
             });
         }
-        (function(a) {
-            a.createModal = function(b) {
+
+        (function (a) {
+            a.createModal = function (b) {
                 defaults = {
                     title: "",
                     message: "Your Message Goes Here!",
@@ -162,11 +181,12 @@
                 html += "</div>";
                 html += "</div>";
                 a("body").prepend(html);
-                a("#myModal").modal('show').on("hidden.bs.modal", function() {
+                a("#myModal").modal('show').on("hidden.bs.modal", function () {
                     a(this).remove()
                 })
             }
         })(jQuery);
+
         function edit_scr_status(JAId) {
             $('#screen_status' + JAId).prop('disabled', false);
         }
@@ -196,14 +216,14 @@
                     remark: remark
                 },
                 dataType: 'json',
-                beforeSend: function() {
+                beforeSend: function () {
                     $("#loader").modal('show');
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status === 200) {
                         $("#loader").modal('hide');
                         toastr.success(data.msg);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload();
                         }, 1000);
                     } else {
@@ -212,8 +232,9 @@
                 }
             });
         }
-                $(function() {
-            $('.view-pdf').on('click', function() {
+
+        $(function () {
+            $('.view-pdf').on('click', function () {
                 var pdf_link = $(this).attr('href');
 
                 var iframe = '<div class="iframe-container"><iframe src="' + pdf_link + '"></iframe></div>'
